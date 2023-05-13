@@ -25,7 +25,7 @@ public class BoardController : MonoBehaviourPunCallbacks, IPunObservable
     }
     void Update()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        if (PhotonNetwork.LocalPlayer.UserId != Presenter.Instance.presenterID) return;
 
         if(Input.GetKeyUp(KeyCode.RightArrow))
         {

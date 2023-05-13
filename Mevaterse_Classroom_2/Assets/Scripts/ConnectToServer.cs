@@ -144,6 +144,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true});
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
+        Presenter.Instance.presenterID = PhotonNetwork.LocalPlayer.UserId;
     }
 
     private void JoinRoom(string roomName)
