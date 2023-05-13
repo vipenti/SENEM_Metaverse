@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 
+    AppIdRealtime: 7c5a6383-2c14-4155-bb56-25fb365ec806
     AppIdFusion: 
     AppIdChat: 
-    AppIdVoice: 
+    AppIdVoice: 83882a87-e70d-4ef2-9832-95826c53d325
     AppVersion: 
     UseNameServer: 1
     FixedRegion: 
@@ -33,7 +33,23 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
+  RpcList:
+  - CantHearYou
+  - ClickRpc
+  - DestroyRpc
+  - HeresWhy
+  - ChangeSlideRpc
+  - NotifyHandRaisedRPC
+  - NotifyRpc
+  - NotifySitting
+  - NotifySpawnRPC
+  - NotifyTalkRPC
+  - RPCSetTabletActive
+  - SendMessageRpc
+  - SetColors
+  - SetMeshes
+  - ToggleMicRpc
+  - VerifySeatState
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0
