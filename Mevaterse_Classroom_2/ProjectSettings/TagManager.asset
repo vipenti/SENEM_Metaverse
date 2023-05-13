@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Chair
+  - Uniform
+  - Haircut
+  - Beard
+  - Brows
+  - Eyes
+  - Glasses
+  - AudioBoost
   layers:
   - Default
   - TransparentFX
