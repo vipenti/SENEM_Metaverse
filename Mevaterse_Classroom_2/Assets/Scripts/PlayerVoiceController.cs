@@ -12,6 +12,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
     private Recorder recorder;
     private TMP_Text info;
     private TMP_Text microphoneIndicator;
+    private TMP_Text microphoneInfo;
     private PhotonView view;
     private TextChat textChat;
 
@@ -25,6 +26,8 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
         recorder = GameObject.Find("VoiceManager").GetComponent<Recorder>();
         info = GameObject.Find("SoundState").GetComponent<TMP_Text>();
         microphoneIndicator = GameObject.Find("MicState").GetComponent<TMP_Text>();
+        microphoneInfo = GameObject.Find("MicInfo").GetComponent<TMP_Text>();
+
         view = this.GetComponent<PhotonView>();
         textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
         speaker.enabled = false;
@@ -37,6 +40,9 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
     public void Update()
     {
         if (!view.IsMine) return;
+
+        if(Microphone.devices.Length > 0)
+            microphoneInfo.text = $"Using: {Microphone.devices[0]}";
 
         isTyping = gameObject.GetComponent<PlayerController>().isTyping;
 

@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Photon.Pun;
 using System;
+using Photon.Realtime;
 
 public class WhiteBoardManager : MonoBehaviourPunCallbacks
 {
@@ -75,6 +76,12 @@ public class WhiteBoardManager : MonoBehaviourPunCallbacks
             interactionInfo.text = "Press ESC to stop writing";
         else
             interactionInfo.text = "";
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (!photonView.IsMine) return;
+        photonView.RPC("LockBoard", RpcTarget.All, Presenter.Instance.writerID == "none", Presenter.Instance.writerID);
+        photonView.RPC("SetText", RpcTarget.All, writeSpace.text);
     }
 
     private void OnTriggerEnter(Collider collision)

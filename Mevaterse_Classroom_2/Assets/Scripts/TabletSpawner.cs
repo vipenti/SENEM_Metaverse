@@ -1,6 +1,5 @@
 using UnityEngine;
 using Photon.Pun;
-using System;
 using Photon.Realtime;
 
 public class TabletSpawner : MonoBehaviourPunCallbacks
@@ -13,6 +12,8 @@ public class TabletSpawner : MonoBehaviourPunCallbacks
     public void Start()
     {
         spawnPoint = GameObject.Find("SpawnPosition").transform;
+
+        if (!photonView.IsMine) return;
         tablet = PhotonNetwork.Instantiate(tabletPrefab.name, spawnPoint.position, spawnPoint.rotation);
         tablet.transform.Rotate(0, 177.9f, 0);
 
@@ -30,7 +31,7 @@ public class TabletSpawner : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        SetTabletActive(tablet.activeSelf, tablet.transform.position);
+        SetTabletActive(false, tablet.transform.position);
     }
 
     [PunRPC]

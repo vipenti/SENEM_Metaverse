@@ -7,6 +7,12 @@ public class TextChat : MonoBehaviourPunCallbacks
 {
     public TMP_InputField inputField;
     public bool isSelected = false;
+    private GameObject commandInfo;
+
+    private void Start()
+    {
+        commandInfo = GameObject.Find("CommandInfo");
+    }
 
     public void LateUpdate()
     {
@@ -16,6 +22,7 @@ public class TextChat : MonoBehaviourPunCallbacks
             // Set the selected GameObject to the input field
             EventSystem.current.SetSelectedGameObject(inputField.gameObject);
             inputField.caretPosition = inputField.text.Length;
+            commandInfo.SetActive(false);
         }
 
         else if(Input.GetKeyUp(KeyCode.Escape) && isSelected)
@@ -23,6 +30,7 @@ public class TextChat : MonoBehaviourPunCallbacks
             isSelected = false;
             // Reset the selected GameObject 
             EventSystem.current.SetSelectedGameObject(null);
+            commandInfo.SetActive(true);
         }
 
         else if (Input.GetKeyUp(KeyCode.Return) && isSelected && inputField.text != "")
@@ -31,6 +39,7 @@ public class TextChat : MonoBehaviourPunCallbacks
             inputField.text = "";
             isSelected = false;
             EventSystem.current.SetSelectedGameObject(null);
+            commandInfo.SetActive(true);
         }
     }
 
