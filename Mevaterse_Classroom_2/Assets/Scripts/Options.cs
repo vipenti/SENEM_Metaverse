@@ -46,10 +46,6 @@ public class Options : MonoBehaviour
         {
             Screen.fullScreenMode = FullScreenMode.Windowed;
         }
-        else if (selectedOption == "Full Screen with borders")
-        {
-            Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
-        }
     }
 
     void UpdateNote()

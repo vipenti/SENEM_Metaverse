@@ -59,7 +59,7 @@ public class Logger : Singleton<Logger>
 
     private void ClearLines()
     {
-        if (currentLines >= 7)
+        if (debugAreaText.text.Length >= 320 || currentLines >= 10)
         {
             debugAreaText.text = "";
             currentLines = 0;

@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.EventSystems;
+using Photon.Realtime;
+using System;
+
 public class PlayerController : MonoBehaviourPunCallbacks
 {
     // Controls the camera movement
@@ -38,18 +42,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private TextChat textChat;
     public TMP_Text volumeIcon;
     public TMP_Text playerName;
+    private string boardText;
     private float idleTime;
     private float handRaiseCooldown;
 
     // Variables for the sitting control
     private GameObject chair;
+    private WhiteBoard whiteBoard;
     private bool isSitting;
     private Vector3 originalPosition;
     private float originalFov;
-    private int originalCullingMask;
 
     public Animator animatorController;
     private TMP_Text interactionInfo;
+    private ControlInfoHanlder commandInfo;
     private Vector3 spawnPosition;
 
     public override void OnEnable()
@@ -70,7 +76,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Start()
     {
         playerName.text = GetComponent<PhotonView>().Controller.NickName;
-        volumeIcon.text = "";
+        volumeIcon.text = ""; 
+        boardText = $"{DateTime.UtcNow.Date.ToString("MM/dd/yyyy")}";
+        whiteBoard = null;
+        commandInfo = GameObject.Find("CommandInfo").GetComponent<ControlInfoHanlder>();
 
         // Make the local player camera the only active one for each plater
         if (!photonView.IsMine) {
@@ -83,6 +92,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         GameObject.Find("WelcomeAudioSource").GetComponent<AudioSource>().Play();
         GameObject.Find("BgAudioSource").GetComponent<AudioSource>().enabled = false;
 
+
         Cursor.lockState = CursorLockMode.Locked;
 
         // Variables inizialitazion
@@ -91,7 +101,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         handRaiseCooldown = 10;
         originalSpeed = speed;
         originalFov = playerCam.GetComponent<Camera>().fieldOfView;
-        originalCullingMask = playerCam.GetComponent<Camera>().cullingMask;
         backwardSpeed = originalSpeed - 1.3f;
         handRaised = false;
         isSitting = false;
@@ -163,7 +172,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
             GetUp();
         }
 
-        if(handRaiseCooldown > 0)
+        // Player writing on whiteboard
+        if (Input.GetKeyUp(KeyCode.Space) && whiteBoard != null && !whiteBoard.isBeingEdited && !textChat.isSelected)
+        {
+            EditWhiteboard();
+        }
+
+        else if (Input.GetKeyUp(KeyCode.Escape) && whiteBoard != null && whiteBoard.isBeingEdited && 
+            Presenter.Instance.writerID == PhotonNetwork.LocalPlayer.UserId && !textChat.isSelected)
+        {
+            StopEditWhiteboard();
+        }
+
+        if (handRaiseCooldown > 0)
             handRaiseCooldown -= Time.deltaTime;
 
         // If the player presses M, the character raises their hand
@@ -264,7 +285,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         animatorController.SetBool("HandRaised", handRaised);
         animatorController.SetBool("IsWaving", isWaving);
         animatorController.SetBool("IsTalking", GetComponent<PlayerVoiceController>().isTalking);
-        animatorController.SetBool("IsWriting", isTyping);
+        //animatorController.SetBool("IsWriting", isTyping);
 
         if (photonView.GetComponent<PlayerVoiceController>().isTalking)
             photonView.RPC("NotifyTalkRPC", RpcTarget.All, "<sprite index=0>");
@@ -294,7 +315,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //Tablet spawn
         GetComponent<TabletSpawner>().SetTabletActive(true, transform.position + new Vector3(-0.05f, 0, 0.5f));
-
     }
 
     private void GetUp()
@@ -321,6 +341,27 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     }
 
+    private void EditWhiteboard()
+    {
+        whiteBoard.boardText.readOnly = false; 
+        EventSystem.current.SetSelectedGameObject(whiteBoard.gameObject);
+        Cursor.lockState = CursorLockMode.None;
+        whiteBoard.boardText.caretPosition = whiteBoard.boardText.text.Length;
+        GetComponent<CharacterController>().enabled = false;
+        commandInfo.enabled = false;
+        photonView.RPC("LockBoard", RpcTarget.All, true, PhotonNetwork.LocalPlayer.UserId, "");
+    }
+
+    private void StopEditWhiteboard()
+    {
+        whiteBoard.boardText.readOnly = true;
+        EventSystem.current.SetSelectedGameObject(null);
+        Cursor.lockState = CursorLockMode.Locked;
+        GetComponent<CharacterController>().enabled = true;
+        boardText = whiteBoard.boardText.text;
+        commandInfo.enabled = true;
+        photonView.RPC("LockBoard", RpcTarget.All, false, "none", boardText);
+    }
     private void RaiseHand()
     {
         GetComponent<PhotonView>().RPC("NotifyHandRaisedRPC", RpcTarget.All);
@@ -343,6 +384,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.CompareTag("Whiteboard"))
+        {
+            whiteBoard = collision.gameObject.GetComponent<WhiteBoard>();
+        }
+    }
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.gameObject.CompareTag("Whiteboard"))
+        {
+            whiteBoard = null;
+        }
+    }
+
     private void InteractionInfoUpdate()
     {
         if (chair != null && !isSitting && !chair.GetComponent<ChairController>().IsBusy())
@@ -357,7 +413,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         else if (chair != null && !isSitting && chair.GetComponent<ChairController>().IsBusy())
             interactionInfo.text = "Chair is occupied";
 
-        else if(chair == null)
+        else if(whiteBoard != null && !whiteBoard.isBeingEdited)
+            interactionInfo.text = "Press SPACE to start writing on the whiteboard";
+
+        else if (whiteBoard != null && whiteBoard.isBeingEdited && Presenter.Instance.writerID == PhotonNetwork.LocalPlayer.UserId)
+            interactionInfo.text = "Press ESC to stop writing";
+
+        else if (whiteBoard != null && whiteBoard.isBeingEdited && Presenter.Instance.writerID != PhotonNetwork.LocalPlayer.UserId)
+            interactionInfo.text = "Whiteboard is busy";
+
+        else 
             interactionInfo.text = "";
     }
 
@@ -396,6 +461,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
 
+    [PunRPC]
+    public void LockBoard(bool value, string id, string text)
+    {
+        if (whiteBoard == null) return;
+        whiteBoard.isBeingEdited = value;
+        Presenter.Instance.writerID = id;
 
+        if (!value)
+            whiteBoard.boardText.text = text;
+    }
+
+    [PunRPC]
+    public void NotifyBoardText(string text)
+    {
+        GameObject.Find("BoardCanvas").GetComponentInChildren<TMP_InputField>().text = text;
+    }
 
 }

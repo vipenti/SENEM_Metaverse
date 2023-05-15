@@ -55,6 +55,8 @@ MonoBehaviour:
   - AnnouncePresenter
   - LockBoard
   - SetText
+  - SetEdit
+  - NotifyBoardText
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

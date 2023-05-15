@@ -3782,7 +3782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &313434373
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6334,7 +6334,7 @@ RectTransform:
   m_GameObject: {fileID: 552974947}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6885914, y: 1.6819528, z: 1.7240019}
+  m_LocalScale: {x: 1.6885915, y: 1.4468414, z: 1.7240016}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 767560814}
@@ -6342,7 +6342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9, y: 4.9195595}
+  m_AnchoredPosition: {x: -8.999958, y: 2.3111343}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &552974949
@@ -6366,25 +6366,29 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<b>Welcome to the Metaverse Classroom!</b>\n\nMove your avatar with <color=yellow>WASD</color>
-    keys and use your mouse to rotate the camera. \n\nPress <color=yellow>Enter</color>
-    to write a message in the classroom text chat.\nPress <color=yellow>TAB</color>
-    to mute and unmute your microphone to use the voice chat. In the right corner
-    of the screen, you can see the state of your microphone and if it's transmitting
-    audio.\n\nGet close to a chair and press <color=yellow>C</color> to take your
-    seat. \nOnce seated, you can press <color=yellow>C</color> again to stand up.\nWhen
-    seated, you can edit your notes by pressing <color=yellow>SPACE</color>. This
-    will lock other controls of your avatar. When you're done, press <color=yellow>ESC</color>
-    to stop editing and unlock the avatar's controls.\nYour notes will be saved as
-    a text file in your application folder.\n\nYou can raise your hand by pressing
+    keys and use your mouse to rotate the camera. \nYou can get your cursor unlocked
+    by pressing <color=yellow>ESC</color>. Click with your right mouse button to
+    lock it again.\n\nPress <color=yellow>Enter</color> to write a message in the
+    classroom text chat.\nPress <color=yellow>TAB</color> to mute and unmute your
+    microphone to use the voice chat. In the right corner of the screen, you can
+    see the state of your microphone and if it's transmitting audio.\n\nGet close
+    to a chair and press <color=yellow>C</color> to take your seat. \nOnce seated,
+    you can press <color=yellow>C</color> again to stand up.\nWhen seated, you can
+    edit your notes by pressing <color=yellow>SPACE</color>. This will lock other
+    controls of your avatar. When you're done, press <color=yellow>ESC</color> to
+    stop editing and unlock the avatar's controls.\nYour notes will be saved as a
+    text file in your application folder.\n\nYou can raise your hand by pressing
     <color=yellow>M</color>. The whole class will be notified of this action and
-    it has a 10 seconds cooldown.\n\nYou can wave to other students by pressing <color=yellow>N</color>.\n\nYou
-    can get your cursor unlocked by pressing <color=yellow>ESC</color>. Click with
-    your right mouse button to lock it again.\n\nWalk near the monitor stand and
-    press <color=yellow>P</color> to become the presenter. Your voice will be amplified
-    while you're near. Once you're the presenter, you can control your slideshow
-    by pressing key arrows. You'll be the presenter until someone else takes the
-    place.\nPress <color=yellow>\u2192</color> to go to the next slide.\nPress <color=yellow>\u2190</color>
-    to go to the previous slide.\n\nEnjoy your lesson!                                                     
+    it has a 10 seconds cooldown.\n\nYou can wave to other students by pressing <color=yellow>N</color>.\n\nWalk
+    near the whiteboeard and, if it's not occupied, start writing on it by pressing
+    <color=yellow>SPACE</color>. Press <color=yellow>ESC</color> to stop writing
+    and make your text visible to the whole class.\n\nWalk near the monitor stand
+    and press <color=yellow>P</color> to become the presenter.  Once you're the presenter,
+    you can control your slideshow by pressing key arrows. You'll be the presenter
+    until someone else takes the place.\nPress <color=yellow>\u2192</color> to go
+    to the next slide.\nPress <color=yellow>\u2190</color> to go to the previous
+    slide.\nEveryone's voice will be amplified while they're on the white stage.\n\nEnjoy
+    your lesson!                                                                       
     <i>Press <color=yellow>Z</color> to close</i>\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6430,7 +6434,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 5
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -6448,7 +6452,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 71.692566, y: 2.8551464, z: 60.872925, w: -5.9310074}
+  m_margin: {x: 71.692566, y: -1.1413822, z: 60.872925, w: -15.883041}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7859,8 +7863,6 @@ MonoBehaviour:
     m_Options:
     - m_Text: Windowed
       m_Image: {fileID: 0}
-    - m_Text: Full Screen with borders
-      m_Image: {fileID: 0}
     - m_Text: Full Screen
       m_Image: {fileID: 0}
   m_OnValueChanged:
@@ -8266,7 +8268,7 @@ RectTransform:
   m_GameObject: {fileID: 720704579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.947509, y: 4.947509, z: 4.947509}
+  m_LocalScale: {x: 3.7226045, y: 3.7226045, z: 3.7226045}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1188392485}
@@ -8284,7 +8286,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -31.3469, y: 22.874882}
+  m_AnchoredPosition: {x: -10, y: -1}
   m_SizeDelta: {x: 112.6718, y: 64.1689}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &720704581
@@ -8794,7 +8796,7 @@ RectTransform:
   m_GameObject: {fileID: 767560813}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.142244, y: 3.3454406, z: 3.2638445}
+  m_LocalScale: {x: 2.9200566, y: 3.6140785, z: 3.033058}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 552974948}
@@ -8803,8 +8805,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28, y: 24.581}
-  m_SizeDelta: {x: 118.1568, y: 113.47}
+  m_AnchoredPosition: {x: -30.000061, y: 31.522705}
+  m_SizeDelta: {x: 118.1568, y: 109.6285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &767560815
 MonoBehaviour:
@@ -8900,7 +8902,6 @@ RectTransform:
   m_Children:
   - {fileID: 1784594865}
   - {fileID: 1103156726}
-  - {fileID: 1690048351}
   m_Father: {fileID: 1938797178}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9163,7 +9164,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 80
+  m_CharacterLimit: 120
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -13598,8 +13599,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.57, y: 2.92, z: 1.77}
-  m_Center: {x: -0.23, y: 0.25, z: 0.1}
+  m_Size: {x: 5.36, y: 2.76, z: 2.52}
+  m_Center: {x: -0.24, y: 0.31, z: -0.06}
 --- !u!54 &1102859754
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13631,7 +13632,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
@@ -13647,15 +13648,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1102859752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5dacf63b87707544b6c6a1735eef295, type: 3}
+  m_Script: {fileID: 11500000, guid: 6594644d35e17a74e8c2b2b46b017685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardText: {fileID: 1635092016}
   isBeingEdited: 0
-  playerNear: 0
-  writeSpace: {fileID: 1635092016}
-  interactionInfo: {fileID: 1690048352}
-  commandInfo: {fileID: 767560813}
-  textChat: {fileID: 791823699}
 --- !u!1 &1103156725
 GameObject:
   m_ObjectHideFlags: 0
@@ -20621,9 +20618,17 @@ PrefabInstance:
       propertyPath: m_text
       value: Welcome!
       objectReference: {fileID: 0}
+    - target: {fileID: 4603410679256229018, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
+      propertyPath: m_Name
+      value: BoardCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 6152133007044677703, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
       propertyPath: m_Name
       value: WhiteBoard
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152133007044677703, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
+      propertyPath: m_TagString
+      value: Whiteboard
       objectReference: {fileID: 0}
     - target: {fileID: 7336737976295109105, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
       propertyPath: m_RootOrder
@@ -21026,8 +21031,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.21, y: 2.08, z: 2.01}
-  m_Center: {x: -0.12, y: 1.12, z: 0.57}
+  m_Size: {x: 8.609262, y: 2.24, z: 2.4270213}
+  m_Center: {x: -3.762743, y: 1.17, z: 0.36148623}
 --- !u!54 &1657607463
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -21633,141 +21638,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1700646924610180826, guid: 407f8b378d4f8404eacff84947ec0d6e, type: 3}
---- !u!1 &1690048350
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1690048351}
-  - component: {fileID: 1690048353}
-  - component: {fileID: 1690048352}
-  m_Layer: 5
-  m_Name: InteractionInfo3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1690048351
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690048350}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.1154112}
-  m_LocalScale: {x: 0.5758086, y: 1.4106536, z: 0.389745}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 773612623}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -7.4855022, y: 7.722168}
-  m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1690048352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690048350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: --Interaction info--
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4286900211
-  m_fontColor: {r: 0.9528302, g: 0.9077118, b: 0.51686543, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 21
-  m_fontSizeBase: 21
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 1
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: -4.28
-  m_wordSpacing: 1.67
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: -76.647064, y: 0, z: -194.92494, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1690048353
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690048350}
-  m_CullTransparentMesh: 1
 --- !u!1 &1691579703
 GameObject:
   m_ObjectHideFlags: 0
@@ -23772,7 +23642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 384, y: -116}
+  m_AnchoredPosition: {x: 384, y: -128}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1871607003
@@ -32021,7 +31891,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 4404089191821460679}
   sceneViewId: 93
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -40121,7 +39992,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 8945963667104085073}
   sceneViewId: 77
   InstantiationId: 0
   isRuntimeInstantiated: 0
