@@ -9,12 +9,10 @@ public class TabletManager : MonoBehaviourPunCallbacks
     public TMP_InputField writeSpace;
     public bool isBeingEdited;
     private GameObject commandInfo;
+    private TextChat textChat;
 
     private void Start()
     {
-        //writeSpace.onValueChanged.AddListener(OnBeginInputFieldEdit);
-        //writeSpace.onEndEdit.AddListener(OnEndInputFieldEdit);
-
         writeSpace.readOnly = true;
 
         isBeingEdited = false;
@@ -22,12 +20,14 @@ public class TabletManager : MonoBehaviourPunCallbacks
 
         writeSpace.text = $"{PhotonNetwork.NickName}'s notes, {DateTime.UtcNow.Date.ToString("MM/dd/yyyy")}";
         writeSpace.caretPosition = writeSpace.text.Length;
+
+        textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        if(Input.GetKeyUp(KeyCode.Space) && !isBeingEdited)
+        if(Input.GetKeyUp(KeyCode.Space) && !isBeingEdited && !textChat.isSelected)
         {
             writeSpace.readOnly = false;
             EventSystem.current.SetSelectedGameObject(writeSpace.gameObject);
@@ -46,15 +46,5 @@ public class TabletManager : MonoBehaviourPunCallbacks
             isBeingEdited = false;
         }
 
-    }
-
-    private void OnBeginInputFieldEdit(string value)
-    {
-        isBeingEdited = true;
-    }
-
-    private void OnEndInputFieldEdit(string value)
-    {
-        isBeingEdited = false;
     }
 }

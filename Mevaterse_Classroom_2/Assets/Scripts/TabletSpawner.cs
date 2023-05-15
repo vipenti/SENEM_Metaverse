@@ -20,10 +20,6 @@ public class TabletSpawner : MonoBehaviourPunCallbacks
 
     }
 
-    public void Update()
-    {
-    }
-
     public void SetTabletActive(bool active, Vector3 position)
     {
         if (photonView.IsMine)

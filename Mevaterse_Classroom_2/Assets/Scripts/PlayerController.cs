@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private GameObject chair;
     private bool isSitting;
     private Vector3 originalPosition;
-    private Vector3 originalCamPosition;
     private float originalFov;
     private int originalCullingMask;
 
@@ -81,6 +80,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         photonView.RPC("NotifySpawnRPC", RpcTarget.All);
+        GameObject.Find("WelcomeAudioSource").GetComponent<AudioSource>().Play();
+        GameObject.Find("BgAudioSource").GetComponent<AudioSource>().enabled = false;
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -90,7 +91,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         handRaiseCooldown = 10;
         originalSpeed = speed;
         originalFov = playerCam.GetComponent<Camera>().fieldOfView;
-        originalCamPosition = playerCam.transform.position;
         originalCullingMask = playerCam.GetComponent<Camera>().cullingMask;
         backwardSpeed = originalSpeed - 1.3f;
         handRaised = false;
@@ -173,11 +173,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
             handRaiseCooldown = 10;
         }
 
-        if(textChat.isSelected)
+        if(textChat.isSelected || isTyping)
         {
             controller.enabled = false;
         }
-        else if(!textChat.isSelected && !isSitting && controller.enabled == false)
+        else if(!textChat.isSelected && !isSitting && !isTyping && controller.enabled == false)
         {
             controller.enabled = true;
         }
@@ -199,17 +199,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         GetComponent<AudioSource>().enabled = (isMoving || isBackwardMoving) && !isSitting;
     }
 
-    [System.Obsolete]
     void AnimatorChecker(Vector3 moveVelocity)
     {
-        isMoving = ((moveVelocity.x != 0 || moveVelocity.y != 0 || moveVelocity.z != 0) && !textChat.isSelected);
+        isMoving = ((moveVelocity.x != 0 || moveVelocity.y != 0 || moveVelocity.z != 0) && !textChat.isSelected && !isTyping);
         isBackwardMoving = false;
         handRaised = false;
         isWaving = false;
-        isTyping = GetComponent<TabletSpawner>().tablet.GetComponent<TabletManager>().isBeingEdited;
+        isTyping = (GetComponent<TabletSpawner>().tablet.GetComponent<TabletManager>().isBeingEdited) || (PhotonNetwork.LocalPlayer.UserId == Presenter.Instance.writerID);
 
         // If the player is walking backward, this changes the animation and slows down the speed
-        if (Input.GetKey(KeyCode.S) && !textChat.isSelected)
+        if (Input.GetKey(KeyCode.S) && !textChat.isSelected && !isTyping)
         {
             isBackwardMoving = true;
             isMoving = false;
@@ -236,18 +235,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
             isWaving = true;
         }
 
-        if(isSitting && isTyping)
+        if(isTyping)
         {
             textChat.inputField.enabled = false;
-            //playerCam.GetComponent<Camera>().cullingMask &= ~(1 << transform.Find("PlayerMesh").gameObject.layer);
-            animatorController.SetBool("IsWriting", true);
         }
 
-        else if(isSitting && !isTyping)
+        else if(!isTyping)
         {
             textChat.inputField.enabled = true;
-            playerCam.GetComponent<Camera>().cullingMask = originalCullingMask;
-            animatorController.SetBool("IsWriting", false);
         }
 
         // If the player doesn't move for 6 seconds, perform an idle animation
@@ -269,6 +264,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         animatorController.SetBool("HandRaised", handRaised);
         animatorController.SetBool("IsWaving", isWaving);
         animatorController.SetBool("IsTalking", GetComponent<PlayerVoiceController>().isTalking);
+        animatorController.SetBool("IsWriting", isTyping);
 
         if (photonView.GetComponent<PlayerVoiceController>().isTalking)
             photonView.RPC("NotifyTalkRPC", RpcTarget.All, "<sprite index=0>");
@@ -388,7 +384,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void NotifySpawnRPC()
     {
-        Logger.Instance.LogInfo($"{GetComponent<PhotonView>().Controller.NickName} just joined the class!");
+        Logger.Instance.LogInfo($"<color=yellow>{GetComponent<PhotonView>().Controller.NickName}</color> just joined the class!");
         LogManager.Instance.LogInfo($"{GetComponent<PhotonView>().Controller.NickName} joined the room");
         GameObject.Find("SpawnAudioSource").GetComponent<AudioSource>().Play();
     }

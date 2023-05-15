@@ -15,8 +15,6 @@ public class TextChat : MonoBehaviourPunCallbacks
             isSelected = true;
             // Set the selected GameObject to the input field
             EventSystem.current.SetSelectedGameObject(inputField.gameObject);
-
-            // Optionally, move the caret to the end of the input field's text
             inputField.caretPosition = inputField.text.Length;
         }
 

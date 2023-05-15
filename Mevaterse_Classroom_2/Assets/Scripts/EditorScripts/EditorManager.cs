@@ -193,44 +193,56 @@ public class EditorManager : MonoBehaviour
     private void InitializePreviousNextButtons()
     {
         previousUniform.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedUniform = ChangeMesh(uniformsList, selectedUniform, -1, selectedUniformTxt);
         });
         nextUniform.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedUniform = ChangeMesh(uniformsList, selectedUniform, +1, selectedUniformTxt);
         });
 
         previousHair.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedHaircut = ChangeMesh(haircutsList, selectedHaircut, -1, selectedHaircutTxt);
         });
         nextHair.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedHaircut = ChangeMesh(haircutsList, selectedHaircut, +1, selectedHaircutTxt);
         });
 
         previousGlasses.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedGlasses = ChangeMesh(glassesList, selectedGlasses, -1, selectedGlassesTxt);
         });
         nextGlasses.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedGlasses = ChangeMesh(glassesList, selectedGlasses, +1, selectedGlassesTxt);
         });
 
         previousEyes.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedLashes = ChangeMesh(lashesList, selectedLashes, -1, selectedLashesTxt);
         });
         nextEyes.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedLashes = ChangeMesh(lashesList, selectedLashes, +1, selectedLashesTxt);
         });
 
         previousBrows.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedEyebrows = ChangeMesh(eyebrowsList, selectedEyebrows, -1, selectedEyebrowsTxt);
         });
         nextBrows.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedEyebrows = ChangeMesh(eyebrowsList, selectedEyebrows, +1, selectedEyebrowsTxt);
         });
 
         previousBeard.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedBeard = ChangeMesh(beardsList, selectedBeard, -1, selectedBeardTxt);
         });
         nextBeard.onClick.AddListener(() => {
+            GameObject.Find("ArrowAudioSource").GetComponent<AudioSource>().Play();
             selectedBeard = ChangeMesh(beardsList, selectedBeard, +1, selectedBeardTxt);
         });
     }
@@ -454,35 +466,35 @@ public class EditorManager : MonoBehaviour
             // Change color when button clicked
             buttonObject.GetComponent<Button>().onClick.AddListener(() =>
             {
-
-            foreach (SkinnedMeshRenderer skin in meshList)
-                {
-                    foreach (Material m in skin.materials)
-                    {
-                        if (m.name.Equals(materialName))
-                        {
-                            m.color = buttonObject.GetComponent<Image>().color;
-                            AvatarSettings.Instance.SetColor(key, buttonObject.GetComponent<Image>().color);
-                        }
-                    }
-                }
-            if(materialName.Equals("Hair (Instance)"))
-                {
-                    foreach (SkinnedMeshRenderer skin in eyebrowsList)
-                    {
-                        foreach(Material m in skin.materials)
-                        {
-                            m.color = buttonObject.GetComponent<Image>().color;
-                        }
-                    }
-                    foreach (SkinnedMeshRenderer skin in beardsList)
+                GameObject.Find("ButtonAudioSource").GetComponent<AudioSource>().Play();
+                foreach (SkinnedMeshRenderer skin in meshList)
                     {
                         foreach (Material m in skin.materials)
                         {
-                            m.color = buttonObject.GetComponent<Image>().color;
+                            if (m.name.Equals(materialName))
+                            {
+                                m.color = buttonObject.GetComponent<Image>().color;
+                                AvatarSettings.Instance.SetColor(key, buttonObject.GetComponent<Image>().color);
+                            }
                         }
                     }
-                }
+                if(materialName.Equals("Hair (Instance)"))
+                    {
+                        foreach (SkinnedMeshRenderer skin in eyebrowsList)
+                        {
+                            foreach(Material m in skin.materials)
+                            {
+                                m.color = buttonObject.GetComponent<Image>().color;
+                            }
+                        }
+                        foreach (SkinnedMeshRenderer skin in beardsList)
+                        {
+                            foreach (Material m in skin.materials)
+                            {
+                                m.color = buttonObject.GetComponent<Image>().color;
+                            }
+                        }
+                    }
             });
         }
     }
