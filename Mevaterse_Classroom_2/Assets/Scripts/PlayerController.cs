@@ -211,13 +211,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void LateUpdate()
     {
         // Locks and unlocks the mouse if the player press ESC or the right mouse button
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.None;
 
         if ((Cursor.lockState == CursorLockMode.None) && Input.GetMouseButton(1))
             Cursor.lockState = CursorLockMode.Locked;
 
-        GetComponent<AudioSource>().enabled = (isMoving || isBackwardMoving) && !isSitting;
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.L))
+        {
+            string msg = "";
+            Logger.Instance.LogInfo($"Player in the room: {PhotonNetwork.PlayerList.Length}");
+            foreach (Player p in PhotonNetwork.PlayerList)
+                msg += " " + p.NickName;
+            Logger.Instance.LogInfo($"Players: {msg}");
+        }
+
+            GetComponent<AudioSource>().enabled = (isMoving || isBackwardMoving) && !isSitting;
     }
 
     void AnimatorChecker(Vector3 moveVelocity)

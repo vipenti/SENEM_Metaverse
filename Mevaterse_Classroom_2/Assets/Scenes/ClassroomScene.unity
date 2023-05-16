@@ -6334,7 +6334,7 @@ RectTransform:
   m_GameObject: {fileID: 552974947}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6885915, y: 1.4468414, z: 1.7240016}
+  m_LocalScale: {x: 1.6885915, y: 1.5194727, z: 1.7240016}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 767560814}
@@ -6342,7 +6342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8.999958, y: 2.3111343}
+  m_AnchoredPosition: {x: -8.999958, y: 1.2}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &552974949
@@ -6373,22 +6373,18 @@ MonoBehaviour:
     microphone to use the voice chat. In the right corner of the screen, you can
     see the state of your microphone and if it's transmitting audio.\n\nGet close
     to a chair and press <color=yellow>C</color> to take your seat. \nOnce seated,
-    you can press <color=yellow>C</color> again to stand up.\nWhen seated, you can
-    edit your notes by pressing <color=yellow>SPACE</color>. This will lock other
-    controls of your avatar. When you're done, press <color=yellow>ESC</color> to
-    stop editing and unlock the avatar's controls.\nYour notes will be saved as a
-    text file in your application folder.\n\nYou can raise your hand by pressing
-    <color=yellow>M</color>. The whole class will be notified of this action and
-    it has a 10 seconds cooldown.\n\nYou can wave to other students by pressing <color=yellow>N</color>.\n\nWalk
-    near the whiteboeard and, if it's not occupied, start writing on it by pressing
-    <color=yellow>SPACE</color>. Press <color=yellow>ESC</color> to stop writing
-    and make your text visible to the whole class.\n\nWalk near the monitor stand
-    and press <color=yellow>P</color> to become the presenter.  Once you're the presenter,
-    you can control your slideshow by pressing key arrows. You'll be the presenter
-    until someone else takes the place.\nPress <color=yellow>\u2192</color> to go
-    to the next slide.\nPress <color=yellow>\u2190</color> to go to the previous
-    slide.\nEveryone's voice will be amplified while they're on the white stage.\n\nEnjoy
-    your lesson!                                                                       
+    you can press <color=yellow>C</color> again to stand up.\n\nYou can raise your
+    hand by pressing <color=yellow>M</color>. The whole class will be notified of
+    this action and it has a 10 seconds cooldown.\n\nYou can wave to other students
+    by pressing <color=yellow>N</color>.\n\nWalk near the whiteboeard and, if it's
+    not occupied, start writing on it by pressing <color=yellow>SPACE</color>. Press
+    <color=yellow>ESC</color> to stop writing and make your text visible to the whole
+    class.\n\nWalk near the monitor stand and press <color=yellow>P</color> to become
+    the presenter.  Once you're the presenter, you can control your slideshow by
+    pressing key arrows. You'll be the presenter until someone else takes the place.\nPress
+    <color=yellow>\u2192</color> to go to the next slide.\nPress <color=yellow>\u2190</color>
+    to go to the previous slide.\nEveryone's voice will be amplified while they're
+    on the white stage.\n\nEnjoy your lesson!                                                                       
     <i>Press <color=yellow>Z</color> to close</i>\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6452,7 +6448,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 71.692566, y: -1.1413822, z: 60.872925, w: -15.883041}
+  m_margin: {x: 71.692566, y: -1.1413822, z: 60.872925, w: -9.625439}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8796,7 +8792,7 @@ RectTransform:
   m_GameObject: {fileID: 767560813}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.9200566, y: 3.6140785, z: 3.033058}
+  m_LocalScale: {x: 2.8942432, y: 3.58213, z: 3.0062456}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 552974948}
@@ -8805,8 +8801,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30.000061, y: 31.522705}
-  m_SizeDelta: {x: 118.1568, y: 109.6285}
+  m_AnchoredPosition: {x: -5.1, y: -12.8}
+  m_SizeDelta: {x: 118.1568, y: 102.9326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &767560815
 MonoBehaviour:
@@ -11008,9 +11004,9 @@ RectTransform:
   m_Father: {fileID: 688389553}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 282.73096, y: -103.314026}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 9, y: -109}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &898442170
@@ -11408,12 +11404,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Welcome to the Metaverse Classroom! \nPlease, press <color=white>Z </color>to
-    read all you need to know about how to interact with the class. Also, keep in
-    mind that joining and leaving the room is being noted, as well as every message
-    in the text chat. \nUse interactions properly and mute your mic when you're not
-    speaking. \nIf you want to contact us or report a problem, please write to <color=white>v.pentangelo4@studenti.unisa.it</color>.
-    \nEnjoy your lesson! "
+  m_text: "Welcome to the <i>Metaverse Classroom!</i>\nPlease, press <b>Z </b>to
+    read all you need to know about how to interact with the class. \nAlso, keep
+    in mind that messages in the text chat and class interactions are being noted.
+    Use interactions properly and mute your mic when you're not speaking. \nIf you
+    want to contact us or report a problem, please write to <b>v.pentangelo4@studenti.unisa.it</b>.
+    \nEnjoy your time here! "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20640,7 +20636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7336737976295109105, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.2296677
+      value: -6.18
       objectReference: {fileID: 0}
     - target: {fileID: 7336737976295109105, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20648,7 +20644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7336737976295109105, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.1169624
+      value: 2.67
       objectReference: {fileID: 0}
     - target: {fileID: 7336737976295109105, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
       propertyPath: m_LocalRotation.w

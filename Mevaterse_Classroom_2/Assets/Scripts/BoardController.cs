@@ -17,7 +17,7 @@ public class BoardController : MonoBehaviourPunCallbacks, IPunObservable
         imagesPath = "Images";
         textures = Resources.LoadAll(imagesPath, typeof(Texture2D));
 
-        Logger.Instance.LogInfo("Found " + textures.Length + "slides");
+        Logger.Instance.LogInfo("Found " + textures.Length + " slides");
         foreach (Object tex in textures)
         {
             Material mat = new Material(Shader.Find("Standard"));

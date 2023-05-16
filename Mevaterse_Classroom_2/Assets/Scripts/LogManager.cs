@@ -18,11 +18,11 @@ public class LogManager : Singleton<LogManager>
             File.Create(filePath);
             Debug.Log("Created file in " + filePath);
         }
-        if (!File.Exists(notesPath))
+        /*if (!File.Exists(notesPath))
         {
             File.Create(notesPath);
             Debug.Log("Created file in " + filePath);
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -39,6 +39,6 @@ public class LogManager : Singleton<LogManager>
     public void SaveNotes(string msg)
     {
         string text = $"{msg}";
-        File.WriteAllText(notesPath, text);
+        //File.WriteAllText(notesPath, text);
     }
 }

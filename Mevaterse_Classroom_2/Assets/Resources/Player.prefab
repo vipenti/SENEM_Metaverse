@@ -5029,13 +5029,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.9
+  m_Volume: 0.975
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 18
+  Priority: 5
   DopplerLevel: 1
   MinDistance: 1.3
   MaxDistance: 20
@@ -5073,7 +5073,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.88
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5126,9 +5126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playDelayConfig:
-    Low: 0
-    High: 0
-    Max: 0
+    Low: 160
+    High: 320
+    Max: 800
     SpeedUpPerc: 5
   restartOnDeviceChange: 1
 --- !u!1 &7337847802958403825

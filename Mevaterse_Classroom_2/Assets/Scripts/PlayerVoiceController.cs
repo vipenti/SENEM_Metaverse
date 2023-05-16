@@ -30,19 +30,24 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
         view = this.GetComponent<PhotonView>();
         textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
-        speaker.enabled = false;
-        microphoneIndicator.text = muteMsg;
+
         info.text = "";
         isTalking = false;
         isTyping = false;
+        speaker.enabled = false;
+
+        if (photonView.IsMine)
+        {
+            microphoneIndicator.text = muteMsg;
+
+            if (Microphone.devices.Length > 0)
+                microphoneInfo.text = $"Using: {Microphone.devices[0]}";
+        }
     }
 
     public void Update()
     {
         if (!view.IsMine) return;
-
-        if(Microphone.devices.Length > 0)
-            microphoneInfo.text = $"Using: {Microphone.devices[0]}";
 
         isTyping = gameObject.GetComponent<PlayerController>().isTyping;
 

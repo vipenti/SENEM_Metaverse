@@ -29,7 +29,7 @@ public class Options : MonoBehaviour
 
     private void LateUpdate()
     {
-        UpdateNote();
+        //UpdateNote();
     }
 
     void OnWindowModeChanged(int index)
