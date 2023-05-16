@@ -110,8 +110,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        Logger.Instance.LogInfo("Room owner disconnected!");
-        Leave();
+        photonView.RPC("NotifyNewMaster", RpcTarget.All, newMasterClient.NickName);
     }    
 
     public override void OnConnectedToMaster()
@@ -142,7 +141,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     private void CreateRoom(string name)
     {
-        PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true});
+        PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});;
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
         Presenter.Instance.presenterID = PhotonNetwork.LocalPlayer.UserId;
     }
@@ -152,10 +151,10 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomName);
     }
 
+
     private void Leave()
     {
-        Logger.Instance.LogInfo("Leaving...");
-        Logger.Instance.LogInfo($"Left room: {PhotonNetwork.LeaveRoom()}");
+        PhotonNetwork.LeaveRoom(becomeInactive: false);
 
         initialGUI.SetActive(true);
         loggedGUI.SetActive(false);
@@ -174,5 +173,11 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public void NotifyRpc(string msg)
     {
         Logger.Instance.LogInfo(msg);
+    }
+
+    [PunRPC]
+    public void NotifyNewMaster(string name)
+    {
+        Logger.Instance.LogInfo("Old room owner disconnected. New owner is now <color=yellow>" + name + "</color>.");
     }
 }
