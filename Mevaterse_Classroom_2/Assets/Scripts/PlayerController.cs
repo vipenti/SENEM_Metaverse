@@ -405,7 +405,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             interactionInfo.text = "Press C to sit";
 
         else if (isSitting && !isTyping)
-            interactionInfo.text = "Press SPACE to edit your note \n Press C to stand up";
+            interactionInfo.text = "Press C to stand up";
 
         else if(isSitting && isTyping)
             interactionInfo.text = "Press ESC to stop writing";
