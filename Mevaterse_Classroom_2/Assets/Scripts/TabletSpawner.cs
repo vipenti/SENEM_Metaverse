@@ -29,10 +29,10 @@ public class TabletSpawner : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    /*public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         SetTabletActive(false, tablet.transform.position);
-    }
+    }*/
 
     [PunRPC]
     private void RPCSetTabletActive(bool active, float x, float y, float z)

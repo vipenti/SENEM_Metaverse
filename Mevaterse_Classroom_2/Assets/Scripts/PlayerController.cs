@@ -226,7 +226,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         isBackwardMoving = false;
         handRaised = false;
         isWaving = false;
-        isTyping = (GetComponent<TabletSpawner>().tablet.GetComponent<TabletManager>().isBeingEdited) || (PhotonNetwork.LocalPlayer.UserId == Presenter.Instance.writerID);
+        isTyping = /*(GetComponent<TabletSpawner>().tablet.GetComponent<TabletManager>().isBeingEdited) || */(PhotonNetwork.LocalPlayer.UserId == Presenter.Instance.writerID);
 
         // If the player is walking backward, this changes the animation and slows down the speed
         if (Input.GetKey(KeyCode.S) && !textChat.isSelected && !isTyping)
@@ -314,7 +314,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         animatorController.SetBool("IsSitting", true);
 
         //Tablet spawn
-        GetComponent<TabletSpawner>().SetTabletActive(true, transform.position + new Vector3(-0.05f, 0, 0.5f));
+        //GetComponent<TabletSpawner>().SetTabletActive(true, transform.position + new Vector3(-0.05f, 0, 0.5f));
     }
 
     private void GetUp()
@@ -337,7 +337,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         chair = null;
 
         //Tablet despawn
-        GetComponent<TabletSpawner>().SetTabletActive(false, transform.position);
+        //GetComponent<TabletSpawner>().SetTabletActive(false, transform.position);
 
     }
 
