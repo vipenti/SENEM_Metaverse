@@ -3854,6 +3854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c391d6b5024f0845a68e67a3f626a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 929696300}
 --- !u!54 &325696127
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18118,7 +18119,7 @@ MonoBehaviour:
   frameDuration: 20000
   bitrate: 30000
   sourceType: 0
-  microphoneType: 0
+  microphoneType: 1
   audioClip: {fileID: 0}
   loopAudioClip: 1
   recordingEnabled: 1
