@@ -132,14 +132,6 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        string msg = $"{otherPlayer.NickName} left the classroom.";
-        //photonView.RPC("NotifyRpc", RpcTarget.All, msg);
-        LogManager.Instance.LogInfo($"{otherPlayer.NickName} left the room");
-
-    }
-
     private void CreateRoom(string name)
     {
         PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});
@@ -157,7 +149,6 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     private void Leave()
     {
         PhotonNetwork.LeaveRoom(becomeInactive: false);
-
         initialGUI.SetActive(true);
         loggedGUI.SetActive(false);
 

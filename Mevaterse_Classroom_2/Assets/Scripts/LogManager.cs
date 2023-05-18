@@ -7,22 +7,22 @@ using Photon.Pun;
 public class LogManager : Singleton<LogManager>
 {
     string filePath;
-    string notesPath;
+    string whiteboardPath;
     private void Start()
     {
         //if (!PhotonNetwork.IsMasterClient) return;
         filePath = $"{Application.dataPath}/log{DateTime.UtcNow.Date.ToString("MM-dd-yyyy")}_{DateTime.Now.ToString("HH.mm.ss")}.txt";
-        notesPath = $"{Application.dataPath}/Notes{DateTime.UtcNow.Date.ToString("MM-dd-yyyy")}_{DateTime.Now.ToString("HH.mm.ss")}.txt";
+        whiteboardPath = $"{Application.dataPath}/Whiteboard{DateTime.UtcNow.Date.ToString("MM-dd-yyyy")}_{DateTime.Now.ToString("HH.mm.ss")}.txt";
         if (!File.Exists(filePath))
         {
             File.Create(filePath);
             Debug.Log("Created file in " + filePath);
         }
-        /*if (!File.Exists(notesPath))
+        if (!File.Exists(whiteboardPath))
         {
-            File.Create(notesPath);
-            Debug.Log("Created file in " + filePath);
-        }*/
+            File.Create(whiteboardPath);
+            Debug.Log("Created file in " + whiteboardPath);
+        }
     }
 
     // Update is called once per frame
@@ -40,5 +40,13 @@ public class LogManager : Singleton<LogManager>
     {
         string text = $"{msg}";
         //File.WriteAllText(notesPath, text);
+    }
+
+    public void LogWhiteboard(string msg)
+    {
+        using (StreamWriter writer = File.AppendText(whiteboardPath))
+        {
+            writer.WriteLine(msg);
+        }
     }
 }
