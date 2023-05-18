@@ -442,8 +442,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             chair.GetComponent<ChairController>().SetBusy(value);
             chair.GetComponent<ChairController>().playerName = playerName;
-        }
-            
+        }            
     }
 
     [PunRPC]
@@ -478,14 +477,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Presenter.Instance.writerID = id;
 
         if (!value)
+        {
             whiteBoard.boardText.text = text;
-    }
-
-    [PunRPC]
-    public void NotifyBoardText(string text)
-    {
-        GameObject.Find("BoardCanvas").GetComponentInChildren<TMP_InputField>().text = text;
-        LogManager.Instance.LogWhiteboard(text);
+            LogManager.Instance.LogWhiteboard(text);
+        }
     }
 
 }
