@@ -31,7 +31,6 @@ public class Logger : Singleton<Logger>
 
         if (enabled)
         {
-            Debug.Log("Logger enabled " + debugAreaText == null);
             debugAreaText.text += $"<color=\"white\">{DateTime.Now.ToString("HH:mm:ss.fff")} {this.GetType().Name} enabled</color>\n";
         }
     }

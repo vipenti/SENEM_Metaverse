@@ -145,6 +145,12 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomName);
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("Sono qui aoo");
+        Logger.Instance.LogInfo($"<color=yellow>{otherPlayer.NickName}</color> left the room");
+        LogManager.Instance.LogInfo($"{otherPlayer.NickName} left the room");
+    }
 
     private void Leave()
     {

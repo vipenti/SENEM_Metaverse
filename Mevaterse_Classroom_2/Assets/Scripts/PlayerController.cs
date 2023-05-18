@@ -408,21 +408,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        PhotonView[] allPV = GetComponents<PhotonView>();
-        for (int i = 0; i < allPV.Length; i++)
-        {
-
-            if (allPV[i].OwnerActorNr == otherPlayer.ActorNumber)
-            {
-                PhotonNetwork.Destroy(allPV[i]);
-            }
-        }
-        Logger.Instance.LogInfo($"{otherPlayer.NickName} left the room");
-        LogManager.Instance.LogInfo($"{otherPlayer.NickName} left the room");
-    }
-
     private void InteractionInfoUpdate()
     {
         if (chair != null && !isSitting && !chair.GetComponent<ChairController>().IsBusy())
