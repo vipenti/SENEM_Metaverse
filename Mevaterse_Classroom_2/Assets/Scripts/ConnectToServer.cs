@@ -137,11 +137,13 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         string msg = $"{otherPlayer.NickName} left the classroom.";
         //photonView.RPC("NotifyRpc", RpcTarget.All, msg);
         LogManager.Instance.LogInfo($"{otherPlayer.NickName} left the room");
+
     }
 
     private void CreateRoom(string name)
     {
-        PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});;
+        PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});
+
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
         Presenter.Instance.presenterID = PhotonNetwork.LocalPlayer.UserId;
     }

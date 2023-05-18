@@ -2909,6 +2909,100 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.007858705, y: 0.007670346, z: 0.012727372}
   m_Center: {x: 0.00024836767, y: -0.0010533455, z: 0.0009347983}
+--- !u!1 &219736867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219736868}
+  - component: {fileID: 219736869}
+  m_Layer: 0
+  m_Name: Point Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &219736868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219736867}
+  m_LocalRotation: {x: 0.7089433, y: -0, z: -0, w: 0.70526546}
+  m_LocalPosition: {x: 3.84, y: 25.83, z: 10.38}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1691579704}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 90.298004, y: 0, z: 0}
+--- !u!108 &219736869
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219736867}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 2
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.9789097, b: 0.9292453, a: 1}
+  m_Intensity: 0.91
+  m_Range: 7.21
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 2
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!54 &220309825
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3199,7 +3293,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.9811321, g: 0.9788101, b: 0.7080812, a: 1}
+  m_Color: {r: 0.9811321, g: 0.9811321, b: 0.85617656, a: 1}
   m_Intensity: 2.12
   m_Range: 15.5
   m_SpotAngle: 44.16
@@ -7211,8 +7305,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.9458198, b: 0.638, a: 1}
-  m_Intensity: 3.2
+  m_Color: {r: 0.9811321, g: 0.95366603, b: 0.8006408, a: 1}
+  m_Intensity: 2.39
   m_Range: 18.455729
   m_SpotAngle: 69.4305
   m_InnerSpotAngle: 1
@@ -20677,28 +20771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8019434654372368776, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
       propertyPath: m_text
-      value: "Isaac and his mother lived alone in a small house on a hill. Isaac
-        kept to himself - drawing pictures and playing with his toys as his mom watched
-        Christian broadcasts on the television. Life was simple and they were both
-        happy. That was, until the day Isaac's mom heard a voice from above. \"Your
-        son has become corrupted by sin. He needs to be saved.\" \"I will do my best
-        to save him, my Lord,\" Isaac's mother replied, rushing into Isaac's room,
-        removing all that was evil from his life. Again, the voice called to her.
-        \"Isaac's soul is still corrupt. He needs to be cut off from all that is
-        evil in this world and confess his sins.\" \"I will follow your instructions,
-        Lord. I have faith in Thee,\" Isaac's mother replied, as she locked Isaac
-        in his room away from the evils of the world. One last time, Isaac's mom
-        heard the voice of God calling to her. \"You've done as I've asked, but I
-        still question your devotion to Me. To prove your faith, I will ask one more
-        thing of you.\" \"Yes, Lord. Anything,\" Isaac's mother begged. \"To prove
-        your love and devotion, I require a sacrifice. Your son, Isaac, will be this
-        sacrifice. Go into his room and end his life, as an offering to Me to prove
-        you love Me above all else.\" \"Yes, Lord,\" she replied, grabbing a butcher's
-        knife from the kitchen. Isaac, watching through a crack in his door, trembled
-        in fear. Scrambling around his room to find a hiding place, he noticed a
-        trapdoor to the basement, hidden under his rug. Without hesitation, he flung
-        open the hatch, just as his mother burst through his door, and threw himself
-        down into the unknown depths below.\u200B"
+      value: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\u200B"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ebcad0f9f64da744889215e5e94ee94, type: 3}
@@ -21665,6 +21738,8 @@ Transform:
   m_Children:
   - {fileID: 229172841}
   - {fileID: 610931139}
+  - {fileID: 1843462231}
+  - {fileID: 219736868}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23111,6 +23186,100 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.008002186, y: 0.0077451547, z: 0.012727369}
   m_Center: {x: 0.0002863456, y: -0.0010119041, z: 0.0009347997}
+--- !u!1 &1843462230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1843462231}
+  - component: {fileID: 1843462232}
+  m_Layer: 0
+  m_Name: Area Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1843462231
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843462230}
+  m_LocalRotation: {x: 0.05189963, y: -0, z: -0, w: 0.99865234}
+  m_LocalPosition: {x: -0.45, y: 27.1, z: 6.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1691579704}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 5.95, y: 0, z: 0}
+--- !u!108 &1843462232
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843462230}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.5
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 2
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 7.1262374, y: 3.647988}
+  m_BounceIntensity: 0.41
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &1848276601
 GameObject:
   m_ObjectHideFlags: 0
