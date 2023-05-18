@@ -2,7 +2,7 @@ using Photon.Pun;
 using System;
 using TMPro;
 
-public class WhiteBoard : MonoBehaviourPunCallbacks
+public class WhiteBoard : MonoBehaviourPunCallbacks, IPunObservable
 {
     public TMP_InputField boardText;
     public bool isBeingEdited = false;

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.IO;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEditor;
 using UnityEngine;
 
 public class BoardController : MonoBehaviourPunCallbacks, IPunObservable
@@ -72,8 +70,7 @@ public class BoardController : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        /*photonView.RPC("ChangeSlideRpc", RpcTarget.All, +1);
-        photonView.RPC("ChangeSlideRpc", RpcTarget.All, -1);*/
+        photonView.RPC("ChangeSlideRpc", RpcTarget.All, 0);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -82,11 +79,13 @@ public class BoardController : MonoBehaviourPunCallbacks, IPunObservable
         {
             // This is the owner of the object; send the variable value to other clients
             stream.SendNext(current);
+            photonView.RPC("ChangeSlideRpc", RpcTarget.All, 0);
         }
         else
         {
             // This is a non-owner client; receive the variable value from the owner
             current = (int)stream.ReceiveNext();
+            photonView.RPC("ChangeSlideRpc", RpcTarget.All, 0);
         }
     }
 
