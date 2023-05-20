@@ -75,18 +75,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        playerCam = GameObject.FindWithTag("MainCamera").transform;
+
         playerName.text = GetComponent<PhotonView>().Controller.NickName;
         volumeIcon.text = ""; 
         boardText = $"{DateTime.UtcNow.Date.ToString("MM/dd/yyyy")}";
         whiteBoard = null;
         commandInfo = GameObject.Find("CommandInfo").GetComponent<ControlInfoHanlder>();
 
-        // Make the local player camera the only active one for each plater
-        if (!photonView.IsMine) {
-
-            playerCam.gameObject.SetActive(false);
-            return;
-        }
 
         photonView.RPC("NotifySpawnRPC", RpcTarget.All);
         GameObject.Find("WelcomeAudioSource").GetComponent<AudioSource>().Play();
@@ -141,7 +137,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         playerRoot.rotation = Quaternion.Euler(0f, rotY, 0f);
-        playerCam.localRotation = Quaternion.Euler(rotX, 0f, 0f);
+        //playerCam.localRotation = Quaternion.Euler(rotX, 0f, 0f);
+        playerCam.rotation = Quaternion.Euler(rotX, 0f, 0f);
+
 
         // Player Movement
         Vector2 moveInput = move.ReadValue<Vector2>();
@@ -480,6 +478,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             whiteBoard.boardText.text = text;
             LogManager.Instance.LogWhiteboard(text);
+        }
+    }
+
+    [PunRPC]
+    private void DisableCameraRPC()
+    {
+        if(!photonView.IsMine)
+        {
+            playerCam.gameObject.SetActive(false);
         }
     }
 

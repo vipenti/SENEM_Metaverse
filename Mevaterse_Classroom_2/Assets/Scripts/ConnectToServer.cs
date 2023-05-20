@@ -128,8 +128,17 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
         initialGUI.SetActive(false);
         loggedGUI.SetActive(true);
-        PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
+        GameObject myPlayer = PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
 
+        Transform playerCam = GameObject.FindWithTag("MainCamera").transform;
+        if (playerCam != null)
+        {
+            CameraController followScript = playerCam.GetComponent<CameraController>();
+            if (followScript != null)
+            {
+                followScript.target = myPlayer;
+            }
+        }
     }
 
     private void CreateRoom(string name)
