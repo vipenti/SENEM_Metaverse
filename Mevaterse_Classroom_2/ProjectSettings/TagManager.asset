@@ -13,11 +13,12 @@ TagManager:
   - Glasses
   - AudioBoost
   - Whiteboard
+  - PlayerName
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PlayerName
   - Water
   - UI
   - 

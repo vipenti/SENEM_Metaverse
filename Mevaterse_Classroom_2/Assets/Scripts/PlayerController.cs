@@ -36,12 +36,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     // Variables for animation control
     private bool isMoving;
     private bool isBackwardMoving;
+    private bool isClapping;
     private bool handRaised;
     private bool isWaving;
     public bool isTyping;
     private TextChat textChat;
     public TMP_Text volumeIcon;
     public TMP_Text playerName;
+    public Transform overhead;
     private string boardText;
     private float idleTime;
     private float handRaiseCooldown;
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private TMP_Text interactionInfo;
     private ControlInfoHanlder commandInfo;
     private Vector3 spawnPosition;
+    public AudioSource clapSound;
 
     public override void OnEnable()
     {
@@ -100,6 +103,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         backwardSpeed = originalSpeed - 1.3f;
         handRaised = false;
         isSitting = false;
+        isClapping = false;
 
         interactionInfo = GameObject.Find("InteractionInfo").GetComponent<TMP_Text>();
         interactionInfo.text = "";
@@ -192,7 +196,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             handRaiseCooldown = 10;
         }
 
-        if(textChat.isSelected || isTyping)
+        if (textChat.isSelected || isTyping)
         {
             controller.enabled = false;
         }
@@ -233,6 +237,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         isBackwardMoving = false;
         handRaised = false;
         isWaving = false;
+        isClapping = false;
         isTyping = /*(GetComponent<TabletSpawner>().tablet.GetComponent<TabletManager>().isBeingEdited) || */(PhotonNetwork.LocalPlayer.UserId == Presenter.Instance.writerID);
 
         // If the player is walking backward, this changes the animation and slows down the speed
@@ -263,7 +268,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             isWaving = true;
         }
 
-        if(isTyping)
+        if (Input.GetKey(KeyCode.V) && !textChat.isSelected && !isTyping)
+        {
+            isClapping = true;
+        }
+
+        if (isTyping)
         {
             textChat.inputField.enabled = false;
         }
@@ -291,12 +301,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
         animatorController.SetBool("IsMoving", isMoving);        
         animatorController.SetBool("HandRaised", handRaised);
         animatorController.SetBool("IsWaving", isWaving);
+        animatorController.SetBool("IsClapping", isClapping);
         animatorController.SetBool("IsTalking", GetComponent<PlayerVoiceController>().isTalking);
         //animatorController.SetBool("IsWriting", isTyping);
 
         if (photonView.GetComponent<PlayerVoiceController>().isTalking)
             photonView.RPC("NotifyTalkRPC", RpcTarget.All, "<sprite index=0>");
         else photonView.RPC("NotifyTalkRPC", RpcTarget.All, "");
+
+        photonView.RPC("ClapRPC", RpcTarget.All, isClapping);
     }
 
     private void Seat()
@@ -314,6 +327,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         transform.position = chair.transform.position + new Vector3(0, +0.65f, +0.1f);
         playerCam.GetComponent<Camera>().fieldOfView -= 10f;
         GetComponent<CharacterController>().enabled = false;
+        overhead.position += new Vector3(0, -0.5f, 0);
         gameObject.SetActive(true);
 
         // Starts the sitting animation for the player
@@ -336,6 +350,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         transform.position = originalPosition;
         playerCam.GetComponent<Camera>().fieldOfView = originalFov;
         GetComponent<CharacterController>().enabled = true;
+        overhead.position += new Vector3(0, 0.5f, 0);
         gameObject.SetActive(true);
 
         // Stops the sitting animation for the player
@@ -449,7 +464,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         string msg = GetComponent<PhotonView>().Controller.NickName + " raised a hand!";
         Logger.Instance.LogInfo(msg);
         LogManager.Instance.LogInfo(msg);
-
     }
 
     [PunRPC]
@@ -466,6 +480,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         volumeIcon.text = msg;
     }
 
+    [PunRPC]
+    public void ClapRPC(bool value)
+    {
+        clapSound.enabled = value;
+    }
 
     [PunRPC]
     public void LockBoard(bool value, string id, string text)
@@ -478,15 +497,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             whiteBoard.boardText.text = text;
             LogManager.Instance.LogWhiteboard(text);
-        }
-    }
-
-    [PunRPC]
-    private void DisableCameraRPC()
-    {
-        if(!photonView.IsMine)
-        {
-            playerCam.gameObject.SetActive(false);
         }
     }
 
