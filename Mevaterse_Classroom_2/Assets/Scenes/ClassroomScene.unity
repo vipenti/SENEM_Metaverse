@@ -6487,25 +6487,28 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<b>Welcome to the Metaverse Classroom!</b>\n\nMove your avatar with <color=yellow>WASD</color>
-    keys and use your mouse to rotate the camera. \nYou can get your cursor unlocked
-    by pressing <color=yellow>ESC</color>. Click with your right mouse button to
-    lock it again.\n\nPress <color=yellow>Enter</color> to write a message in the
-    classroom text chat.\nPress <color=yellow>TAB</color> to mute and unmute your
-    microphone to use the voice chat. In the right corner of the screen, you can
-    see the state of your microphone and if it's transmitting audio.\n\nGet close
+    keys and use your mouse to rotate the camera.\nScroll your <color=yellow>mouse
+    wheel</color> to zoom in and out. \nYou can get your cursor unlocked by pressing
+    <color=yellow>ESC</color>. Click with your right mouse button to lock it again.
+    \nPress <color=yellow>SHIFT </color>to hide other avatars' names. Press it again
+    to make them visibile. \n\nPress <color=yellow>Enter</color> to write a message
+    in the classroom text chat.\nPress <color=yellow>TAB</color> to mute and unmute
+    your microphone to use the voice chat. In the right corner of the screen, you
+    can see the state of your microphone and if it's transmitting audio.\n\nGet close
     to a chair and press <color=yellow>C</color> to take your seat. \nOnce seated,
     you can press <color=yellow>C</color> again to stand up.\n\nYou can raise your
     hand by pressing <color=yellow>M</color>. The whole class will be notified of
-    this action and it has a 10 seconds cooldown.\n\nYou can wave to other students
-    by pressing <color=yellow>N</color>.\n\nWalk near the whiteboeard and, if it's
-    not occupied, start writing on it by pressing <color=yellow>SPACE</color>. Press
-    <color=yellow>ESC</color> to stop writing and make your text visible to the whole
-    class.\n\nWalk near the monitor stand and press <color=yellow>P</color> to become
-    the presenter.  Once you're the presenter, you can control your slideshow by
-    pressing key arrows. You'll be the presenter until someone else takes the place.\nPress
-    <color=yellow>\u2192</color> to go to the next slide.\nPress <color=yellow>\u2190</color>
-    to go to the previous slide.\nEveryone's voice will be amplified while they're
-    on the white stage.\n\nEnjoy your lesson!                                                                       
+    this action and it has a 10 seconds cooldown.\nYou can wave to other students
+    by pressing <color=yellow>N</color>. You can clap your hands by holding <color=yellow>V</color>.\n\nWalk
+    near the whiteboeard and, if it's not occupied, start writing on it by pressing
+    <color=yellow>SPACE</color>. Press <color=yellow>ESC</color> to stop writing
+    and make your text visible to the whole class.\n\nWalk near the monitor stand
+    and press <color=yellow>P</color> to become the presenter.  Once you're the presenter,
+    you can control your slideshow by pressing key arrows. You'll be the presenter
+    until someone else takes the place.\nPress <color=yellow>\u2192</color> to go
+    to the next slide.\nPress <color=yellow>\u2190</color> to go to the previous
+    slide.\nEveryone's voice will be amplified while they're on the white stage.\n\nEnjoy
+    your time here!                                                                       
     <i>Press <color=yellow>Z</color> to close</i>\n\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6569,7 +6572,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 71.692566, y: -1.1413822, z: 60.872925, w: -9.625439}
+  m_margin: {x: 68.58411, y: -1.1413822, z: 57.452366, w: -9.625439}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6712,8 +6715,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 272.52097, y: -58.667}
-  m_SizeDelta: {x: 94.5596, y: 61.741}
+  m_AnchoredPosition: {x: 279.63702, y: -64.66907}
+  m_SizeDelta: {x: 86.0522, y: 72.3001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &577111723
 MonoBehaviour:
@@ -8913,7 +8916,7 @@ RectTransform:
   m_GameObject: {fileID: 767560813}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.8942432, y: 3.58213, z: 3.0062456}
+  m_LocalScale: {x: 2.523593, y: 3.1233857, z: 2.6212518}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 552974948}
@@ -8922,8 +8925,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.1, y: -12.8}
-  m_SizeDelta: {x: 118.1568, y: 102.9326}
+  m_AnchoredPosition: {x: 6.4119, y: -10}
+  m_SizeDelta: {x: 129.9236, y: 102.9326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &767560815
 MonoBehaviour:
@@ -11367,7 +11370,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5abcd4d792a82ff4c86a981082d5a010, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.496
+  m_Volume: 0.26
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -13616,7 +13619,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9177c2cf192dc5149aff88f7874e748a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.019
+  m_Volume: 0.02
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -20288,7 +20291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -47.3, y: 30.9}
+  m_AnchoredPosition: {x: -37.6, y: 41.5}
   m_SizeDelta: {x: 150.3471, y: 63.198}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1610898814
@@ -20313,7 +20316,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Press <color=yellow>TAB</color> to toggle the mic
 
-    Scrool <color=yellow>
+    Scroll <color=yellow>
     mouse wheel</color> to zoom
 
     Press <color=yellow>M</color> to raise your
@@ -20321,8 +20324,10 @@ MonoBehaviour:
 
     Press <color=yellow>N</color> to wave to a friend
 
-    Press <color=yellow>Z</color>
-    to read controls'
+    Press <color=yellow>V</color>
+    to clap your hands
+
+    Press <color=yellow>Z</color> to read controls'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

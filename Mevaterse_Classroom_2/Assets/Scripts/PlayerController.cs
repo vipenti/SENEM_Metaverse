@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         // Camera Movement
         Vector2 mouseInput = new Vector2(mouseX.ReadValue<float>() * cameraSensitivity, mouseY.ReadValue<float>() * cameraSensitivity);
         rotX -= mouseInput.y;
-        rotX = Mathf.Clamp(rotX, -60, +50);
+        rotX = Mathf.Clamp(rotX, -40, +50);
 
         if(!isSitting)
             rotY += mouseInput.x;
