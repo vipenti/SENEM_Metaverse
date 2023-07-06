@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         // Camera Movement
         Vector2 mouseInput = new Vector2(mouseX.ReadValue<float>() * cameraSensitivity, mouseY.ReadValue<float>() * cameraSensitivity);
         rotX -= mouseInput.y;
-        rotX = Mathf.Clamp(rotX, -40, +50);
+        rotX = Mathf.Clamp(rotX, -30, +50);
 
         if(!isSitting)
             rotY += mouseInput.x;
@@ -327,7 +327,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         transform.position = chair.transform.position + new Vector3(0, +0.65f, +0.1f);
         playerCam.GetComponent<Camera>().fieldOfView -= 10f;
         GetComponent<CharacterController>().enabled = false;
-        overhead.position += new Vector3(0, -0.5f, 0);
+        //overhead.position += new Vector3(0, -0.5f, 0);
         gameObject.SetActive(true);
 
         // Starts the sitting animation for the player
@@ -350,7 +350,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         transform.position = originalPosition;
         playerCam.GetComponent<Camera>().fieldOfView = originalFov;
         GetComponent<CharacterController>().enabled = true;
-        overhead.position += new Vector3(0, 0.5f, 0);
+        //overhead.position += new Vector3(0, 0.5f, 0);
         gameObject.SetActive(true);
 
         // Stops the sitting animation for the player
