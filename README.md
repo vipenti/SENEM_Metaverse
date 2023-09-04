@@ -2,7 +2,7 @@
 [![Visits Badge](https://badges.pufler.dev/visits/vipenti/Metaverse_Classroom)](https://badges.pufler.dev)
 
 <p align = "center">
-  <img src = "https://github.com/vipenti/Metaverse_Classroom/blobs/presentation_pic.jpg?raw=true" width = "800" heigth = "600">
+  <img src = "https://github.com/vipenti/Metaverse_Classroom/blob/main/blobs/presentation_pic.jpg?raw=true" width = "800" heigth = "600">
 </p>
 
 # Metaverse Virtual Classroom for the Academic & Educational Context
