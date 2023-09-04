@@ -20,9 +20,8 @@ Concretely, the platform is a large room that implements general tools—inspire
 - **Interaction with the whiteboard**. The classroom also has a whiteboard where users can type and write using a keyboard. One user at a time can approach the whiteboard and start writing, and what they write will be visible to everyone, supporting interaction and communication.
 
 <div align="center">
-  <img src="blobs/stripe1.jpg?raw=true" width="200" />
-  <img src="blobs/stripe2.jpg?raw=true" width="200" />
-  <img src="blobs/stripe3.png?raw=true" width="200" />
+  <img src="blobs/stripe2.JPG?raw=true" width="300" />
+  <img src="blobs/stripe3.png?raw=true" width="195" />
   <img src="blobs/stripe4.png?raw=true" width="200" />
   <img src="blobs/stripe5.png?raw=true" width="200" />
 </div>
