@@ -1,4 +1,3 @@
-
 # Metaverse Virtual Classroom for the Academic & Educational Context
 <h3 align = "center"> Welcome to the Metaverse Classroom! </h3>
 <p align = "center"> An open-source project developed with Unity3D and Photon to create a collaborative 3D virtual environment for academic and educational purposes. </p>
@@ -62,5 +61,3 @@ This repository contains:
 
 ## Author
 * **Viviana Pentangelo** - [vipenti](https://github.com/vipenti)
-
-
