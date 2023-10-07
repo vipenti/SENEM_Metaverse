@@ -44,7 +44,7 @@ This repository contains:
 2. Follow these steps to allow your device to run the application:
     - Open the terminal and navigate to the folder that contains the extracted files.
     - Type the following command <code>chmod -R +x MacOS Build.app/Contents/MacOS</code> into the terminal.
-    - Type the following command <code>xattr -cr builds.app</code> into the terminal.
+    - Type the following command <code>xattr -cr MacOS Build.app</code> into the terminal.
     - Double-click on _MacOS Build.app_.
 
 ### Unity Project
