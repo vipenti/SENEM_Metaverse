@@ -2424,6 +2424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speaker: {fileID: 8209585499014846409}
   audioSource: {fileID: 579588550582043748}
+  outputSource: {fileID: 0}
   isTalking: 0
 --- !u!114 &7866914327500232411
 MonoBehaviour:

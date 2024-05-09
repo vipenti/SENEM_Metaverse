@@ -1,3 +1,4 @@
+using System;
 using Photon.Voice.Unity;
 using UnityEngine;
 using TMPro;
@@ -17,9 +18,11 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
     private TextChat textChat;
 
     public Speaker speaker;
-    public AudioSource audioSource;
+    public AudioSource audioSource,
+        outputSource;
     public bool isTalking;
     private bool isTyping;
+    private AudioClip outputClip;
 
     private void Start()
     {
@@ -67,11 +70,20 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
         {
             isTalking = true;
             info.text = "<color=\"green\">Transmitting audio</color>";
+
+            if(!Microphone.IsRecording(null)){
+                outputSource.clip = Microphone.Start(null, false, 40, 44100);
+            }            
         }
         else
         {
             isTalking = false;
             info.text = "";
+
+            if(Microphone.IsRecording(null)){
+                Microphone.End(null);
+                outputSource.Play();
+            }
         }
     }
 
