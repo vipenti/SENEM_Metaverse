@@ -1,4 +1,4 @@
-#SENEM: A Metaverse Virtual Classroom for the Academic & Educational Context
+# SENEM: A Metaverse Virtual Classroom for the Academic & Educational Context
 <h3 align = "center"> Welcome to the Metaverse Classroom! </h3>
 <p align = "center"> An open-source project developed with Unity3D and Photon to create a collaborative 3D virtual environment for academic and educational purposes. </p>
 <p align = "center">

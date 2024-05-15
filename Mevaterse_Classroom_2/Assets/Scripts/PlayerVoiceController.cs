@@ -1,3 +1,4 @@
+using System;
 using Photon.Voice.Unity;
 using UnityEngine;
 using TMPro;
@@ -17,18 +18,23 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
     private TextChat textChat;
 
     public Speaker speaker;
-    public AudioSource audioSource;
+    public AudioSource audioSource,
+        outputSource;
     public bool isTalking;
     private bool isTyping;
+    private AudioClip outputClip;
+    private QuestionDispatcher questionDispatcher;
 
     private void Start()
     {
+        questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
+
         recorder = GameObject.Find("VoiceManager").GetComponent<Recorder>();
         info = GameObject.Find("SoundState").GetComponent<TMP_Text>();
         microphoneIndicator = GameObject.Find("MicState").GetComponent<TMP_Text>();
         microphoneInfo = GameObject.Find("MicInfo").GetComponent<TMP_Text>();
 
-        view = this.GetComponent<PhotonView>();
+        view = GetComponent<PhotonView>();
         textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
 
         info.text = "";
@@ -47,7 +53,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
     public void Update()
     {
-        if (!view.IsMine) return;
+        // if (!view.IsMine) return;
 
         isTyping = gameObject.GetComponent<PlayerController>().isTyping;
 
@@ -67,11 +73,22 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
         {
             isTalking = true;
             info.text = "<color=\"green\">Transmitting audio</color>";
+
+            // if(!Microphone.IsRecording(null)){
+            //     outputSource.clip = Microphone.Start(null, false, 40, 44100);
+
+            //     questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
+            // }            
         }
         else
         {
             isTalking = false;
             info.text = "";
+
+            // if(Microphone.IsRecording(null)){
+            //     Microphone.End(null);
+            //     outputSource.Play();
+            // }
         }
     }
 
@@ -89,4 +106,5 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
     }
 
 }
+
 
