@@ -23,7 +23,10 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
     public bool isTalking;
     private bool isTyping;
     private AudioClip outputClip;
+<<<<<<< HEAD
     private QuestionDispatcher questionDispatcher;
+=======
+>>>>>>> 2023b2a5c96860ae36dcb506909efeeaf17bba73
 
     private void Start()
     {
@@ -74,21 +77,34 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             isTalking = true;
             info.text = "<color=\"green\">Transmitting audio</color>";
 
+<<<<<<< HEAD
             // if(!Microphone.IsRecording(null)){
             //     outputSource.clip = Microphone.Start(null, false, 40, 44100);
 
             //     questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
             // }            
+=======
+            if(!Microphone.IsRecording(null)){
+                outputSource.clip = Microphone.Start(null, false, 40, 44100);
+            }            
+>>>>>>> 2023b2a5c96860ae36dcb506909efeeaf17bba73
         }
         else
         {
             isTalking = false;
             info.text = "";
 
+<<<<<<< HEAD
             // if(Microphone.IsRecording(null)){
             //     Microphone.End(null);
             //     outputSource.Play();
             // }
+=======
+            if(Microphone.IsRecording(null)){
+                Microphone.End(null);
+                outputSource.Play();
+            }
+>>>>>>> 2023b2a5c96860ae36dcb506909efeeaf17bba73
         }
     }
 
