@@ -22,14 +22,11 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
         outputSource;
     public bool isTalking;
     private bool isTyping;
-    private AudioClip outputClip;
-<<<<<<< HEAD
     private QuestionDispatcher questionDispatcher;
-=======
->>>>>>> 2023b2a5c96860ae36dcb506909efeeaf17bba73
 
     private void Start()
     {
+        outputSource = gameObject.AddComponent<AudioSource>();
         questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
 
         recorder = GameObject.Find("VoiceManager").GetComponent<Recorder>();
@@ -56,7 +53,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
     public void Update()
     {
-        // if (!view.IsMine) return;
+        if (!view.IsMine) return;
 
         isTyping = gameObject.GetComponent<PlayerController>().isTyping;
 
@@ -77,34 +74,26 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             isTalking = true;
             info.text = "<color=\"green\">Transmitting audio</color>";
 
-<<<<<<< HEAD
-            // if(!Microphone.IsRecording(null)){
-            //     outputSource.clip = Microphone.Start(null, false, 40, 44100);
-
-            //     questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
-            // }            
-=======
             if(!Microphone.IsRecording(null)){
                 outputSource.clip = Microphone.Start(null, false, 40, 44100);
+
+                if (outputSource.clip == null || outputSource.clip.length < 120)
+                {
+                    Microphone.End(null);
+                    return;
+                }
+                questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
             }            
->>>>>>> 2023b2a5c96860ae36dcb506909efeeaf17bba73
         }
         else
         {
             isTalking = false;
             info.text = "";
 
-<<<<<<< HEAD
-            // if(Microphone.IsRecording(null)){
-            //     Microphone.End(null);
-            //     outputSource.Play();
-            // }
-=======
             if(Microphone.IsRecording(null)){
                 Microphone.End(null);
                 outputSource.Play();
             }
->>>>>>> 2023b2a5c96860ae36dcb506909efeeaf17bba73
         }
     }
 
