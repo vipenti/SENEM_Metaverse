@@ -77,12 +77,6 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             if(!Microphone.IsRecording(null)){
                 outputSource.clip = Microphone.Start(null, false, 40, 44100);
 
-                if (outputSource.clip == null || outputSource.clip.length < 120)
-                {
-                    Microphone.End(null);
-                    return;
-                }
-                questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
             }            
         }
         else
@@ -92,7 +86,13 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
             if(Microphone.IsRecording(null)){
                 Microphone.End(null);
-                outputSource.Play();
+
+                if (outputSource.clip != null && outputSource.clip.length > 5)
+                {
+                   questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
+
+                   outputSource.clip = null;
+                }
             }
         }
     }

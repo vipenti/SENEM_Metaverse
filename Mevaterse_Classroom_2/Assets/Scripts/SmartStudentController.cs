@@ -6,6 +6,8 @@ public class SmartStudentController : MonoBehaviour
     private AudioSource question;
     private QuestionDispatcher questionDispatcher;
     public event EventHandler addedQuestion;
+    private Renderer rend;
+
     void Start()
     {   
         question = GetComponent<AudioSource>();
@@ -20,6 +22,12 @@ public class SmartStudentController : MonoBehaviour
         {
             RetrieveQuestion();
         }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            question.Play();
+            rend.material.color = Color.red;
+        }
     }
 
     void RetrieveQuestion()
@@ -28,6 +36,7 @@ public class SmartStudentController : MonoBehaviour
 
         if (clip == null) return;
 
+        Debug.Log("--Retrieved question--");
         question.clip = clip;
         addedQuestion?.Invoke(this, EventArgs.Empty);
     }
@@ -35,5 +44,7 @@ public class SmartStudentController : MonoBehaviour
     void RaiseHand(object sender, EventArgs e){
         // Update the model
         Debug.Log("Updating model...");
+
+        rend.material.color = Color.green;
     }
 }

@@ -9,8 +9,7 @@ using System.Collections.Generic;
 
 public class QuestionDispatcher : MonoBehaviour
 { 
-    private Queue<Tuple<DateTime, AudioClip>> questions,
-                                            teacherExplanations;
+    private Queue<Tuple<DateTime, AudioClip>> questions;
     public UnityWebRequest www;
 
     private GameObject student;
@@ -22,23 +21,28 @@ public class QuestionDispatcher : MonoBehaviour
 
     void Start()
     {
+        questions = new Queue<Tuple<DateTime, AudioClip>>();
 
         student = GameObject.Find("SmartStudent");
         StartCoroutine(SendTextToServer("Test"));
-
-        StartCoroutine(SendAudioToServer()); 
     }
 
     public void AddAudioClip(AudioClip clip, DateTime? date = null)
     {
         if (date == null) date = DateTime.Now;
 
-        teacherExplanations.Enqueue(new Tuple<DateTime, AudioClip>((DateTime) date, clip));
+        SendAudioToServer(Tuple<DateTime, AudioClip>((DateTime)date, clip));
     }
 
     public AudioClip GetQuestion()
     {
-        return GetNewerTuple(questions).Item2;
+        // return GetFreshTuple(questions)?.Item2;
+        if (questions.Count > 0) 
+        {
+            return questions.Dequeue().Item2;
+        }
+
+        return null;
     }
 
     private IEnumerator SendTextToServer(string text, string url = "http://127.0.0.1:5000/start")
@@ -78,13 +82,12 @@ public class QuestionDispatcher : MonoBehaviour
         }
     }
 
-    private IEnumerator SendAudioToServer(string url = "http://127.0.0.1:5000/generate_question")
+    private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, string url = "http://127.0.0.1:5000/generate_question")
     {
         while (true)
         {
-            Tuple<DateTime, AudioClip> clip = GetNewerTuple(teacherExplanations, 1);
 
-            if (clip != null)
+            if (clip != null && clip.Item2 != null)
             {
                 byte[] bytes = ConvertAudioClipToWav(clip.Item2);
 
@@ -125,11 +128,12 @@ public class QuestionDispatcher : MonoBehaviour
                     AudioClip audioClip = AudioClip.Create("ReceivedAudio", audioDataResponse.Length, 1, 24000, false);
                     audioClip.SetData(audioDataResponse, 0);
 
+                    www.Dispose();
+
                     // when setting audioclip, start event to send audio to student controller
                 }
             }
 
-            yield return new WaitForSeconds(5);
         }
     }
 
@@ -172,7 +176,7 @@ public class QuestionDispatcher : MonoBehaviour
         return bytes;
     }
 
-    private Tuple<DateTime, AudioClip> GetNewerTuple(Queue<Tuple<DateTime, AudioClip>> queue, double maxMinutes = 2)
+    private Tuple<DateTime, AudioClip> GetFreshTuple(Queue<Tuple<DateTime, AudioClip>> queue, double maxMinutes = 2)
     {
         if (queue.Count == 0) return null;
     
@@ -182,7 +186,7 @@ public class QuestionDispatcher : MonoBehaviour
         {
             try
             {
-                tuple = teacherExplanations.Dequeue();
+                tuple = queue.Dequeue();
             }
             catch (System.Exception)
             {
