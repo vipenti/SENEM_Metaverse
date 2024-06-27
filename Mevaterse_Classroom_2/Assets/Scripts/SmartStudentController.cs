@@ -12,15 +12,16 @@ public class SmartStudentController : MonoBehaviour
     {   
         question = GetComponent<AudioSource>();
         questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
+        rend = GetComponent<Renderer>();
 
         addedQuestion += RaiseHand; 
     }
 
     void Update()
     {
-        if(!question.isPlaying)
+        if(Input.GetKeyDown(KeyCode.Return))
         {
-            RetrieveQuestion();
+            
         }
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -28,17 +29,6 @@ public class SmartStudentController : MonoBehaviour
             question.Play();
             rend.material.color = Color.red;
         }
-    }
-
-    void RetrieveQuestion()
-    {
-        AudioClip clip = questionDispatcher.GetQuestion();
-
-        if (clip == null) return;
-
-        Debug.Log("--Retrieved question--");
-        question.clip = clip;
-        addedQuestion?.Invoke(this, EventArgs.Empty);
     }
 
     void RaiseHand(object sender, EventArgs e){

@@ -85,14 +85,57 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             info.text = "";
 
             if(Microphone.IsRecording(null)){
+                // Capture the current clip data
+                int position = Microphone.GetPosition(null);
+                Debug.Log("--POSITION: " + position);
+
                 Microphone.End(null);
 
-                if (outputSource.clip != null && outputSource.clip.length > 5)
+                if (outputSource.clip == null) return;
+
+                
+
+                float[] soundData = new float[outputSource.clip.samples * outputSource.clip.channels];
+                outputSource.clip.GetData (soundData, 0);
+
+                // Create shortened array for the data used for recording
+                float[] newData = new float[position * outputSource.clip.channels];
+
+                // Copy the used samples to a new array
+                for (int i = 0; i < newData.Length; i++) {
+                    newData[i] = soundData[i];
+                }
+
+                // Make new AudioClip with the correct length
+                AudioClip newClip = AudioClip.Create (outputSource.clip.name,
+                                position,
+                                outputSource.clip.channels,
+                                outputSource.clip.frequency,
+                                false);
+
+                newClip.SetData (newData, 0); // Give it the data from the old clip
+
+                // Replace the old clip
+                AudioClip.Destroy (outputSource.clip);
+                outputSource.clip = newClip;
+
+                Debug.Log("--LENGHT: " + outputSource.clip.length);
+
+                if(outputSource.clip == null){
+                    throw new Exception("!!Transformed audio clip is null");
+                }
+
+                else if (outputSource.clip.length > 5)
                 {
                    questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
-
-                   outputSource.clip = null;
                 }
+
+                else if (outputSource.clip.length <= 5)
+                {
+                    Debug.Log("Audio clip is too short");
+                }
+
+                outputSource.clip = null;
             }
         }
     }

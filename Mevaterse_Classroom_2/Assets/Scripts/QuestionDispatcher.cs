@@ -31,7 +31,7 @@ public class QuestionDispatcher : MonoBehaviour
     {
         if (date == null) date = DateTime.Now;
 
-        SendAudioToServer(Tuple<DateTime, AudioClip>((DateTime)date, clip));
+        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
     }
 
     public AudioClip GetQuestion()
@@ -80,12 +80,14 @@ public class QuestionDispatcher : MonoBehaviour
             Debug.Log("Text sent!");
             Debug.Log("Response: " + www.downloadHandler.text);
         }
+
+        www.Dispose();
     }
 
     private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, string url = "http://127.0.0.1:5000/generate_question")
     {
-        while (true)
-        {
+        // while (true)
+        // {
 
             if (clip != null && clip.Item2 != null)
             {
@@ -127,14 +129,12 @@ public class QuestionDispatcher : MonoBehaviour
                     // Create a new AudioClip and set the audio data
                     AudioClip audioClip = AudioClip.Create("ReceivedAudio", audioDataResponse.Length, 1, 24000, false);
                     audioClip.SetData(audioDataResponse, 0);
-
-                    www.Dispose();
-
-                    // when setting audioclip, start event to send audio to student controller
                 }
+
+                www.Dispose();
             }
 
-        }
+        // }
     }
 
     private byte[] ConvertAudioClipToWav(AudioClip clip)
