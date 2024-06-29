@@ -37,4 +37,18 @@ public class SmartStudentController : MonoBehaviour
 
         rend.material.color = Color.green;
     }
+
+    public void AddQuestion(AudioClip clip)
+    {
+        if (clip == null) return;
+
+        question.clip = clip;
+        OnAddedQuestion();
+    }
+
+    void OnAddedQuestion()
+    {
+        addedQuestion?.Invoke(this, EventArgs.Empty);
+    }
+
 }

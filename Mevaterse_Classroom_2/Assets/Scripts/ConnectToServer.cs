@@ -46,8 +46,11 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public AudioSource buttonClick;
 
     public PhotonView player;
+    private QuestionDispatcher questionDispatcher;
     void Start()
     {
+        questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
+
         PhotonNetwork.ConnectUsingSettings();
         loggedGUI.SetActive(false);
         //clientButton.enabled = false;
@@ -144,6 +147,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     private void CreateRoom(string name)
     {
         PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});
+
+        questionDispatcher.StartStudent(name);
 
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
         Presenter.Instance.presenterID = PhotonNetwork.LocalPlayer.UserId;

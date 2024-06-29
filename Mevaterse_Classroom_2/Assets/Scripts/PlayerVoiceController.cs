@@ -85,6 +85,8 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             info.text = "";
 
             if(Microphone.IsRecording(null)){
+                int maxRecordingTime = 3;
+
                 // Capture the current clip data
                 int position = Microphone.GetPosition(null);
                 Debug.Log("--POSITION: " + position);
@@ -125,12 +127,12 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
                     throw new Exception("!!Transformed audio clip is null");
                 }
 
-                else if (outputSource.clip.length > 5)
+                if (outputSource.clip.length > maxRecordingTime)
                 {
                    questionDispatcher.AddAudioClip(outputSource.clip, DateTime.Now);
                 }
 
-                else if (outputSource.clip.length <= 5)
+                else if (outputSource.clip.length <= maxRecordingTime)
                 {
                     Debug.Log("Audio clip is too short");
                 }
