@@ -35,7 +35,7 @@ public class SmartStudentController : MonoBehaviour
         // Update the model
         Debug.Log("Updating model...");
 
-        rend.material.color = Color.green;
+        rend.material.color = UnityEngine.Random.ColorHSV();
     }
 
     public void AddQuestion(AudioClip clip)

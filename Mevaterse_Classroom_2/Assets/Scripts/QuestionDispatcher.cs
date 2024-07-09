@@ -8,11 +8,14 @@ using System.Collections.Generic;
 
 public class QuestionDispatcher : MonoBehaviour
 { 
-    private Queue<Tuple<DateTime, AudioClip>> questions;
-    public UnityWebRequest www;
+    // private Queue<Tuple<DateTime, AudioClip>> questions;
+    // public UnityWebRequest www;
 
     private GameObject student;
+    private int startingWaitingTime = 30, // Time to wait before starting to check for the result
+                waitingTime = 5; // Time to wait between each check
 
+    // Serialisable classes for JSON parsing
     [Serializable]
     private class TextData
     {
@@ -30,45 +33,49 @@ public class QuestionDispatcher : MonoBehaviour
     {
         public bool ready;
         public bool successful;
-        //public byte[] value;
         public string value;
     }
 
     void Start()
     {
-        questions = new Queue<Tuple<DateTime, AudioClip>>();
+        // questions = new Queue<Tuple<DateTime, AudioClip>>();
 
         student = GameObject.Find("SmartStudent");
         // StartCoroutine(SendTextToServer("Test"));
     }
 
+    // Initialize the student model
     public void StartStudent(string text)
     {
         StartCoroutine(SendTextToServer(text));
     }
 
+    // Send an audio clip to the server
     public void AddAudioClip(AudioClip clip, DateTime? date = null)
     {
+        // if no date is provided, use the current date
         if (date == null) date = DateTime.Now;
 
         StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
     }
 
-    public AudioClip GetQuestion()
-    {
-        // return GetFreshTuple(questions)?.Item2;
-        if (questions.Count > 0) 
-        {
-            return questions.Dequeue().Item2;
-        }
+    // public AudioClip GetQuestion()
+    // {
+    //     // return GetFreshTuple(questions)?.Item2;
+    //     if (questions.Count > 0) 
+    //     {
+    //         return questions.Dequeue().Item2;
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     private IEnumerator SendTextToServer(string text, string url = "http://127.0.0.1:5000/start")
     {  
+        UnityWebRequest www;
         Debug.Log("Sending text...");
 
+        // Create a new TextData object and convert it to a JSON string
         var data = new TextData {
             subject = text
         };
@@ -104,13 +111,16 @@ public class QuestionDispatcher : MonoBehaviour
         www.Dispose();
     }
 
+    // Send an audio clip to the server and get task id to check for the result
     private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, string url = "http://127.0.0.1:5000/generate_question")
     {
+        UnityWebRequest www;
         var data = new TaskID();
 
         // while (true)
         // {
 
+            // if tuple and its audio clip are not null
             if (clip != null && clip.Item2 != null)
             {
                 byte[] bytes = ConvertAudioClipToWav(clip.Item2);
@@ -141,7 +151,7 @@ public class QuestionDispatcher : MonoBehaviour
 
                     Debug.Log("ID: " + id);
 
-                    yield return new WaitForSeconds(30);
+                    yield return new WaitForSeconds(startingWaitingTime);
                     StartCoroutine(GetAudioFromServer("http://localhost:5000/result/" + id));    
                 }
 
@@ -152,8 +162,10 @@ public class QuestionDispatcher : MonoBehaviour
         www.Dispose();
     }
 
+    // Get the audio from the server using the task id
     private IEnumerator GetAudioFromServer(string url = "http://localhost:5000/result/0"){
 
+        // number of request retries
         int retries = 0;
 
         while(true){
@@ -181,32 +193,37 @@ public class QuestionDispatcher : MonoBehaviour
             else
             {
 
-                Debug.Log("Audio recording arrived!");
+                Debug.Log("Response arrived!");
                 Debug.Log("Response: " + www2.downloadHandler);
 
                 TaskResult taskResult = JsonUtility.FromJson<TaskResult>(www2.downloadHandler.text);
 
+                // if the task is not ready yet, wait for a few seconds and try again
                 if (!taskResult.ready && retries < 6)
                 {
-                    Debug.Log("Task not ready yet, trying again in 10 seconds...");
+                    Debug.Log("Task not ready yet, trying again in " + waitingTime + " seconds...");
                     retries++;
 
-                    yield return new WaitForSeconds(10);
+                    yield return new WaitForSeconds(waitingTime);
                     continue;
                 }
 
+                //if the task failed, stop the coroutine
                 if (!taskResult.successful)
                 {
                     Debug.Log("Task failed");
                     yield break;
                 }
 
+                Debug.Log("Audio recording arrived!");
+
                 // Get the audio data from the response
                 byte[] audioBytes = Convert.FromBase64String(taskResult.value);
 
                 // Convert the byte array to a float array
                 float[] audioDataResponse = new float[audioBytes.Length / 2];
-
+                
+                // Turn into correct format
                 for (int i = 0; i < audioBytes.Length; i += 2)
                 {
                     short sample = BitConverter.ToInt16(audioBytes, i);
@@ -217,10 +234,12 @@ public class QuestionDispatcher : MonoBehaviour
                 AudioClip audioClip = AudioClip.Create("ReceivedAudio", audioDataResponse.Length, 1, 24000, false);
                 audioClip.SetData(audioDataResponse, 0);
 
+                // Add the audio clip to the student model
                 student.GetComponent<SmartStudentController>().AddQuestion(audioClip);
+            }
 
-                yield break;
-            }   
+            www2.Dispose();
+            yield break;   
         }
     }
 
@@ -264,26 +283,26 @@ public class QuestionDispatcher : MonoBehaviour
     }
 
     //Remove this garbage if not used later
-    private Tuple<DateTime, AudioClip> GetFreshTuple(Queue<Tuple<DateTime, AudioClip>> queue, double maxMinutes = 2)
-    {
-        if (queue.Count == 0) return null;
+    // private Tuple<DateTime, AudioClip> GetFreshTuple(Queue<Tuple<DateTime, AudioClip>> queue, double maxMinutes = 2)
+    // {
+    //     if (queue.Count == 0) return null;
     
-        Tuple<DateTime, AudioClip> tuple = null;
+    //     Tuple<DateTime, AudioClip> tuple = null;
 
-        do
-        {
-            try
-            {
-                tuple = queue.Dequeue();
-            }
-            catch (System.Exception)
-            {
-                return null;
-            }
+    //     do
+    //     {
+    //         try
+    //         {
+    //             tuple = queue.Dequeue();
+    //         }
+    //         catch (System.Exception)
+    //         {
+    //             return null;
+    //         }
 
-        } while (DateTime.Now - tuple.Item1 > TimeSpan.FromMinutes(maxMinutes));    
+    //     } while (DateTime.Now - tuple.Item1 > TimeSpan.FromMinutes(maxMinutes));    
     
-        return tuple;
-    }
+    //     return tuple;
+    // }
 }
 
