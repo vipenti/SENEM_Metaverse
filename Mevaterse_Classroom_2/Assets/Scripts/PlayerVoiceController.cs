@@ -30,9 +30,9 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
     private Timer leniencyTimer, // Timer for alllowing brief pauses of "leniencyPeriod" in speech
         recordingTimer;         // Timer stopping recording after "maxRecordingTime" seconds
-    private const int leniencyPeriod = 1000; // 1 second
-    private const int maxRecordingTime = 40; // 40 seconds
-    private const int minRecordingTime = 3; // 3 seconds
+    private const int leniencyPeriod = 3; // time for leniency in seconds
+    private const int maxRecordingTime = 40; // time for max recording in seconds
+    private const int minRecordingTime = 3; // time for min recording in seconds
 
     private void Start()
     {
@@ -119,7 +119,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
                 isTimerActivable = false;
                 Debug.Log("Starting leniency timer");
 
-                StartOrResetTimer(leniencyTimer, leniencyPeriod, SetStopRecordingFlag); // after leniencyPeriod seconds of silence stop recording
+                StartOrResetTimer(leniencyTimer, (leniencyPeriod) * 1000, SetStopRecordingFlag); // after leniencyPeriod seconds of silence stop recording
             }
         }
 
@@ -133,7 +133,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
     // Correct the length of the audio clip to the actual length of the recording since Unity does not support dynamic length audio clips
     private void CorrectAudioClipLength(AudioSource audioClip, int position)
     {
-        Debug.Log(audioClip);
+        // Debug.Log(audioClip);
 
         float[] soundData = new float[audioClip.clip.samples * audioClip.clip.channels];
         audioClip.clip.GetData (soundData, 0);

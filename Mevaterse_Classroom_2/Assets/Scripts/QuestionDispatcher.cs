@@ -13,7 +13,7 @@ public class QuestionDispatcher : MonoBehaviour
 
     private GameObject student;
     private int startingWaitingTime = 30, // Time to wait before starting to check for the result
-                waitingTime = 5; // Time to wait between each check
+                waitingTime = 10; // Time to wait between each check
 
     // Serialisable classes for JSON parsing
     [Serializable]
@@ -114,7 +114,7 @@ public class QuestionDispatcher : MonoBehaviour
     // Send an audio clip to the server and get task id to check for the result
     private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, string url = "http://127.0.0.1:5000/generate_question")
     {
-        UnityWebRequest www;
+        UnityWebRequest www = null;
         var data = new TaskID();
 
         // while (true)

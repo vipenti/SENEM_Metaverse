@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
         scrollValue = Input.GetAxis("Mouse ScrollWheel") * movementSpeed;
         if (scrollValue != 0)
         {
-            Debug.Log("scrool value " + scrollValue);
+            // Debug.Log("scrool value " + scrollValue);
             Camera camera = GetComponent<Camera>();
 
             float currentFOV = camera.fieldOfView;
