@@ -7,12 +7,20 @@ public class SmartStudentController : MonoBehaviour
     private QuestionDispatcher questionDispatcher;
     public event EventHandler addedQuestion;
     private Renderer rend;
+    private Animator animatorController;
+    private bool isTalking;
+    private bool isHandRaised;
+
 
     void Start()
     {   
-        question = GetComponent<AudioSource>();
+        question = gameObject.AddComponent<AudioSource>();
         questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
         rend = GetComponent<Renderer>();
+        animatorController = GetComponent<Animator>();
+
+        isHandRaised = false;
+        isTalking = false;
 
         addedQuestion += RaiseHand; 
     }
@@ -28,6 +36,9 @@ public class SmartStudentController : MonoBehaviour
         {
             question.Play();
             rend.material.color = Color.red;
+            animatorController.SetBool("doesStudentRaiseHand", false);
+            isHandRaised = false;
+            isTalking = true;
         }
     }
 
@@ -35,7 +46,10 @@ public class SmartStudentController : MonoBehaviour
         // Update the model
         Debug.Log("Updating model...");
 
-        rend.material.color = Color.green;
+        animatorController.SetBool("doesStudentRaiseHand", true);
+        isHandRaised = true;
+
+        rend.material.color = UnityEngine.Random.ColorHSV();
     }
 
     public void AddQuestion(AudioClip clip)
