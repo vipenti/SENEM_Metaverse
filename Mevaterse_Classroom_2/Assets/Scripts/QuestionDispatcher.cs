@@ -56,19 +56,9 @@ public class QuestionDispatcher : MonoBehaviour
         // if no date is provided, use the current date
         if (date == null) date = DateTime.Now;
 
-        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
+        // StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
+        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), "http://127.0.0.1:5000/test_stub"));
     }
-
-    // public AudioClip GetQuestion()
-    // {
-    //     // return GetFreshTuple(questions)?.Item2;
-    //     if (questions.Count > 0) 
-    //     {
-    //         return questions.Dequeue().Item2;
-    //     }
-
-    //     return null;
-    // }
 
     private IEnumerator SendTextToServer(string text, string url = "http://127.0.0.1:5000/start")
     {  
@@ -282,27 +272,5 @@ public class QuestionDispatcher : MonoBehaviour
         return bytes;
     }
 
-    //Remove this garbage if not used later
-    // private Tuple<DateTime, AudioClip> GetFreshTuple(Queue<Tuple<DateTime, AudioClip>> queue, double maxMinutes = 2)
-    // {
-    //     if (queue.Count == 0) return null;
-    
-    //     Tuple<DateTime, AudioClip> tuple = null;
-
-    //     do
-    //     {
-    //         try
-    //         {
-    //             tuple = queue.Dequeue();
-    //         }
-    //         catch (System.Exception)
-    //         {
-    //             return null;
-    //         }
-
-    //     } while (DateTime.Now - tuple.Item1 > TimeSpan.FromMinutes(maxMinutes));    
-    
-    //     return tuple;
-    // }
 }
 

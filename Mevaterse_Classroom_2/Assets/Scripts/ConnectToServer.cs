@@ -161,7 +161,6 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        Debug.Log("Sono qui aoo");
         Logger.Instance.LogInfo($"<color=yellow>{otherPlayer.NickName}</color> left the room");
         LogManager.Instance.LogInfo($"{otherPlayer.NickName} left the room");
     }
