@@ -47,9 +47,11 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public PhotonView player;
     private QuestionDispatcher questionDispatcher;
+    private SpawnStudents studentSpawner;
     void Start()
     {
         questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
+        studentSpawner = GameObject.Find("StudentSpawner").GetComponent<SpawnStudents>();
 
         PhotonNetwork.ConnectUsingSettings();
         loggedGUI.SetActive(false);
@@ -152,6 +154,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
         Presenter.Instance.presenterID = PhotonNetwork.LocalPlayer.UserId;
+
+        //studentSpawner.InstantiateStudent();
     }
 
     private void JoinRoom(string roomName)
