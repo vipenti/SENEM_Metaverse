@@ -8,6 +8,7 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
     private GameObject chairs;
     private int chairNumber;
     private bool[] assignedSeats;
+    private int studentNumber;
 
     void Start()
     {
@@ -16,21 +17,15 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
         chairNumber = chairs.transform.childCount;
         assignedSeats = new bool[chairNumber];
 
-        Debug.Log("CHAIR OBJECT: " + chairs);
-        Debug.Log("NUMERO DI SEDIE: " + chairNumber);
-        
-    }
-
-    void Update()
-    {
+        // Debug.Log("CHAIR OBJECT: " + chairs);
+        // Debug.Log("NUMERO DI SEDIE: " + chairNumber);
         
     }
 
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-
-        InstantiateStudent(40);
+        InstantiateStudent(studentNumber);
     }
 
     public void InstantiateStudent(int studentNumber)
@@ -45,7 +40,12 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
             throw new System.Exception("Number of chairs is 0!");
         }
 
-        if(studentNumber > chairNumber)
+        if(studentNumber <= 0)
+        {
+            return;
+        } 
+        
+        else if(studentNumber > chairNumber)
         {
             Debug.LogError("Not enough chairs for all students! \nSetting maximum number of students to number of chairs.");
             studentNumber = chairNumber;
@@ -86,6 +86,11 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
 
             student.transform.parent = randomChair;
        }
+    }
+
+    public void SetStudentNumber(int number)
+    {
+        studentNumber = number;
     }
 
 }

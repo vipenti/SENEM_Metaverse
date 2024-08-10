@@ -3504,7 +3504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.19999585, y: 23.193865}
+  m_AnchoredPosition: {x: 0.19999585, y: 21.593866}
   m_SizeDelta: {x: 159.16003, y: 29.950592}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &244579785
@@ -7689,6 +7689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameInputField: {fileID: 244579785}
   passwordInputField: {fileID: 808852983}
+  studentNumberInputField: {fileID: 1088317520}
   initialGUI: {fileID: 688389552}
   loggedGUI: {fileID: 1938797177}
   hostButton: {fileID: 206580520}
@@ -9817,7 +9818,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.20004272, y: 8.5999975}
+  m_AnchoredPosition: {x: 0.20004272, y: 7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &808852983
@@ -13514,7 +13515,7 @@ GameObject:
   - component: {fileID: 1088317521}
   - component: {fileID: 1088317520}
   m_Layer: 5
-  m_Name: StudentInputField
+  m_Name: StudentNumberInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13538,7 +13539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.20004272, y: -6.4}
+  m_AnchoredPosition: {x: 0.20004272, y: -7.199998}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1088317520

@@ -34,6 +34,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     public TMP_InputField nameInputField;
     public TMP_InputField passwordInputField;
+    public TMP_InputField studentNumberInputField;
     public GameObject initialGUI;
     public GameObject loggedGUI;
 
@@ -60,6 +61,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
         hostButton.onClick.AddListener(() => {
             buttonClick.Play();
+
             if (nameInputField.text == "")
             {
                 Logger.Instance.LogError("You must enter a name!");
@@ -73,8 +75,34 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
                 return;
             }
 
-            else 
-                CreateRoom(passwordInputField.text);
+            else {
+                int studentNumber;
+
+                int chairNumber = GameObject.Find("chairs").transform.childCount;
+
+                if (studentNumberInputField.text == "")
+                {
+                    studentNumber = 0;
+                }
+
+                else if (!int.TryParse(studentNumberInputField.text, out studentNumber))
+                {
+                    Logger.Instance.LogError("Invalid number of students!");
+                    studentNumberInputField.placeholder.GetComponent<TMP_Text>().text = "Invalid number!";
+                    return;
+                }
+
+                else if((studentNumber > chairNumber) || (chairNumber < 0))
+                {
+                    Logger.Instance.LogError("Not enough chairs for all students!");
+                    studentNumberInputField.placeholder.GetComponent<TMP_Text>().text = "Max: " + chairNumber;
+                    return;
+                }
+
+                Debug.Log("Student number: " + studentNumber);
+
+                CreateRoom(passwordInputField.text, studentNumber);
+            }
         });
 
         clientButton.onClick.AddListener(() => {
@@ -146,16 +174,16 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         }
     }
 
-    private void CreateRoom(string name)
+    private void CreateRoom(string name, int studentNumber)
     {
+        studentSpawner.SetStudentNumber(studentNumber);
+
         PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});
 
         questionDispatcher.StartStudent(name);
 
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
         Presenter.Instance.presenterID = PhotonNetwork.LocalPlayer.UserId;
-
-        //studentSpawner.InstantiateStudent();
     }
 
     private void JoinRoom(string roomName)

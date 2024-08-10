@@ -54,8 +54,6 @@ public class StudentApperance : MonoBehaviour
             {
                 list[i].enabled = true;
                 selectedMesh = list[i];
-
-                Debug.Log("--Selected mesh: " + selectedMesh);
             }
             else
             {
@@ -73,10 +71,6 @@ public class StudentApperance : MonoBehaviour
     }
 
     private void SetRandomColors(){
-        Debug.Log("Setting random colors...");
-        Debug.Log("Selected mesh: " + selectedUniform);
-        Debug.Log("Selected material: " + selectedUniform.materials);
-
         foreach (Material m in selectedUniform.materials)
         {
             if (m.name.Equals("Trousers (Instance)"))
