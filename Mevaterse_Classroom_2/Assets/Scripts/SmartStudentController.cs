@@ -33,7 +33,7 @@ public class SmartStudentController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             question.Play();
-            animatorController.SetBool("doesStudentRaiseHand", false);
+            animatorController.SetBool("HandRaised", false);
             isHandRaised = false;
             isTalking = true;
 
@@ -47,7 +47,7 @@ public class SmartStudentController : MonoBehaviour
         {
             Debug.Log("Updating model...");
 
-            animatorController.SetBool("doesStudentRaiseHand", true);
+            animatorController.SetBool("HandRaised", true);
             isHandRaised = true;
         }
    }
