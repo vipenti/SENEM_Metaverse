@@ -12,6 +12,7 @@ public class QuestionDispatcher : MonoBehaviour
     // public UnityWebRequest www;
 
     private GameObject student;
+    private StudentHandler studentHandler;
     private int startingWaitingTime = 30, // Time to wait before starting to check for the result
                 waitingTime = 10; // Time to wait between each check
 
@@ -40,8 +41,10 @@ public class QuestionDispatcher : MonoBehaviour
     {
         // questions = new Queue<Tuple<DateTime, AudioClip>>();
 
-        student = GameObject.Find("SmartStudent");
+        //student = GameObject.Find("SmartStudent");
         // StartCoroutine(SendTextToServer("Test"));
+
+        studentHandler = GameObject.Find("StudentHandler").GetComponent<StudentHandler>();
     }
 
     // Initialize the student model
@@ -57,7 +60,7 @@ public class QuestionDispatcher : MonoBehaviour
         if (date == null) date = DateTime.Now;
 
         // StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
-        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), "http://127.0.0.1:5000/test_stub"));
+        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), "http://127.0.0.1:5000/generate_question"));
     }
 
     private IEnumerator SendTextToServer(string text, string url = "http://127.0.0.1:5000/start")
@@ -225,7 +228,8 @@ public class QuestionDispatcher : MonoBehaviour
                 audioClip.SetData(audioDataResponse, 0);
 
                 // Add the audio clip to the student model
-                student.GetComponent<SmartStudentController>().AddQuestion(audioClip);
+                // student.GetComponent<SmartStudentController>().AddQuestion(audioClip);
+                studentHandler.AddQuestion(audioClip);
             }
 
             www2.Dispose();

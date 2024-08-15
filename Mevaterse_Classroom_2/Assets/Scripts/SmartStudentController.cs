@@ -3,8 +3,7 @@ using System;
 
 public class SmartStudentController : MonoBehaviour
 {
-    private AudioSource question;
-    private QuestionDispatcher questionDispatcher;
+    public AudioSource question;
     public event EventHandler addedQuestion;
     private Animator animatorController;
     private bool isTalking;
@@ -14,31 +13,12 @@ public class SmartStudentController : MonoBehaviour
     void Start()
     {   
         question = gameObject.AddComponent<AudioSource>();
-        questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
         animatorController = GetComponent<Animator>();
 
         isHandRaised = false;
         isTalking = false;
 
         addedQuestion += RaiseHand; 
-    }
-
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            
-        }
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            question.Play();
-            animatorController.SetBool("HandRaised", false);
-            isHandRaised = false;
-            isTalking = true;
-
-            question.clip = null;
-        }
     }
 
     void RaiseHand(object sender, EventArgs e){
@@ -60,9 +40,19 @@ public class SmartStudentController : MonoBehaviour
         OnAddedQuestion();
     }
 
-    void OnAddedQuestion()
+    private void OnAddedQuestion()
     {
         addedQuestion?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void PlayQuestion()
+    {
+        question.Play();
+        animatorController.SetBool("HandRaised", false);
+        isHandRaised = false;
+        isTalking = true;
+
+        question.clip = null;
     }
 
 }

@@ -9,16 +9,12 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
     private int chairNumber;
     private bool[] assignedSeats;
     private int studentNumber;
-
     void Start()
     {
         chairs = GameObject.Find("chairs");
 
         chairNumber = chairs.transform.childCount;
         assignedSeats = new bool[chairNumber];
-
-        // Debug.Log("CHAIR OBJECT: " + chairs);
-        // Debug.Log("NUMERO DI SEDIE: " + chairNumber);
         
     }
 
