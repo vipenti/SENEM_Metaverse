@@ -176,10 +176,12 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     private void CreateRoom(string name, int studentNumber)
     {
+        // Set the number of students to spawn
         studentSpawner.SetStudentNumber(studentNumber);
 
         PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});
 
+        // Start the student model with room name as topic
         questionDispatcher.StartStudent(name);
 
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
