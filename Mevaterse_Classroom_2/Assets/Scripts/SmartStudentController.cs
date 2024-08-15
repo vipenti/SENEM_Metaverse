@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 // Class to handle the smart student behaviour
 public class SmartStudentController : MonoBehaviour
