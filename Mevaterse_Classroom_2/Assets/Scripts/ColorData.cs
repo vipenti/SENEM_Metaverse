@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Class to access default color data in classroom scene
 public class ColorData : MonoBehaviour
 {
     private List<Color32> uniformColors,
@@ -257,3 +258,5 @@ public class ColorData : MonoBehaviour
     }
 
 }
+/* Just copied the code from the original file and pasted it here.
+Probably not the best approach, but it works for now... I'll fix it later.*/

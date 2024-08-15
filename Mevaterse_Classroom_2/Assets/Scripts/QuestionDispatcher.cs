@@ -6,11 +6,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
+// Class to handle the communication between Unity and the server
 public class QuestionDispatcher : MonoBehaviour
 { 
-    // private Queue<Tuple<DateTime, AudioClip>> questions;
-    // public UnityWebRequest www;
-
     private GameObject student;
     private StudentHandler studentHandler;
     private int startingWaitingTime = 30, // Time to wait before starting to check for the result
@@ -39,17 +37,13 @@ public class QuestionDispatcher : MonoBehaviour
 
     void Start()
     {
-        // questions = new Queue<Tuple<DateTime, AudioClip>>();
-
-        //student = GameObject.Find("SmartStudent");
-        // StartCoroutine(SendTextToServer("Test"));
-
         studentHandler = GameObject.Find("StudentHandler").GetComponent<StudentHandler>();
     }
 
-    // Initialize the student model
+    // Initialize the student model, called on ConnectToServer.cs while creating the room
     public void StartStudent(string text)
     {
+        // Initialize the student model on the server giving it the topic of the "lesson"
         StartCoroutine(SendTextToServer(text));
     }
 
@@ -59,13 +53,13 @@ public class QuestionDispatcher : MonoBehaviour
         // if no date is provided, use the current date
         if (date == null) date = DateTime.Now;
 
-        // StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
-        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), "http://127.0.0.1:5000/generate_question"));
+        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
+        // StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), "http://127.0.0.1:5000/test_stub"));
     }
 
     private IEnumerator SendTextToServer(string text, string url = "http://127.0.0.1:5000/start")
     {  
-        UnityWebRequest www;
+        UnityWebRequest www = new UnityWebRequest();
         Debug.Log("Sending text...");
 
         // Create a new TextData object and convert it to a JSON string
@@ -107,51 +101,52 @@ public class QuestionDispatcher : MonoBehaviour
     // Send an audio clip to the server and get task id to check for the result
     private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, string url = "http://127.0.0.1:5000/generate_question")
     {
-        UnityWebRequest www = null;
+        UnityWebRequest www = new UnityWebRequest();
         var data = new TaskID();
 
-        // while (true)
-        // {
+        // if tuple and its audio clip are not null
+        if (clip != null && clip.Item2 != null)
+        {
+            // Convert the audio clip to a byte array
+            byte[] bytes = ConvertAudioClipToWav(clip.Item2);
 
-            // if tuple and its audio clip are not null
-            if (clip != null && clip.Item2 != null)
+            Debug.Log("Sending audio...");
+
+            www = new UnityWebRequest(url, "POST")
             {
-                byte[] bytes = ConvertAudioClipToWav(clip.Item2);
+                uploadHandler = new UploadHandlerRaw(bytes),
+                downloadHandler = new DownloadHandlerBuffer()
+            };
 
-                Debug.Log("Sending audio...");
+            www.SetRequestHeader("Content-Type", "audio/wav");
 
-                www = new UnityWebRequest(url, "POST")
-                {
-                    uploadHandler = new UploadHandlerRaw(bytes),
-                    downloadHandler = new DownloadHandlerBuffer()
-                };
+            yield return www.SendWebRequest();
 
-                www.SetRequestHeader("Content-Type", "audio/wav");
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                // Get the task id from the response, so that once the task is done, we can get the audio
+                Debug.Log("ID arrived!");
 
-                yield return www.SendWebRequest();
+                data = JsonUtility.FromJson<TaskID>(www.downloadHandler.text);
 
-                if (www.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    Debug.Log("ID arrived!");
+                string id = data.result_id;
 
-                    data = JsonUtility.FromJson<TaskID>(www.downloadHandler.text);
+                Debug.Log("ID: " + id);
 
-                    string id = data.result_id;
+                // Wait for a few seconds before checking for the result
+                yield return new WaitForSeconds(startingWaitingTime);
 
-                    Debug.Log("ID: " + id);
-
-                    yield return new WaitForSeconds(startingWaitingTime);
-                    StartCoroutine(GetAudioFromServer("http://localhost:5000/result/" + id));    
-                }
-
-                
+                // Start the coroutine to get the audio from the server
+                StartCoroutine(GetAudioFromServer("http://localhost:5000/result/" + id));    
             }
 
-        // }
+            
+        }
+
         www.Dispose();
     }
 
@@ -165,11 +160,7 @@ public class QuestionDispatcher : MonoBehaviour
             Debug.Log("Checking for audio...");
             Debug.Log("URL: " + url);
 
-            // if (www != null) www.Dispose();
-
-            UnityWebRequest www2;
-
-            www2 = new UnityWebRequest(url, "POST")
+            UnityWebRequest www2 = new UnityWebRequest(url, "POST")
             {
                 downloadHandler = new DownloadHandlerBuffer()
             };
@@ -237,6 +228,7 @@ public class QuestionDispatcher : MonoBehaviour
         }
     }
 
+    // Convert an audio clip to a byte array in WAV format
     private byte[] ConvertAudioClipToWav(AudioClip clip)
     {
         var hz = clip.frequency;

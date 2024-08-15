@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Class to handle the appearance of the smart students
 public class StudentApperance : MonoBehaviour
 {    
     private List<SkinnedMeshRenderer> haircuts,
