@@ -23,9 +23,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
                     outputSource; // Audio source for the output audio
     public bool isTalking;
     private bool isTyping;
-    private bool isTimerActivable; // flag to allow leniency timer to start
-    private volatile bool stopRecordingFlag; // Flag to stop recording
-
+    
     private QuestionDispatcher questionDispatcher;
 
     private const float leniencyPeriod = 3.0f; // time for leniency in seconds
@@ -50,9 +48,6 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
         isTalking = false;
         isTyping = false;
         speaker.enabled = false;
-
-        isTimerActivable = false;
-        stopRecordingFlag = false;
 
         if (photonView.IsMine)
         {
@@ -90,8 +85,6 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             // and allow leniency timer to start in future in case of a pause
             if(Microphone.IsRecording(null))
             {
-                isTimerActivable = true;
-
                 silenceTimer = 0.0f; // reset the silence timer
             }
 
@@ -99,8 +92,6 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             // and start a timer to end recording after maxRecordingTime seconds
             else
             {
-                isTimerActivable = true;
-
                 Debug.Log("Starting recording");
                 outputSource.clip = Microphone.Start(null, false, maxRecordingTime, 44100);
             }            
@@ -114,8 +105,6 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
             // If the microphone is recording and there is a pause in speech start the leniency timer
             if(Microphone.IsRecording(null)){
-                isTimerActivable = false;
-
                 silenceTimer += Time.deltaTime;
             }
         }
