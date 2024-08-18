@@ -28,11 +28,10 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
     private QuestionDispatcher questionDispatcher;
 
-    private Timer leniencyTimer, // Timer for alllowing brief pauses of "leniencyPeriod" in speech
-        recordingTimer;         // Timer stopping recording after "maxRecordingTime" seconds
-    private const int leniencyPeriod = 3; // time for leniency in seconds
+    private const float leniencyPeriod = 3.0f; // time for leniency in seconds
     private const int maxRecordingTime = 40; // time for max recording in seconds
     private const int minRecordingTime = 3; // time for min recording in seconds
+    private float silenceTimer = 0.0f; // time of silence in seconds
 
     private void Start()
     {
@@ -93,7 +92,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             {
                 isTimerActivable = true;
 
-                SuspendTimer(leniencyTimer);
+                silenceTimer = 0.0f; // reset the silence timer
             }
 
             // If the microphone is not recording start recording
@@ -103,8 +102,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
                 isTimerActivable = true;
 
                 Debug.Log("Starting recording");
-                outputSource.clip = Microphone.Start(null, false, maxRecordingTime + 1, 44100);
-                StartOrResetTimer(recordingTimer, (maxRecordingTime) * 1000, SetStopRecordingFlag); //after maxRecordingTime seconds stop recording
+                outputSource.clip = Microphone.Start(null, false, maxRecordingTime, 44100);
             }            
         }
 
@@ -115,18 +113,16 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             info.text = "";
 
             // If the microphone is recording and there is a pause in speech start the leniency timer
-            if(Microphone.IsRecording(null) && isTimerActivable){
+            if(Microphone.IsRecording(null)){
                 isTimerActivable = false;
-                Debug.Log("Starting leniency timer");
 
-                StartOrResetTimer(leniencyTimer, (leniencyPeriod) * 1000, SetStopRecordingFlag); // after leniencyPeriod seconds of silence stop recording
+                silenceTimer += Time.deltaTime;
             }
         }
 
-        // If the stopRecordingFlag is set to true stop recording
-        if(stopRecordingFlag){
-            stopRecordingFlag = false;
+        if(silenceTimer >= leniencyPeriod){
             StopRecording();
+            silenceTimer = 0.0f;
         }
     }
 
@@ -165,8 +161,8 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
         Debug.Log("Stopping recording");
 
         // Suspend the timers to prevent them from stopping the already stopped recording
-        SuspendTimer(recordingTimer);
-        SuspendTimer(leniencyTimer);
+        // SuspendTimer(recordingTimer);
+        // SuspendTimer(leniencyTimer);
 
         // Capture the current clip position in terms of samples recorded
         int position = Microphone.GetPosition(null);
@@ -204,42 +200,6 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
 
         // Dispose of the audio clip
         AudioClip.Destroy(outputSource.clip);
-    }
-
-    // Starts or resets a timer with its time and callback function
-    private void StartOrResetTimer(Timer timer = null, int time = 1000, Action callbackFunction = null)
-    {
-        // If the callback function is null throw an exception
-        if(callbackFunction == null)
-        {
-            throw new ArgumentNullException(nameof(callbackFunction), "  -Callback function in StartOrResetTimer cannot be null");
-        }
-
-        // Convert Action to TimerCallback with a lambda expression
-        TimerCallback timerCallback = state => callbackFunction();
-
-        // If the timer is null create a new timer
-        if (timer == null)
-        {
-            timer = new Timer(timerCallback, null, time, Timeout.Infinite);
-        }
-
-        else
-        {
-            // Reset the timer
-            timer.Change(time, Timeout.Infinite);
-        }
-    }
-
-    // Suspends a timer
-    private void SuspendTimer(Timer timer = null)
-    {
-        timer?.Change(Timeout.Infinite, Timeout.Infinite);
-    }
-
-    // Sets the stopRecordingFlag to true
-    private void SetStopRecordingFlag(){
-        stopRecordingFlag = true;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
