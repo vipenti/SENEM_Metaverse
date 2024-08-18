@@ -37,7 +37,7 @@ public class QuestionDispatcher : MonoBehaviour
         public string value;
     }
 
-    public delegate string ResponseCallback(string response);
+    public delegate IEnumerator ResponseCallback(string response);
 
     void Start()
     {
