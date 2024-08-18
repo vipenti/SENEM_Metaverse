@@ -37,6 +37,8 @@ public class QuestionDispatcher : MonoBehaviour
         public string value;
     }
 
+    public delegate void ResponseCallback(string response);
+
     void Start()
     {
         studentHandler = GameObject.Find("StudentHandler").GetComponent<StudentHandler>();
@@ -55,7 +57,7 @@ public class QuestionDispatcher : MonoBehaviour
         // if no date is provided, use the current date
         if (date == null) date = DateTime.Now;
 
-        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip)));
+        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), GetAudioFromServer));
         // StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), "http://127.0.0.1:5000/test_stub"));
     }
 
@@ -101,7 +103,7 @@ public class QuestionDispatcher : MonoBehaviour
     }
 
     // Send an audio clip to the server and get task id to check for the result
-    private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, string url = "http://127.0.0.1:5000/generate_question")
+    private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, ResponseCallback callback, string url = "http://127.0.0.1:5000/generate_question")
     {
         UnityWebRequest www = new UnityWebRequest();
         var data = new TaskID();
@@ -143,7 +145,7 @@ public class QuestionDispatcher : MonoBehaviour
                 yield return new WaitForSeconds(startingWaitingTime);
 
                 // Start the coroutine to get the audio from the server
-                StartCoroutine(GetAudioFromServer("http://localhost:5000/result/" + id));    
+                StartCoroutine(callback?.Invoke("http://localhost:5000/result/" + id));    
             }
 
             
@@ -228,6 +230,48 @@ public class QuestionDispatcher : MonoBehaviour
             www2.Dispose();
             yield break;   
         }
+    }
+
+    // Get the text from the server using the task id
+    private IEnumerator GetTextFromServer(string url = "http://localhost:5000/result/0"){
+        Debug.Log("Checking for audio...");
+        Debug.Log("URL: " + url);
+
+        UnityWebRequest www2 = new UnityWebRequest(url, "POST")
+        {
+            downloadHandler = new DownloadHandlerBuffer()
+        };
+        
+        www2.SetRequestHeader("Content-Type", "application/json");
+
+        yield return www2.SendWebRequest();
+
+        if (www2.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www2.error);
+        }
+        
+        else
+        {
+
+            Debug.Log("Response arrived!");
+            Debug.Log("Response: " + www2.downloadHandler);
+
+            TaskResult taskResult = JsonUtility.FromJson<TaskResult>(www2.downloadHandler.text);
+
+            //if the task failed, stop the coroutine
+            if (!taskResult.successful)
+            {
+                Debug.Log("Task failed");
+                yield break;
+            }
+
+            Debug.Log("Text question arrived!");
+        }
+
+        www2.Dispose();
+
+        // TODO: Add chatbot response to the student model
     }
 
     // Convert an audio clip to a byte array in WAV format
