@@ -56,7 +56,7 @@ public class SmartStudentController : MonoBehaviour
     {
         question.Play();
         animatorController.SetBool("HandRaised", false);
-        animatorController.SetBool("Talking", true);
+        animatorController.SetBool("IsTalking", true);
 
         isHandRaised = false;
         isTalking = true;
@@ -65,7 +65,7 @@ public class SmartStudentController : MonoBehaviour
         StartCoroutine(StopTalkingAnimation(question.clip.length));
 
         // Clear the question after it's played
-        question.clip = null;
+        // question.clip = null;
     }
 
     private IEnumerator StopTalkingAnimation(float clipLength)
@@ -75,7 +75,7 @@ public class SmartStudentController : MonoBehaviour
 
         if(!isTalking)
         {
-            animatorController.SetBool("Talking", false);
+            animatorController.SetBool("IsTalking", false);
             isTalking = false;
         }
     }

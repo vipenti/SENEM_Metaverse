@@ -23,7 +23,7 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
                     outputSource; // Audio source for the output audio
     public bool isTalking;
     private bool isTyping;
-    
+
     private QuestionDispatcher questionDispatcher;
 
     private const float leniencyPeriod = 3.0f; // time for leniency in seconds
@@ -82,14 +82,12 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             info.text = "<color=\"green\">Transmitting audio</color>";
 
             // If the microphone is already recording suspend the leniency timer
-            // and allow leniency timer to start in future in case of a pause
             if(Microphone.IsRecording(null))
             {
                 silenceTimer = 0.0f; // reset the silence timer
             }
 
             // If the microphone is not recording start recording
-            // and start a timer to end recording after maxRecordingTime seconds
             else
             {
                 Debug.Log("Starting recording");

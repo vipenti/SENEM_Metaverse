@@ -11,8 +11,10 @@ public class QuestionDispatcher : MonoBehaviour
 { 
     private GameObject student;
     private StudentHandler studentHandler;
-    private int startingWaitingTime = 30, // Time to wait before starting to check for the result
-                waitingTime = 10; // Time to wait between each check
+    private int startingWaitingTime = 5, // Time to wait before starting to check for the result
+                waitingTime = 5; // Time to wait between each check
+
+    private const int maxRetries = 10; // Maximum number of retries on server request
 
     // Serialisable classes for JSON parsing
     [Serializable]
@@ -183,7 +185,7 @@ public class QuestionDispatcher : MonoBehaviour
                 TaskResult taskResult = JsonUtility.FromJson<TaskResult>(www2.downloadHandler.text);
 
                 // if the task is not ready yet, wait for a few seconds and try again
-                if (!taskResult.ready && retries < 6)
+                if (!taskResult.ready && retries < maxRetries)
                 {
                     Debug.Log("Task not ready yet, trying again in " + waitingTime + " seconds...");
                     retries++;
