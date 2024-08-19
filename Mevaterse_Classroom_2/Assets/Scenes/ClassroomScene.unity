@@ -4041,7 +4041,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7a73009cbad7ba64cb0e9e9cd58d4e54, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 523abaa76f860ac409fb5182cf4f1901, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11866,12 +11866,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Welcome to the <i>Metaverse Classroom!</i>\nPlease, press <b>Z </b>to
-    read all you need to know about how to interact with the class. \nAlso, keep
-    in mind that messages in the text chat and class interactions are being noted.
-    Use interactions properly and mute your mic when you're not speaking. \nIf you
-    want to contact us or report a problem, please write to <b>v.pentangelo4@studenti.unisa.it</b>.
-    \nEnjoy your time here! "
+  m_text: "Welcome to the <i>Metaverse Classroom <b>Smart Student Edition</b></i>\nPress
+    <b>Z </b>to read all you need to know about how to interact with the class. \nAlso,
+    keep in mind that all your interaction are being logged.\nIf you want to contact
+    us or report a problem, please write to <b>v.pentangelo4@studenti.unisa.it</b>
+    \nor <b>l.turco6@studenti.unisa.it</b>.      \n Enjoy your time here! "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11934,7 +11933,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 2.3144414, z: -116.54756, w: -1.8257589}
+  m_margin: {x: 0, y: 2.3144414, z: -122.97214, w: -1.8257589}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

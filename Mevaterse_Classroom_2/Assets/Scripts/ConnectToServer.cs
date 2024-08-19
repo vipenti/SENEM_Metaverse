@@ -35,6 +35,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public TMP_InputField nameInputField;
     public TMP_InputField passwordInputField;
     public TMP_InputField studentNumberInputField;
+    public Toggle isTextOnlyToggle;
+
     public GameObject initialGUI;
     public GameObject loggedGUI;
 
@@ -77,6 +79,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
             else {
                 int studentNumber;
+                bool isTextOnly = isTextOnlyToggle.isOn;
 
                 int chairNumber = GameObject.Find("chairs").transform.childCount;
 
@@ -101,7 +104,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
                 Debug.Log("Student number: " + studentNumber);
 
-                CreateRoom(passwordInputField.text, studentNumber);
+                CreateRoom(passwordInputField.text, studentNumber, isTextOnly);
             }
         });
 
@@ -174,10 +177,13 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         }
     }
 
-    private void CreateRoom(string name, int studentNumber)
+    private void CreateRoom(string name, int studentNumber, bool isTextOnly)
     {
         // Set the number of students to spawn
         studentSpawner.SetStudentNumber(studentNumber);
+
+        // Set the text only mode
+        questionDispatcher.SetIsTextOnly(isTextOnly);
 
         PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});
 

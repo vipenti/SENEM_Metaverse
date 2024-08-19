@@ -15,6 +15,7 @@ public class QuestionDispatcher : MonoBehaviour
                 waitingTime = 5; // Time to wait between each check
 
     private const int maxRetries = 10; // Maximum number of retries on server request
+    private bool isTextOnly; // Flag to check if the question is text only
 
     // Serialisable classes for JSON parsing
     [Serializable]
@@ -42,6 +43,7 @@ public class QuestionDispatcher : MonoBehaviour
     void Start()
     {
         studentHandler = GameObject.Find("StudentHandler").GetComponent<StudentHandler>();
+        isTextOnly = false;
     }
 
     // Initialize the student model, called on ConnectToServer.cs while creating the room
@@ -312,6 +314,11 @@ public class QuestionDispatcher : MonoBehaviour
         stream.Close();
 
         return bytes;
+    }
+
+    public void SetIsTextOnly(bool isTextOnly)
+    {
+        this.isTextOnly = isTextOnly;
     }
 
 }
