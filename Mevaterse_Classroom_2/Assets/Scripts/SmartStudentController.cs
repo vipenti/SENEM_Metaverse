@@ -10,15 +10,19 @@ public class SmartStudentController : MonoBehaviour
     private Animator animatorController;
     private bool isTalking;
     private bool isHandRaised;
+    private GameObject volumeIcon;
 
 
     void Start()
     {   
+        volumeIcon = transform.Find("PlayerOverhead").Find("VolumeIcon").gameObject;
         question = gameObject.AddComponent<AudioSource>();
         animatorController = GetComponent<Animator>();
 
         isHandRaised = false;
         isTalking = false;
+
+        volumeIcon.SetActive(false);
 
         // Subscribe to the event
         addedQuestion += RaiseHand; 
@@ -61,17 +65,18 @@ public class SmartStudentController : MonoBehaviour
         isHandRaised = false;
         isTalking = true;
 
+        volumeIcon.SetActive(true);
+
         // stop the talking animation after the clip ends
         StartCoroutine(StopTalkingAnimation(question.clip.length));
-
-        // Clear the question after it's played
-        // question.clip = null;
     }
 
     private IEnumerator StopTalkingAnimation(float clipLength)
     {
         // wait for the clip to end then stop the talking animation
         yield return new WaitForSeconds(clipLength);
+
+        volumeIcon.SetActive(false);
 
         if(!isTalking)
         {

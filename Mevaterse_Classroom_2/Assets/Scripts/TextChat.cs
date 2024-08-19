@@ -8,10 +8,12 @@ public class TextChat : MonoBehaviourPunCallbacks
     public TMP_InputField inputField;
     public bool isSelected = false;
     private GameObject commandInfo;
+    private AudioSource audioSource;
 
     private void Start()
     {
         commandInfo = GameObject.Find("CommandInfo");
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void LateUpdate()
@@ -35,7 +37,7 @@ public class TextChat : MonoBehaviourPunCallbacks
 
         else if (Input.GetKeyUp(KeyCode.Return) && isSelected && inputField.text != "")
         {
-            photonView.RPC("SendMessageRpc", RpcTarget.AllBuffered, PhotonNetwork.NickName, inputField.text);
+            photonView.RPC("SendMessageRpc", RpcTarget.AllBuffered, PhotonNetwork.NickName, inputField.text, true);
             inputField.text = "";
             isSelected = false;
             EventSystem.current.SetSelectedGameObject(null);
@@ -44,10 +46,15 @@ public class TextChat : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void SendMessageRpc(string sender, string msg)
+    public void SendMessageRpc(string sender, string msg, bool notify = false)
     {
         string message = $"<color=\"yellow\">{sender}</color>: {msg}";
         Logger.Instance.LogInfo(message);
         LogManager.Instance.LogInfo($"{sender} wrote in the chat: \"{msg}\"");
+        
+        if (notify)
+        {
+            audioSource.Play();
+        }
     }
 }

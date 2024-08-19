@@ -92,9 +92,11 @@ public class StudentApperance : MonoBehaviour
 
         List<Color32> hairColors = colorData.GetHairColors();
 
-        selectedHaircut.material.color = hairColors[UnityEngine.Random.Range(0, hairColors.Count)];
-        selectedBrows.material.color = hairColors[UnityEngine.Random.Range(0, hairColors.Count)];
-        selectedBeard.material.color = hairColors[UnityEngine.Random.Range(0, hairColors.Count)];
+        Color32 hairColor = hairColors[UnityEngine.Random.Range(0, hairColors.Count)];
+
+        selectedHaircut.material.color = hairColor;
+        selectedBrows.material.color = hairColor;
+        selectedBeard.material.color = hairColor;
 
         foreach (Material m in selectedGlasses.materials)
         {

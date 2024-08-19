@@ -10,9 +10,9 @@ using System.Collections.Generic;
 public class QuestionDispatcher : MonoBehaviour
 { 
     private GameObject student;
+    private TextChat textChat;
     private StudentHandler studentHandler;
-    private int startingWaitingTime = 5, // Time to wait before starting to check for the result
-                waitingTime = 5; // Time to wait between each check
+    private int waitingTime = 5; // Time to wait between each check
 
     private const int maxRetries = 10; // Maximum number of retries on server request
     private bool isTextOnly; // Flag to check if the question is text only
@@ -51,6 +51,8 @@ public class QuestionDispatcher : MonoBehaviour
     {
         // Initialize the student model on the server giving it the topic of the "lesson"
         StartCoroutine(SendTextToServer(text));
+
+        textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
     }
 
     // Send an audio clip to the server
@@ -59,8 +61,20 @@ public class QuestionDispatcher : MonoBehaviour
         // if no date is provided, use the current date
         if (date == null) date = DateTime.Now;
 
-        StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), GetAudioFromServer));
-        // StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), "http://127.0.0.1:5000/test_stub"));
+        if (isTextOnly)
+        {
+            if (textChat == null)
+            {
+                textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
+            }
+
+            StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), GetTextFromServer, 15, "http://127.0.0.1:5000/generate_written_question"));
+        }
+        
+        else 
+        {
+            StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), GetAudioFromServer, 5));
+        }
     }
 
     private IEnumerator SendTextToServer(string text, string url = "http://127.0.0.1:5000/start")
@@ -105,7 +119,7 @@ public class QuestionDispatcher : MonoBehaviour
     }
 
     // Send an audio clip to the server and get task id to check for the result
-    private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, ResponseCallback callback, string url = "http://127.0.0.1:5000/generate_question")
+    private IEnumerator SendAudioToServer(Tuple<DateTime, AudioClip> clip, ResponseCallback callback, int startingWaitingTime = 5, string url = "http://127.0.0.1:5000/generate_question")
     {
         UnityWebRequest www = new UnityWebRequest();
         var data = new TaskID();
@@ -143,7 +157,7 @@ public class QuestionDispatcher : MonoBehaviour
 
                 Debug.Log("ID: " + id);
 
-                // Wait for a few seconds before checking for the result
+                // Wait for startingWaitingTime seconds before checking for the result
                 yield return new WaitForSeconds(startingWaitingTime);
 
                 // Start the coroutine to get the audio from the server
@@ -201,7 +215,7 @@ public class QuestionDispatcher : MonoBehaviour
                 //if the task failed, stop the coroutine
                 if (!taskResult.successful)
                 {
-                    Debug.Log("Task failed");
+                    Debug.LogError("Task failed");
                     yield break;
                 }
 
@@ -239,6 +253,8 @@ public class QuestionDispatcher : MonoBehaviour
         Debug.Log("Checking for audio...");
         Debug.Log("URL: " + url);
 
+        string textQuestion;
+
         UnityWebRequest www2 = new UnityWebRequest(url, "POST")
         {
             downloadHandler = new DownloadHandlerBuffer()
@@ -255,7 +271,6 @@ public class QuestionDispatcher : MonoBehaviour
         
         else
         {
-
             Debug.Log("Response arrived!");
             Debug.Log("Response: " + www2.downloadHandler);
 
@@ -264,16 +279,18 @@ public class QuestionDispatcher : MonoBehaviour
             //if the task failed, stop the coroutine
             if (!taskResult.successful)
             {
-                Debug.Log("Task failed");
+                Debug.LogError("Task failed");
                 yield break;
             }
 
             Debug.Log("Text question arrived!");
+
+            textQuestion = taskResult.value;
+
+            www2.Dispose();
+
+            textChat.SendMessageRpc("SmartStudent", textQuestion);
         }
-
-        www2.Dispose();
-
-        // TODO: Add chatbot response to the student model
     }
 
     // Convert an audio clip to a byte array in WAV format
