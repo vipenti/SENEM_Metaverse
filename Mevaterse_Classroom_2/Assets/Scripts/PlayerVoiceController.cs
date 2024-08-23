@@ -80,19 +80,22 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
         {
             isTalking = true;
             info.text = "<color=\"green\">Transmitting audio</color>";
-
-            // If the microphone is already recording suspend the leniency timer
-            if(Microphone.IsRecording(null))
+            if (Presenter.Instance.presenterID == PhotonNetwork.LocalPlayer.UserId)
             {
-                silenceTimer = 0.0f; // reset the silence timer
+                // If the microphone is already recording suspend the leniency timer
+                if(Microphone.IsRecording(null))
+                {
+                    silenceTimer = 0.0f; // reset the silence timer
+                }
+
+                // If the microphone is not recording start recording
+                else
+                {
+                    Debug.Log("Starting recording");
+                    outputSource.clip = Microphone.Start(null, false, maxRecordingTime, 44100);
+                } 
             }
-
-            // If the microphone is not recording start recording
-            else
-            {
-                Debug.Log("Starting recording");
-                outputSource.clip = Microphone.Start(null, false, maxRecordingTime, 44100);
-            }            
+                       
         }
 
         // If the microphone is not detecting any audio
@@ -102,12 +105,12 @@ public class PlayerVoiceController : MonoBehaviourPunCallbacks
             info.text = "";
 
             // If the microphone is recording and there is a pause in speech start the leniency timer
-            if(Microphone.IsRecording(null)){
+            if(Microphone.IsRecording(null) && (Presenter.Instance.presenterID == PhotonNetwork.LocalPlayer.UserId)){
                 silenceTimer += Time.deltaTime;
             }
         }
 
-        if(silenceTimer >= leniencyPeriod){
+        if(silenceTimer >= leniencyPeriod && (Presenter.Instance.presenterID == PhotonNetwork.LocalPlayer.UserId)){
             StopRecording();
             silenceTimer = 0.0f;
         }
