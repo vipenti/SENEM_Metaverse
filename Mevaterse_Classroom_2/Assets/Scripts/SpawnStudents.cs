@@ -10,6 +10,7 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
     private int chairNumber;
     private bool[] assignedSeats; // Array to keep track of assigned seats, element true if seat is taken
     private int studentNumber;
+    private List<Component> observedComponents;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
 
         chairNumber = chairs.transform.childCount;
         assignedSeats = new bool[chairNumber];
+        observedComponents = new List<Component>();
     }
 
     public override void OnCreatedRoom()
@@ -87,7 +89,35 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
 
             // Set the student's parent to the chair
             student.transform.parent = randomChair;
+
+            PhotonView photonView = student.GetComponent<PhotonView>();
+            if (photonView != null)
+            {
+                PhotonTransformView photonTransformView = student.GetComponent<PhotonTransformView>();
+                PhotonAnimatorView photonAnimatorView = student.GetComponent<PhotonAnimatorView>();
+
+                AddObservedComponents(photonTransformView);
+                AddObservedComponents(photonAnimatorView);
+
+                photonView.ObservedComponents = new List<Component>(observedComponents);
+            }
+
+            else
+            {
+                Debug.LogError("PhotonView component is missing on the Student prefab!");
+            }
        }
+    }
+
+    private void AddObservedComponents(Component component)
+    {
+        if (component == null)
+        {
+            Debug.LogError("Component is null!");
+            return;
+        }
+
+        observedComponents.Add(component);
     }
 
     // Public method called on ConnectToServer.cs to set the number of students

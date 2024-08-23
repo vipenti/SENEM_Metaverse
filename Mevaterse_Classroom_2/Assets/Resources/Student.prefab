@@ -2035,10 +2035,10 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: HandRaised
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsTalking
   m_SynchronizeLayers:
   - SynchronizeType: 2

@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using Photon.Pun;
 
 // Class to handle the communication between Unity and the server
 public class QuestionDispatcher : MonoBehaviour
@@ -16,6 +17,8 @@ public class QuestionDispatcher : MonoBehaviour
 
     private const int maxRetries = 10; // Maximum number of retries on server request
     private bool isTextOnly; // Flag to check if the question is text only
+    private PhotonView studentView,
+                textChatView;
 
     // Serialisable classes for JSON parsing
     [Serializable]
@@ -51,8 +54,6 @@ public class QuestionDispatcher : MonoBehaviour
     {
         // Initialize the student model on the server giving it the topic of the "lesson"
         StartCoroutine(SendTextToServer(text));
-
-        textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
     }
 
     // Send an audio clip to the server
@@ -66,6 +67,7 @@ public class QuestionDispatcher : MonoBehaviour
             if (textChat == null)
             {
                 textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
+                textChatView = textChat.GetComponent<PhotonView>();
             }
 
             StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), GetTextFromServer, 15, "http://127.0.0.1:5000/generate_written_question"));
@@ -73,7 +75,7 @@ public class QuestionDispatcher : MonoBehaviour
         
         else 
         {
-            StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), GetAudioFromServer, 5));
+            StartCoroutine(SendAudioToServer(new Tuple<DateTime, AudioClip>((DateTime)date, clip), GetAudioFromServer, 8));
         }
     }
 
@@ -289,7 +291,7 @@ public class QuestionDispatcher : MonoBehaviour
 
             www2.Dispose();
 
-            textChat.SendMessageRpc("SmartStudent", textQuestion);
+            textChatView.RPC("SendMessageRpc", RpcTarget.AllBuffered, "SmartStudent", textQuestion, true);
         }
     }
 
