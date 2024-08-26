@@ -1,9 +1,10 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using Photon.Pun;
 
 // Class to handle the smart student behaviour
-public class SmartStudentController : MonoBehaviour
+public class SmartStudentController : MonoBehaviourPun
 {
     public AudioSource question;
     public event EventHandler addedQuestion;
@@ -37,8 +38,19 @@ public class SmartStudentController : MonoBehaviour
 
             animatorController.SetBool("HandRaised", true);
             isHandRaised = true;
+
+            if(photonView.IsMine)
+            {
+                photonView.RPC("PlayAnimation", RpcTarget.All, "Hand Raise");
+            }
         }
    }
+
+    // [PunRPC]
+    public void PlayAnimation(string animationName)
+    {
+        animatorController.Play("Hand Raise");
+    }
 
     // Add a question to the student
     public void AddQuestion(AudioClip clip)
@@ -62,6 +74,11 @@ public class SmartStudentController : MonoBehaviour
         animatorController.SetBool("HandRaised", false);
         animatorController.SetBool("IsTalking", true);
 
+        if(photonView.IsMine)
+        {
+            photonView.RPC("PlayAnimation", RpcTarget.All, "Talking");
+        }
+
         isHandRaised = false;
         isTalking = true;
 
@@ -82,6 +99,11 @@ public class SmartStudentController : MonoBehaviour
         {
             animatorController.SetBool("IsTalking", false);
             isTalking = false;
+
+            if(photonView.IsMine)
+            {
+                photonView.RPC("PlayAnimation", RpcTarget.All, "Idle");
+            }
         }
     }
 
