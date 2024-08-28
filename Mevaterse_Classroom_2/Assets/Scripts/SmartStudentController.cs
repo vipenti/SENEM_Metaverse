@@ -46,10 +46,10 @@ public class SmartStudentController : MonoBehaviourPun
         }
    }
 
-    // [PunRPC]
+    [PunRPC]
     public void PlayAnimation(string animationName)
     {
-        animatorController.Play("Hand Raise");
+        animatorController.Play(animationName);
     }
 
     // Add a question to the student
