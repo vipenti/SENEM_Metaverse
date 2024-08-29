@@ -19,9 +19,9 @@ public class StudentHandler : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && (Presenter.Instance.presenterID == PhotonNetwork.LocalPlayer.UserId))
         {
-            PlayQuestion();
+            photonView.RPC("PlayQuestion", RpcTarget.All);
         }
     }
 
@@ -34,9 +34,9 @@ public class StudentHandler : MonoBehaviourPunCallbacks
     }
 
     // Coroutine to wait for students to be instantiated
-    private IEnumerator GetStudents()
+    private IEnumerator GetStudents(int waitTime = 1)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(waitTime);
         students = GameObject.FindGameObjectsWithTag("SmartStudent");
     }
 
@@ -53,11 +53,16 @@ public class StudentHandler : MonoBehaviourPunCallbacks
     }
 
     // Add a question to a random student, accessed by QuestionDispatcher once the audio is received
-    public void AddQuestion(AudioClip clip)
+    // [PunRPC]
+    public void AddQuestion(string[] base64Audio)
     {
-        GameObject student = GetRandomStudent();
+        // string actualBase64 = String.Join("", base64Audio);
+        // AudioClip clip = Base64ToAudio(actualBase64);
 
-        if (student == null)
+        GameObject student = GetRandomStudent();
+        int studentID = student.GetInstanceID();
+
+        /*if (student == null)
         {
             Debug.LogError("No students found!");
             return;
@@ -71,10 +76,42 @@ public class StudentHandler : MonoBehaviourPunCallbacks
         if(!questionsQueue.Contains(studentController))
         {
             questionsQueue.Enqueue(studentController);
+        }*/
+
+        photonView.RPC("AddQuestionToAll", RpcTarget.All, studentID, base64Audio);
+    }
+
+
+    [PunRPC]
+    private void AddQuestionToAll(int studentID, string[] base64Audio)
+    {
+        if (students == null)
+        {
+            return;
+        }
+
+        GameObject student = students.FirstOrDefault(s => s.GetInstanceID() == studentID);
+
+        if (student == null)
+        {
+            Debug.LogError("Specific student not found!");
+            return;
+        }
+
+        string actualBase64 = String.Join("", base64Audio);
+        AudioClip clip = Base64ToAudio(actualBase64);
+
+        SmartStudentController studentController = student.GetComponent<SmartStudentController>();
+        studentController.AddQuestion(clip);
+        
+        if(!questionsQueue.Contains(studentController))
+        {
+            questionsQueue.Enqueue(studentController);
         }
     }
 
     // Play the question of the first student in the queue
+    [PunRPC]
     private void PlayQuestion()
     {
         if (questionsQueue.Count <= 0)
@@ -86,5 +123,26 @@ public class StudentHandler : MonoBehaviourPunCallbacks
         studentController.PlayQuestion();
     }
 
+    private AudioClip Base64ToAudio(string base64String)
+    {
+        // Get the audio data from the response
+        byte[] audioBytes = Convert.FromBase64String(base64String);
+
+        // Convert the byte array to a float array
+        float[] audioDataResponse = new float[audioBytes.Length / 2];
+        
+        // Turn into correct format
+        for (int i = 0; i < audioBytes.Length; i += 2)
+        {
+            short sample = BitConverter.ToInt16(audioBytes, i);
+            audioDataResponse[i / 2] = sample / 32768.0f;
+        }
+
+        // Create a new AudioClip and set the audio data
+        AudioClip audioClip = AudioClip.Create("ReceivedAudio", audioDataResponse.Length, 1, 24000, false);
+        audioClip.SetData(audioDataResponse, 0);
+
+        return audioClip;
+    }
 
 }

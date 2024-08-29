@@ -12,6 +12,7 @@ public class SmartStudentController : MonoBehaviourPun
     private bool isTalking;
     private bool isHandRaised;
     private GameObject volumeIcon;
+    private PhotonView textChatView;
 
 
     void Start()
@@ -42,6 +43,13 @@ public class SmartStudentController : MonoBehaviourPun
             if(photonView.IsMine)
             {
                 photonView.RPC("PlayAnimation", RpcTarget.All, "Hand Raise");
+
+                if (textChatView == null)
+                {
+                    textChatView = GameObject.Find("TextChat").GetComponent<PhotonView>();
+                }
+
+                photonView.RPC("NotifyHandRaised", RpcTarget.All);
             }
         }
    }
@@ -50,6 +58,17 @@ public class SmartStudentController : MonoBehaviourPun
     public void PlayAnimation(string animationName)
     {
         animatorController.Play(animationName);
+    }
+
+    [PunRPC]
+    public void NotifyHandRaised()
+    {
+        if (textChatView == null)
+        {
+            return;
+        }
+
+        textChatView.RPC("SendMessageRpc", RpcTarget.AllBuffered, "Smart Student", "Posso fare una domanda?", true);
     }
 
     // Add a question to the student
