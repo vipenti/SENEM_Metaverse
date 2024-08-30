@@ -17,7 +17,7 @@ public class QuestionDispatcher : MonoBehaviour
 
     private const int maxRetries = 10; // Maximum number of retries on server request
     private bool isTextOnly; // Flag to check if the question is text only
-    private PhotonView studentView,
+    private PhotonView studentHandlerView,
                 textChatView;
 
     // Serialisable classes for JSON parsing
@@ -46,6 +46,7 @@ public class QuestionDispatcher : MonoBehaviour
     void Start()
     {
         studentHandler = GameObject.Find("StudentHandler").GetComponent<StudentHandler>();
+        studentHandlerView = studentHandler.GetComponent<PhotonView>();
         isTextOnly = false;
     }
 
@@ -221,28 +222,13 @@ public class QuestionDispatcher : MonoBehaviour
                     yield break;
                 }
 
-                Debug.Log("Audio recording arrived!");
+                Debug.Log("Audio recording arrived!");     
 
-                // Get the audio data from the response
-                byte[] audioBytes = Convert.FromBase64String(taskResult.value);
-
-                // Convert the byte array to a float array
-                float[] audioDataResponse = new float[audioBytes.Length / 2];
-                
-                // Turn into correct format
-                for (int i = 0; i < audioBytes.Length; i += 2)
-                {
-                    short sample = BitConverter.ToInt16(audioBytes, i);
-                    audioDataResponse[i / 2] = sample / 32768.0f;
-                }
-
-                // Create a new AudioClip and set the audio data
-                AudioClip audioClip = AudioClip.Create("ReceivedAudio", audioDataResponse.Length, 1, 24000, false);
-                audioClip.SetData(audioDataResponse, 0);
+                string[] partitionedAudio = SplitStringIntoChunks(taskResult.value, 30000).ToArray();
 
                 // Add the audio clip to the student model
-                // student.GetComponent<SmartStudentController>().AddQuestion(audioClip);
-                studentHandler.AddQuestion(audioClip);
+                // studentHandlerView.RPC("AddQuestion", RpcTarget.AllBuffered, partitionedAudio);
+                studentHandler.AddQuestion(partitionedAudio);
             }
 
             www2.Dispose();
@@ -333,6 +319,25 @@ public class QuestionDispatcher : MonoBehaviour
         stream.Close();
 
         return bytes;
+    }
+
+    public static List<string> SplitStringIntoChunks(string str, int chunkSize)
+    {
+        List<string> chunks = new List<string>();
+
+        for (int i = 0; i < str.Length; i += chunkSize)
+        {
+            if (i + chunkSize > str.Length)
+            {
+                chunks.Add(str.Substring(i));
+            }
+            else
+            {
+                chunks.Add(str.Substring(i, chunkSize));
+            }
+        }
+
+        return chunks;
     }
 
     public void SetIsTextOnly(bool isTextOnly)

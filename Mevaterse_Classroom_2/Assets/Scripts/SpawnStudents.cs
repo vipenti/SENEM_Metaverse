@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 
@@ -10,7 +11,7 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
     private int chairNumber;
     private bool[] assignedSeats; // Array to keep track of assigned seats, element true if seat is taken
     private int studentNumber;
-    private List<Component> observedComponents;
+    private List<Student> studentList;
 
     void Start()
     {
@@ -18,13 +19,16 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
 
         chairNumber = chairs.transform.childCount;
         assignedSeats = new bool[chairNumber];
-        observedComponents = new List<Component>();
     }
 
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        InstantiateStudent(studentNumber);
+        
+        if(photonView.IsMine)
+        {
+            InstantiateStudent(studentNumber);
+        }
     }
 
     public void InstantiateStudent(int studentNumber)
@@ -52,6 +56,8 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
 
         int randomIndex;
 
+        studentList = new List<Student>();
+
         // For each student, assign a random chair
         for (int i = 0; i < studentNumber; i++)
         {
@@ -77,6 +83,8 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
             // Instantiate the student and position it on the chair
             Vector3 spawnPosition = randomChair.position + new Vector3(0, .6f, .1f);
             GameObject student = PhotonNetwork.Instantiate("Student", spawnPosition, Quaternion.identity);
+
+            studentList.Add(new Student(spawnPosition));
             
             if (student == null)
             {
@@ -88,36 +96,12 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
             studentAnimator.Play("Idle");
 
             // Set the student's parent to the chair
-            student.transform.parent = randomChair;
+            // student.transform.parent = randomChair;
 
-            PhotonView photonView = student.GetComponent<PhotonView>();
-            if (photonView != null)
-            {
-                PhotonTransformView photonTransformView = student.GetComponent<PhotonTransformView>();
-                PhotonAnimatorView photonAnimatorView = student.GetComponent<PhotonAnimatorView>();
+            string studentString = JsonUtility.ToJson(studentList);
 
-                AddObservedComponents(photonTransformView);
-                AddObservedComponents(photonAnimatorView);
-
-                photonView.ObservedComponents = new List<Component>(observedComponents);
-            }
-
-            else
-            {
-                Debug.LogError("PhotonView component is missing on the Student prefab!");
-            }
+            photonView.RPC("SetStudentData", RpcTarget.OthersBuffered, (string)studentString);
        }
-    }
-
-    private void AddObservedComponents(Component component)
-    {
-        if (component == null)
-        {
-            Debug.LogError("Component is null!");
-            return;
-        }
-
-        observedComponents.Add(component);
     }
 
     // Public method called on ConnectToServer.cs to set the number of students
@@ -126,4 +110,23 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
         studentNumber = number;
     }
 
+    [PunRPC]
+    public void SetStudentData(string studentString)
+    {
+        studentList = JsonUtility.FromJson<List<Student>>(studentString);
+
+        foreach(Student student in studentList)
+        {
+            GameObject studentObject = PhotonNetwork.Instantiate("Student", student.studentPosition, Quaternion.identity);
+        }
+    }
+
+}
+
+class Student{
+    public Vector3 studentPosition;
+    
+    public Student(Vector3 position){
+        studentPosition = position;
+    }
 }
