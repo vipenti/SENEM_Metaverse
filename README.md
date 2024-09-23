@@ -8,13 +8,13 @@
 
 
 ## Platform Description
-The main goal of this project was to develop an AI infrastructure for the SENEM Metaverse, where Smart Students powered by AI interact with the class and ehanced the educational experience of the Metaverse itself.
+The main goal of this project was to develop an AI infrastructure for the SENEM Metaverse, where Smart Students powered by AI interact with the class and enhance the educational experience of the Metaverse itself.
 - **Creation and connection to a room**. The platform offers real-time connection with other users, implemented through a _room system_, allowing users to choose whom to connect with. The first user intending to connect will create the room, providing it with a password, and then share this information with interested individuals.
 - **Free three-dimensional exploration**. Freedom of movement and interaction characterize the virtual environment, allowing users to navigate any classroom area and engage with objects seamlessly through their avatar. Users can walk, sit, and interact freely with various objects in the scene. They can rotate their view and adjust the zoom level of their perspective as well.
 - **Avatar's customization**. The user has the option to customize their avatar in various ways. The prototype includes a dedicated interface where users can make different appearance choices for their avatar, including skin color, uniform type and color, eye shape and color, eyebrows and possible beard, hairstyle, and a selection of some additional cosmetics like glasses or eye patches.
 - **Realistic voice communication**. Users can engage in real-time communication with each other through voice chat. Using their microphones and voices, they can make their avatars speak and hear others as in genuine verbal communication. The voice chat is equipped with proximity and three-dimensionality features, allowing the tone of voice to vary based on the distance and position of the interlocutor. 
 - **Text communication**. It is also possible to communicate through text chat, which is readily available and visible in the platform's user interface. 
-- **Smart Students**. Users can interact with AI powered students, able to understand and communicate with them. More on that later.
+- **Smart Students**. Users can interact with AI powered students, which are able to understand and communicate with them. More on that later.
 - **Non-verbal interaction**. Various animations are available for avatars, and users can perform actions such as waving, clapping, or raising their hands.
 - **Projection and presentation of multimedia content**. The virtual classroom is equipped with a projector to transmit multimedia content. Users can upload their slides or images and display them during the platform's runtime. The user can navigate the content on the projector with the _presenter_ role. Each user can use the projector to showcase or present their materials and alternate this role with others during the session.
 - **Interaction with the whiteboard**. The classroom also has a whiteboard where users can type and write using a keyboard. One user at a time can approach the whiteboard and start writing, and what they write will be visible to everyone, supporting interaction and communication.
@@ -66,5 +66,5 @@ This repository contains:
 * **Viviana Pentangelo** - [vipenti](https://github.com/vipenti) (Original author)
 
 ## How do I make the students work?
-The students run on the <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server</a>, which runs locally (this will probably change in the future to allow direct access without modifying the code), by default the server runs of port 5000, to correct changes done on the server's location, reference the QuestionDispatcher.cs file.<br>
-The students run through a chain of interactions by commercially available AIs and their interaction can be either verbal or written, you can choose this during whole creating a room.
+The students run on the <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server</a>, which runs locally (this will probably change in the future to allow direct access without modifying the code), by default the server runs on port 5000, to correct changes done on the server's location, reference the QuestionDispatcher.cs file.<br>
+The students run through a chain of interactions by commercially available AIs and their interaction can be either verbal or written, you can choose this during while creating a room.
