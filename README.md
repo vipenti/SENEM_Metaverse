@@ -1,4 +1,4 @@
-# SENEM:Smart Student Edition
+# SENEM: Smart Student Edition
 <h3 align = "center"> Welcome to the Metaverse Classroom! </h3>
 <p align = "center"> An open-source project developed with Unity3D and Photon to create a collaborative 3D virtual environment for academic and educational purposes.</p>
 <p align="center"><i>Now powered by AI!</i></p>
@@ -66,5 +66,5 @@ This repository contains:
 * **Viviana Pentangelo** - [vipenti](https://github.com/vipenti) (Original author)
 
 ## How do I make the students work?
-The students run on the <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server</a>, which runs locally (this will probably change in the future to allow direct access without modifying the code), by default the server runs of port 5000, to correct changes done on the server's location, reference the QuestionDispatcher.cs file.
-The students run through this chain of interactions by commercially available AIs and their interaction can be either verbal or written, you can choose this during whole creating a room.
+The students run on the <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server</a>, which runs locally (this will probably change in the future to allow direct access without modifying the code), by default the server runs of port 5000, to correct changes done on the server's location, reference the QuestionDispatcher.cs file.<br>
+The students run through a chain of interactions by commercially available AIs and their interaction can be either verbal or written, you can choose this during whole creating a room.
