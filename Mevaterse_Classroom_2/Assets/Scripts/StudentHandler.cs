@@ -56,13 +56,13 @@ public class StudentHandler : MonoBehaviourPunCallbacks
     // [PunRPC]
     public void AddQuestion(string[] base64Audio)
     {
-        // string actualBase64 = String.Join("", base64Audio);
-        // AudioClip clip = Base64ToAudio(actualBase64);
+        string actualBase64 = String.Join("", base64Audio);
+        AudioClip clip = Base64ToAudio(actualBase64);
 
         GameObject student = GetRandomStudent();
         int studentID = student.GetInstanceID();
 
-        /*if (student == null)
+        if (student == null)
         {
             Debug.LogError("No students found!");
             return;
@@ -76,7 +76,7 @@ public class StudentHandler : MonoBehaviourPunCallbacks
         if(!questionsQueue.Contains(studentController))
         {
             questionsQueue.Enqueue(studentController);
-        }*/
+        }
 
         photonView.RPC("AddQuestionToAll", RpcTarget.All, studentID, base64Audio);
     }
