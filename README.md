@@ -61,10 +61,10 @@ This repository contains:
 3. Choose the path where you downloaded the _Metaverse_Classroom_2_.
 4. The project should now appear in your projects list. Click on its name and Unity will install all the needed libraries to make it work.
 
+**How do I make the students work?**
+The students run on the <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server</a>, which runs locally (this will probably change in the future to allow direct access without modifying the code), by default the server runs on port 5000, to correct changes done on the server's location, reference the QuestionDispatcher.cs file.<br>
+The students run through a chain of interactions by commercially available AIs and their interaction can be either verbal or written, you can choose this during while creating a room.
+
 ## Authors
 * **Luigi Turco** - [KronosPNG](https://github.com/KronosPNG)
 * **Viviana Pentangelo** - [vipenti](https://github.com/vipenti) (Original author)
-
-## How do I make the students work?
-The students run on the <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server</a>, which runs locally (this will probably change in the future to allow direct access without modifying the code), by default the server runs on port 5000, to correct changes done on the server's location, reference the QuestionDispatcher.cs file.<br>
-The students run through a chain of interactions by commercially available AIs and their interaction can be either verbal or written, you can choose this during while creating a room.
