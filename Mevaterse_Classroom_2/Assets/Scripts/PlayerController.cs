@@ -78,6 +78,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.OfflineMode = true;
+        if (PhotonNetwork.OfflineMode)
+        {
+            Debug.Log("Game is in offline mode.");
+        }
+        else
+        {
+            Debug.Log("Game is in online mode.");
+        }
+
         playerCam = GameObject.FindWithTag("MainCamera").transform;
 
         playerName.text = GetComponent<PhotonView>().Controller.NickName;

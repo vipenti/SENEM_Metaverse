@@ -46,17 +46,18 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public Button leaveButton;
     public Button editButton;
 
-    public AudioSource buttonClick;
+    public AudioSource buttonClick;    
 
     public PhotonView player;
     private QuestionDispatcher questionDispatcher;
     private SpawnStudents studentSpawner;
     void Start()
     {
+        PhotonNetwork.OfflineMode = true;
         questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
         studentSpawner = GameObject.Find("StudentSpawner").GetComponent<SpawnStudents>();
 
-        PhotonNetwork.ConnectUsingSettings();
+        //PhotonNetwork.ConnectUsingSettings();
         loggedGUI.SetActive(false);
         //clientButton.enabled = false;
         //hostButton.enabled = false;
@@ -103,7 +104,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
                 }
 
                 Debug.Log("Student number: " + studentNumber);
-
+                SessionManager.Instance.SetSubject(passwordInputField.text);
                 CreateRoom(passwordInputField.text, studentNumber, isTextOnly);
             }
         });
@@ -188,7 +189,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(name, new RoomOptions() { BroadcastPropsChangeToAll = true, EmptyRoomTtl = 0, CleanupCacheOnLeave = true});
 
         // Start the student model with room name as topic
-        questionDispatcher.StartStudent(name);
+        //questionDispatcher.StartStudent(name);
 
         LogManager.Instance.LogInfo($"{nameInputField.text} created room {name}");
         Presenter.Instance.presenterID = PhotonNetwork.LocalPlayer.UserId;

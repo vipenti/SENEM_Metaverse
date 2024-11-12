@@ -1,22 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Photon.Pun;
 
-// Class to spawn students in the room on creation
+// Classe per gestire lo spawn degli studenti e assegnare tratti casuali
 public class SpawnStudents : MonoBehaviourPunCallbacks
 {
-    private GameObject chairs; // GameObject containing all the chairs in the room
+    private GameObject chairs; // GameObject che contiene tutte le sedie nella stanza
     private int chairNumber;
-    private bool[] assignedSeats; // Array to keep track of assigned seats, element true if seat is taken
+    private bool[] assignedSeats; // Array per tenere traccia delle sedie assegnate
     private int studentNumber;
     private List<Student> studentList;
 
     void Start()
     {
         chairs = GameObject.Find("chairs");
-
         chairNumber = chairs.transform.childCount;
         assignedSeats = new bool[chairNumber];
     }
@@ -24,8 +22,8 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        
-        if(photonView.IsMine)
+
+        if (photonView.IsMine)
         {
             InstantiateStudent(studentNumber);
         }
@@ -43,35 +41,30 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
             throw new System.Exception("Number of chairs is 0!");
         }
 
-        if(studentNumber <= 0)
+        if (studentNumber <= 0)
         {
             return;
-        } 
-        
-        else if(studentNumber > chairNumber)
+        }
+        else if (studentNumber > chairNumber)
         {
             Debug.LogError("Not enough chairs for all students! \nSetting maximum number of students to number of chairs.");
             studentNumber = chairNumber;
         }
 
         int randomIndex;
-
         studentList = new List<Student>();
 
-        // For each student, assign a random chair
+        // Per ogni studente, assegna una sedia e tratti casuali
         for (int i = 0; i < studentNumber; i++)
         {
-            // Find a random chair that is not taken
+            // Trova una sedia non occupata
             do
             {
                 randomIndex = Random.Range(0, chairNumber);
-                
             } while (assignedSeats[randomIndex]);
 
-            // Mark the chair as taken
+            // Segna la sedia come occupata
             assignedSeats[randomIndex] = true;
-            
-            // Get the chair transform
             Transform randomChair = chairs.transform.GetChild(randomIndex);
 
             if (randomChair == null)
@@ -80,31 +73,47 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
                 return;
             }
 
-            // Instantiate the student and position it on the chair
+            // Crea una posizione per lo spawn e assegna tratti casuali
             Vector3 spawnPosition = randomChair.position + new Vector3(0, .6f, .1f);
-            GameObject student = PhotonNetwork.Instantiate("Student", spawnPosition, Quaternion.identity);
 
-            studentList.Add(new Student(spawnPosition));
-            
+            // Genera tratti casuali
+            Personality randomPersonality = (Personality)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Personality)).Length + 1);
+            Intelligence randomIntelligence = (Intelligence)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Intelligence)).Length + 1);
+            Interest randomInterest = (Interest)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Interest)).Length + 1);
+            Happyness randomHappyness = (Happyness)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Happyness)).Length + 1);
+
+            //Logger.Instance.LogInfo($"Spawned a {randomPersonality}, {randomIntelligence}, {randomInterest}, {randomHappyness} student!");
+
+            // Instanzia lo studente nella posizione specificata e con tratti casuali
+            GameObject student = PhotonNetwork.Instantiate("Student", spawnPosition, Quaternion.identity);
+            studentList.Add(new Student(spawnPosition, randomPersonality, randomIntelligence, randomInterest, randomHappyness));
+
             if (student == null)
             {
                 throw new System.Exception("Failed to instantiate SmartStudent!");
             }
-            
-            // Start the student's idle animation in case it's not already playing
+
+            // Imposta l'animazione di idle dello studente
             Animator studentAnimator = student.GetComponent<Animator>();
             studentAnimator.Play("Idle");
 
-            // Set the student's parent to the chair
-            // student.transform.parent = randomChair;
+            // Imposta i tratti di personalità sul componente SmartStudentController
+            SmartStudentController studentController = student.GetComponent<SmartStudentController>();
+            if (studentController != null)
+            {
+                studentController.personality = randomPersonality;
+                studentController.intelligence = randomIntelligence;
+                studentController.interest = randomInterest;
+                studentController.happyness = randomHappyness;
+            }
 
+            // Aggiorna la lista di studenti condivisa in rete
             string studentString = JsonUtility.ToJson(studentList);
-
-            photonView.RPC("SetStudentData", RpcTarget.OthersBuffered, (string)studentString);
-       }
+            photonView.RPC("SetStudentData", RpcTarget.OthersBuffered, studentString);
+        }
     }
 
-    // Public method called on ConnectToServer.cs to set the number of students
+    // Metodo pubblico chiamato in ConnectToServer.cs per impostare il numero di studenti
     public void SetStudentNumber(int number)
     {
         studentNumber = number;
@@ -115,18 +124,39 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
     {
         studentList = JsonUtility.FromJson<List<Student>>(studentString);
 
-        foreach(Student student in studentList)
+        foreach (Student student in studentList)
         {
             GameObject studentObject = PhotonNetwork.Instantiate("Student", student.studentPosition, Quaternion.identity);
+
+            // Imposta i tratti di personalità su SmartStudentController
+            SmartStudentController studentController = studentObject.GetComponent<SmartStudentController>();
+            if (studentController != null)
+            {
+                studentController.personality = student.personality;
+                studentController.intelligence = student.intelligence;
+                studentController.interest = student.interest;
+                studentController.happyness = student.happyness;
+            }
         }
     }
-
 }
 
-class Student{
+// Classe per rappresentare uno studente con posizione e tratti di personalità
+[System.Serializable]
+class Student
+{
     public Vector3 studentPosition;
-    
-    public Student(Vector3 position){
+    public Personality personality;
+    public Intelligence intelligence;
+    public Interest interest;
+    public Happyness happyness;
+
+    public Student(Vector3 position, Personality personalityType, Intelligence intelligenceLevel, Interest interestLevel, Happyness happynessLevel)
+    {
         studentPosition = position;
+        personality = personalityType;
+        intelligence = intelligenceLevel;
+        interest = interestLevel;
+        happyness = happynessLevel;
     }
 }

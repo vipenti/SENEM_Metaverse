@@ -1,58 +1,152 @@
 using UnityEngine;
-using System;
 using System.Collections;
 using Photon.Pun;
+using Photon.Realtime;
+using System;
+using TMPro;
+using System.Collections.Generic;
 
-// Class to handle the smart student behaviour
 public class SmartStudentController : MonoBehaviourPun
 {
     public AudioSource question;
-    public event EventHandler addedQuestion;
     private Animator animatorController;
     private bool isTalking;
     private bool isHandRaised;
     private GameObject volumeIcon;
     private PhotonView textChatView;
 
+    // Tratti di personalità per ogni studente
+    public Personality personality;
+    public Intelligence intelligence;
+    public Interest interest;
+    public Happyness happyness;
+
+    private float questionTriggerProbability;
+    private QuestionDispatcher questionDispatcher;
+    private Queue<AudioClip> audioQueue = new Queue<AudioClip>();
+    private Queue<string> stringQueue = new Queue<string>();
+    private TMP_Text overhead;
+    private TMP_Text rollDisplay; // Aggiunto per visualizzare il roll
+    private TextChat textChat;
+
 
     void Start()
-    {   
+    {
+        textChat = GameObject.Find("TextChat").GetComponent<TextChat>();
         volumeIcon = transform.Find("PlayerOverhead").Find("VolumeIcon").gameObject;
         question = gameObject.AddComponent<AudioSource>();
         animatorController = GetComponent<Animator>();
+        questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
 
         isHandRaised = false;
         isTalking = false;
-
         volumeIcon.SetActive(false);
 
-        // Subscribe to the event
-        addedQuestion += RaiseHand; 
+        questionTriggerProbability = CalculateQuestionProbability();
+        overhead = transform.Find("PlayerOverhead").Find("PlayerName").gameObject.GetComponent<TMP_Text>();
+        overhead.text = $"{personality} Student, {questionTriggerProbability * 100}%";
+
+        // Display roll value
+        rollDisplay = transform.Find("PlayerOverhead").Find("RollDisplay").GetComponent<TMP_Text>();
+
     }
 
-    // Update the model to raise the hand
-    void RaiseHand(object sender, EventArgs e){
-        
-        if(!isHandRaised)
+    void LateUpdate()
+    {
+        animatorController.SetBool("HandRaised", isHandRaised);
+    }
+
+    private float CalculateQuestionProbability()
+    {
+        float baseProbability = 0.1f;
+        baseProbability += (float)interest / 10f; // Aumenta in base all'interesse
+        baseProbability += (float)personality / 20f; // Aumenta in base alla personalità
+        return Mathf.Clamp01(baseProbability); // Limita tra 0 e 1
+    }
+
+    public bool Roll()
+    {
+        float roll = UnityEngine.Random.value;
+        rollDisplay.text = $"Roll: {roll:F2}"; // Mostra il roll nell'overhead
+        return (roll <= questionTriggerProbability);
+    }
+
+    public void EvaluateAudioForQuestion(AudioClip audioClip)
+    {
+        if (Roll())
         {
-            Debug.Log("Updating model...");
-
-            animatorController.SetBool("HandRaised", true);
-            isHandRaised = true;
-
-            if(photonView.IsMine)
-            {
-                photonView.RPC("PlayAnimation", RpcTarget.All, "Hand Raise");
-
-                if (textChatView == null)
-                {
-                    textChatView = GameObject.Find("TextChat").GetComponent<PhotonView>();
-                }
-
-                photonView.RPC("NotifyHandRaised", RpcTarget.All);
-            }
+            questionDispatcher.AddQuestionRequest(audioClip, this, personality, intelligence, interest, happyness);
         }
-   }
+    }
+
+    public void EnqueueAudioResponse(AudioClip responseAudio)
+    {
+        audioQueue.Enqueue(responseAudio);
+        RaiseHand();
+    }
+
+    public void EnqueueTextResponse(string responseText)
+    {
+        stringQueue.Enqueue(responseText);
+    }
+
+    // Metodo modificato per riprodurre solo quando chiamato da StudentHandler
+    public void TriggerPlayNextAudio()
+    {
+        PlayNextAudio();
+        SendNextQuestion();
+    }
+
+    private void PlayNextAudio()
+    {
+        if (!question.isPlaying && audioQueue.Count > 0)
+        {
+            question.clip = audioQueue.Dequeue();
+            question.Play();
+            animatorController.SetBool("IsTalking", true);
+            volumeIcon.SetActive(true);
+            isHandRaised = false;
+            StartCoroutine(StopTalkingAnimation(question.clip.length));
+        }
+    }
+
+    private void SendNextQuestion()
+    {
+        if (!question.isPlaying && stringQueue.Count > 0)
+        {
+            string questionText = stringQueue.Dequeue();
+            photonView.RPC("WriteQuestionInChat", RpcTarget.All, questionText);
+        }
+    }
+
+    private IEnumerator StopTalkingAnimation(float clipLength)
+    {
+        yield return new WaitForSeconds(clipLength);
+        volumeIcon.SetActive(false);
+        isTalking = false;
+        volumeIcon.SetActive(false);
+        animatorController.SetBool("IsTalking", false);
+
+        if (audioQueue.Count > 0)
+        {
+            PlayNextAudio();
+        }
+        else if (photonView.IsMine)
+        {
+            photonView.RPC("PlayAnimation", RpcTarget.All, "Idle");
+        }
+    }
+
+    void RaiseHand()
+    {
+        if (photonView.IsMine && !isHandRaised)
+        {
+            isHandRaised = true;
+            photonView.RPC("PlayAnimation", RpcTarget.All, "Hand Raise");
+            photonView.RPC("NotifyHandRaised", RpcTarget.All); // Cambiato per corrispondere al metodo esistente
+        }
+    }
+
 
     [PunRPC]
     public void PlayAnimation(string animationName)
@@ -63,67 +157,16 @@ public class SmartStudentController : MonoBehaviourPun
     [PunRPC]
     public void NotifyHandRaised()
     {
-        if (textChatView == null)
-        {
-            return;
-        }
-
-        textChatView.RPC("SendMessageRpc", RpcTarget.AllBuffered, "Smart Student", "Posso fare una domanda?", true);
+        string msg = $"<color=\"yellow\">{personality} Student </color>: Professor!";
+        Logger.Instance.LogInfo(msg);
+        LogManager.Instance.LogInfo(msg);
     }
 
-    // Add a question to the student
-    public void AddQuestion(AudioClip clip)
+    [PunRPC]
+    public void WriteQuestionInChat(string question)
     {
-        if (clip == null) return;
-
-        question.clip = clip;
-        OnAddedQuestion();
-    }
-
-    // Event that fires when a question is added
-    private void OnAddedQuestion()
-    {
-        addedQuestion?.Invoke(this, EventArgs.Empty);
-    }
-
-    // Play the question and update the model
-    public void PlayQuestion()
-    {
-        question.Play();
-        animatorController.SetBool("HandRaised", false);
-        animatorController.SetBool("IsTalking", true);
-
-        if(photonView.IsMine)
-        {
-            photonView.RPC("PlayAnimation", RpcTarget.All, "Talking");
-        }
-
-        isHandRaised = false;
-        isTalking = true;
-
-        volumeIcon.SetActive(true);
-
-        // stop the talking animation after the clip ends
-        StartCoroutine(StopTalkingAnimation(question.clip.length));
-    }
-
-    private IEnumerator StopTalkingAnimation(float clipLength)
-    {
-        // wait for the clip to end then stop the talking animation
-        yield return new WaitForSeconds(clipLength);
-
-        volumeIcon.SetActive(false);
-
-        if(!isTalking)
-        {
-            animatorController.SetBool("IsTalking", false);
-            isTalking = false;
-
-            if(photonView.IsMine)
-            {
-                photonView.RPC("PlayAnimation", RpcTarget.All, "Idle");
-            }
-        }
-    }
-
+        string msg = $"<color=\"yellow\">{personality} Student </color>: {question}";
+        Logger.Instance.LogInfo(msg);
+        LogManager.Instance.LogInfo(msg); ;
+    } 
 }
