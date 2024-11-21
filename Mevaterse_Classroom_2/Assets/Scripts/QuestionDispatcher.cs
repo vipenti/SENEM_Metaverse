@@ -13,16 +13,16 @@ public class RequestData
     public int personality;
     public int intelligence;
     public int interest;
-    public int happyness;
+    public int happiness;
     public string audio;
 
-    public RequestData(string subject, int personality, int intelligence, int interest, int happyness, string audio)
+    public RequestData(string subject, int personality, int intelligence, int interest, int happiness, string audio)
     {
         this.subject = subject;
         this.personality = personality;
         this.intelligence = intelligence;
         this.interest = interest;
-        this.happyness = happyness;
+        this.happiness = happiness;
         this.audio = audio;
     }
 }
@@ -37,12 +37,12 @@ public class QuestionDispatcher : MonoBehaviour
         studentHandler = GameObject.Find("StudentHandler").GetComponent<StudentHandler>();
     }
 
-    public void AddQuestionRequest(AudioClip audioClip, SmartStudentController studentController, Personality personality, Intelligence intelligence, Interest interest, Happyness happyness)
+    public void AddQuestionRequest(AudioClip audioClip, SmartStudentController studentController, Personality personality, Intelligence intelligence, Interest interest, Happiness happiness)
     {
-        StartCoroutine(SendAudioToServer(audioClip, studentController, personality, intelligence, interest, happyness));
+        StartCoroutine(SendAudioToServer(audioClip, studentController, personality, intelligence, interest, happiness));
     }
 
-    private IEnumerator SendAudioToServer(AudioClip audioClip, SmartStudentController studentController, Personality personality, Intelligence intelligence, Interest interest, Happyness happyness)
+    private IEnumerator SendAudioToServer(AudioClip audioClip, SmartStudentController studentController, Personality personality, Intelligence intelligence, Interest interest, Happiness happiness)
     {
         byte[] audioData = ConvertAudioClipToWav(audioClip);
 
@@ -51,7 +51,7 @@ public class QuestionDispatcher : MonoBehaviour
             (int)personality,
             (int)intelligence,
             (int)interest,
-            (int)happyness,
+            (int)happiness,
             Convert.ToBase64String(audioData)
         );
 
@@ -162,7 +162,7 @@ public class QuestionDispatcher : MonoBehaviour
         }
     }
 
-    // Funzione per convertire l’audio in formato WAV
+    // Funzione per convertire lï¿½audio in formato WAV
     private byte[] ConvertAudioClipToWav(AudioClip clip)
     {
         using (MemoryStream stream = new MemoryStream())

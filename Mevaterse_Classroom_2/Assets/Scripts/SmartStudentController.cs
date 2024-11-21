@@ -15,11 +15,11 @@ public class SmartStudentController : MonoBehaviourPun
     private GameObject volumeIcon;
     private PhotonView textChatView;
 
-    // Tratti di personalità per ogni studente
+    // Tratti di personalitï¿½ per ogni studente
     public Personality personality;
     public Intelligence intelligence;
     public Interest interest;
-    public Happyness happyness;
+    public Happiness happiness;
 
     private float questionTriggerProbability;
     private QuestionDispatcher questionDispatcher;
@@ -60,7 +60,7 @@ public class SmartStudentController : MonoBehaviourPun
     {
         float baseProbability = 0.1f;
         baseProbability += (float)interest / 10f; // Aumenta in base all'interesse
-        baseProbability += (float)personality / 20f; // Aumenta in base alla personalità
+        baseProbability += (float)personality / 20f; // Aumenta in base alla personalitï¿½
         return Mathf.Clamp01(baseProbability); // Limita tra 0 e 1
     }
 
@@ -75,7 +75,7 @@ public class SmartStudentController : MonoBehaviourPun
     {
         if (Roll())
         {
-            questionDispatcher.AddQuestionRequest(audioClip, this, personality, intelligence, interest, happyness);
+            questionDispatcher.AddQuestionRequest(audioClip, this, personality, intelligence, interest, happiness);
         }
     }
 

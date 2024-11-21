@@ -80,13 +80,13 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
             Personality randomPersonality = (Personality)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Personality)).Length + 1);
             Intelligence randomIntelligence = (Intelligence)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Intelligence)).Length + 1);
             Interest randomInterest = (Interest)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Interest)).Length + 1);
-            Happyness randomHappyness = (Happyness)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Happyness)).Length + 1);
+            Happiness randomHappiness = (Happiness)UnityEngine.Random.Range(1, System.Enum.GetValues(typeof(Happiness)).Length + 1);
 
-            //Logger.Instance.LogInfo($"Spawned a {randomPersonality}, {randomIntelligence}, {randomInterest}, {randomHappyness} student!");
+            //Logger.Instance.LogInfo($"Spawned a {randomPersonality}, {randomIntelligence}, {randomInterest}, {randomHappiness} student!");
 
             // Instanzia lo studente nella posizione specificata e con tratti casuali
             GameObject student = PhotonNetwork.Instantiate("Student", spawnPosition, Quaternion.identity);
-            studentList.Add(new Student(spawnPosition, randomPersonality, randomIntelligence, randomInterest, randomHappyness));
+            studentList.Add(new Student(spawnPosition, randomPersonality, randomIntelligence, randomInterest, randomHappiness));
 
             if (student == null)
             {
@@ -97,14 +97,14 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
             Animator studentAnimator = student.GetComponent<Animator>();
             studentAnimator.Play("Idle");
 
-            // Imposta i tratti di personalità sul componente SmartStudentController
+            // Imposta i tratti di personalitï¿½ sul componente SmartStudentController
             SmartStudentController studentController = student.GetComponent<SmartStudentController>();
             if (studentController != null)
             {
                 studentController.personality = randomPersonality;
                 studentController.intelligence = randomIntelligence;
                 studentController.interest = randomInterest;
-                studentController.happyness = randomHappyness;
+                studentController.happiness = randomHappiness;
             }
 
             // Aggiorna la lista di studenti condivisa in rete
@@ -128,20 +128,20 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
         {
             GameObject studentObject = PhotonNetwork.Instantiate("Student", student.studentPosition, Quaternion.identity);
 
-            // Imposta i tratti di personalità su SmartStudentController
+            // Imposta i tratti di personalitï¿½ su SmartStudentController
             SmartStudentController studentController = studentObject.GetComponent<SmartStudentController>();
             if (studentController != null)
             {
                 studentController.personality = student.personality;
                 studentController.intelligence = student.intelligence;
                 studentController.interest = student.interest;
-                studentController.happyness = student.happyness;
+                studentController.happiness = student.happiness;
             }
         }
     }
 }
 
-// Classe per rappresentare uno studente con posizione e tratti di personalità
+// Classe per rappresentare uno studente con posizione e tratti di personalitï¿½
 [System.Serializable]
 class Student
 {
@@ -149,14 +149,14 @@ class Student
     public Personality personality;
     public Intelligence intelligence;
     public Interest interest;
-    public Happyness happyness;
+    public Happiness happiness;
 
-    public Student(Vector3 position, Personality personalityType, Intelligence intelligenceLevel, Interest interestLevel, Happyness happynessLevel)
+    public Student(Vector3 position, Personality personalityType, Intelligence intelligenceLevel, Interest interestLevel, Happiness happinessLevel)
     {
         studentPosition = position;
         personality = personalityType;
         intelligence = intelligenceLevel;
         interest = interestLevel;
-        happyness = happynessLevel;
+        happiness = happinessLevel;
     }
 }

@@ -27,7 +27,7 @@ public enum Interest
     VERY_INTERESTED = 5
 }
 
-public enum Happyness
+public enum Happiness
 {
     SAD = 1,
     UNHAPPY = 2,
