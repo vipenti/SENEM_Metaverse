@@ -49,8 +49,11 @@ public class StudentHandler : MonoBehaviourPunCallbacks
     public void AddTextToQueue(string text, SmartStudentController studentController)
     {
         studentController.EnqueueTextResponse(text);
+        Debug.Log("Aggiunto testo alla coda");
+        
         if (!textsQueue.Contains(studentController))
         {
+            Debug.Log("Text: " + text);
             textsQueue.Enqueue(studentController);
         }
     }

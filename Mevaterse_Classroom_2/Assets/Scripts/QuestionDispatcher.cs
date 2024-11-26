@@ -81,7 +81,7 @@ public class QuestionDispatcher : MonoBehaviour
 
         bool isCompleted = false;
         string audioBase64 = null;
-        string answerText = "prova";
+        string answerText = null;
 
         while (!isCompleted)
         {
@@ -95,7 +95,7 @@ public class QuestionDispatcher : MonoBehaviour
                 if (statusResponse.status == "completed")
                 {
                     audioBase64 = statusResponse.audio;
-                    //answerText = statusResponse.text;
+                    answerText = statusResponse.text;
                     isCompleted = true;
                 }
                 else
@@ -215,6 +215,6 @@ public class QuestionDispatcher : MonoBehaviour
     {
         public string status;
         public string audio;
-        //public string text;
+        public string text;
     }
 }
