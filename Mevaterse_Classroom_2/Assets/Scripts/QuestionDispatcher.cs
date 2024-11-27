@@ -114,16 +114,19 @@ public class QuestionDispatcher : MonoBehaviour
         if (!string.IsNullOrEmpty(audioBase64))
         {
             Debug.Log("Audio Base64 ricevuto: " + audioBase64);
-            AudioClip responseAudioClip = ConvertBase64ToAudioClip(audioBase64);
-            if (responseAudioClip != null)
+            StartCoroutine(ConvertBase64ToAudioClip(audioBase64, audioClip =>
             {
-                studentHandler.AddAudioToQueue(responseAudioClip, studentController);
-                studentHandler.AddTextToQueue(answerText, studentController);
-            }
-            else
-            {
-                Debug.LogError("Errore nella conversione dell'audio in AudioClip.");
-            }
+                if (audioClip != null)
+                {
+                    studentHandler.AddAudioToQueue(audioClip, studentController);
+                    studentHandler.AddTextToQueue(answerText, studentController);
+                }
+                else
+                {
+                    Debug.LogError("Errore nella conversione dell'audio in AudioClip.");
+                }
+            }));
+
         }
         else
         {
@@ -131,13 +134,16 @@ public class QuestionDispatcher : MonoBehaviour
         }
     }
 
-    private AudioClip ConvertBase64ToAudioClip(string audioBase64)
+    // Converted to coroutine to handle the asynchronous conversion with UnityWebRequest
+    private IEnumerator ConvertBase64ToAudioClip(string audioBase64, Action<AudioClip> callback)
     {
         if (string.IsNullOrEmpty(audioBase64))
         {
-            Debug.LogError("Base64 audio data is null or empty.");
-            return null;
+            callback(null);
+            yield break;
         }
+
+        UnityWebRequest www = null;
 
         try
         {
@@ -149,17 +155,25 @@ public class QuestionDispatcher : MonoBehaviour
             File.WriteAllBytes(tempFilePath, audioData);
 
             // Load the audio file as an AudioClip
-            WWW www = new WWW("file://" + tempFilePath);
-            while (!www.isDone) { }
-
-            AudioClip audioClip = www.GetAudioClip(false, false);
-            return audioClip;
+            www = UnityWebRequestMultimedia.GetAudioClip("file://" + tempFilePath, AudioType.WAV);
         }
         catch (Exception ex)
         {
             Debug.LogError("Errore nella conversione dell'audio Base64 in AudioClip: " + ex.Message);
-            return null;
+            callback(null);
         }
+
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError(www.error);
+            callback(null);
+            yield break;
+        }
+
+        AudioClip audioClip = DownloadHandlerAudioClip.GetContent(www);
+        callback(audioClip);
     }
 
     // Funzione per convertire l�audio in formato WAV

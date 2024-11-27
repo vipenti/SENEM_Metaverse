@@ -93,6 +93,8 @@ public class SmartStudentController : MonoBehaviourPun
     // Metodo modificato per riprodurre solo quando chiamato da StudentHandler
     public void TriggerPlayNextAudio()
     {
+        // This order is important to ensure the text will be sent first
+        // Because it checks if the audio is playing before sending the next question
         SendNextQuestion();
         PlayNextAudio(); 
     }
@@ -112,10 +114,6 @@ public class SmartStudentController : MonoBehaviourPun
 
     private void SendNextQuestion()
     {
-        if(!question.isPlaying) Debug.Log("Audio is playing, cannot send next question");
-        
-        if(stringQueue.Count > 0) Debug.Log("Text is in queue");
-
 
         if (!question.isPlaying && stringQueue.Count > 0)
         {
@@ -124,7 +122,6 @@ public class SmartStudentController : MonoBehaviourPun
             Debug.Log("Question: " + questionText);
             photonView.RPC("WriteQuestionInChat", RpcTarget.All, questionText);
         }
-        else Debug.Log("No more questions to send");
     }
 
     private IEnumerator StopTalkingAnimation(float clipLength)
