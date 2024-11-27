@@ -12,7 +12,7 @@ public class StudentHandler : MonoBehaviourPunCallbacks
     void Start()
     {
         studentsQueue = new Queue<SmartStudentController>();
-        textsQueue = new Queue<SmartStudentController>();
+        //textsQueue = new Queue<SmartStudentController>();
     }
 
     void Update()
