@@ -65,72 +65,74 @@ public class QuestionDispatcher : MonoBehaviour
         };
         www.SetRequestHeader("Content-Type", "application/json");
 
-        yield return www.SendWebRequest();
+        using(www){
+            yield return www.SendWebRequest();
 
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError($"Errore nella richiesta al server: {www.error}");
-            yield break;
-        }
-
-        string jsonResponse = www.downloadHandler.text;
-        Debug.Log("Risposta JSON ricevuta (task ID): " + jsonResponse);
-
-        var taskResponse = JsonUtility.FromJson<TaskResponse>(jsonResponse);
-        string taskId = taskResponse.task_id;
-
-        bool isCompleted = false;
-        string audioBase64 = null;
-        string answerText = null;
-
-        while (!isCompleted)
-        {
-            var statusRequest = UnityWebRequest.Get($"http://127.0.0.1:5000/result/{taskId}");
-            yield return statusRequest.SendWebRequest();
-
-            if (statusRequest.result == UnityWebRequest.Result.Success)
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                var statusResponse = JsonUtility.FromJson<TaskStatusResponse>(statusRequest.downloadHandler.text);
+                Debug.LogError($"Errore nella richiesta al server: {www.error}");
+                yield break;
+            }
 
-                if (statusResponse.status == "completed")
+            string jsonResponse = www.downloadHandler.text;
+            Debug.Log("Risposta JSON ricevuta (task ID): " + jsonResponse);
+
+            var taskResponse = JsonUtility.FromJson<TaskResponse>(jsonResponse);
+            string taskId = taskResponse.task_id;
+
+            bool isCompleted = false;
+            string audioBase64 = null;
+            string answerText = null;
+
+            while (!isCompleted)
+            {
+                var statusRequest = UnityWebRequest.Get($"http://127.0.0.1:5000/result/{taskId}");
+                yield return statusRequest.SendWebRequest();
+
+                if (statusRequest.result == UnityWebRequest.Result.Success)
                 {
-                    audioBase64 = statusResponse.audio;
-                    answerText = statusResponse.text;
-                    isCompleted = true;
+                    var statusResponse = JsonUtility.FromJson<TaskStatusResponse>(statusRequest.downloadHandler.text);
+
+                    if (statusResponse.status == "completed")
+                    {
+                        audioBase64 = statusResponse.audio;
+                        answerText = statusResponse.text;
+                        isCompleted = true;
+                    }
+                    else
+                    {
+                        Debug.Log("Task ancora in corso, attendo...");
+                        yield return new WaitForSeconds(1);
+                    }
                 }
                 else
                 {
-                    Debug.Log("Task ancora in corso, attendo...");
-                    yield return new WaitForSeconds(1);
+                    Debug.LogError($"Errore nella richiesta di stato del task: {statusRequest.error}");
+                    yield break;
                 }
+            }
+
+            if (!string.IsNullOrEmpty(audioBase64))
+            {
+                Debug.Log("Audio Base64 ricevuto: " + audioBase64);
+                StartCoroutine(ConvertBase64ToAudioClip(audioBase64, audioClip =>
+                {
+                    if (audioClip != null)
+                    {
+                        studentHandler.AddAudioToQueue(audioClip, studentController);
+                        studentHandler.AddTextToQueue(answerText, studentController);
+                    }
+                    else
+                    {
+                        Debug.LogError("Errore nella conversione dell'audio in AudioClip.");
+                    }
+                }));
+
             }
             else
             {
-                Debug.LogError($"Errore nella richiesta di stato del task: {statusRequest.error}");
-                yield break;
+                Debug.LogError("Risposta audio non valida o mancante.");
             }
-        }
-
-        if (!string.IsNullOrEmpty(audioBase64))
-        {
-            Debug.Log("Audio Base64 ricevuto: " + audioBase64);
-            StartCoroutine(ConvertBase64ToAudioClip(audioBase64, audioClip =>
-            {
-                if (audioClip != null)
-                {
-                    studentHandler.AddAudioToQueue(audioClip, studentController);
-                    studentHandler.AddTextToQueue(answerText, studentController);
-                }
-                else
-                {
-                    Debug.LogError("Errore nella conversione dell'audio in AudioClip.");
-                }
-            }));
-
-        }
-        else
-        {
-            Debug.LogError("Risposta audio non valida o mancante.");
         }
     }
 
@@ -163,17 +165,20 @@ public class QuestionDispatcher : MonoBehaviour
             callback(null);
         }
 
-        yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+        using(www)
         {
-            Debug.LogError(www.error);
-            callback(null);
-            yield break;
-        }
+            yield return www.SendWebRequest();
 
-        AudioClip audioClip = DownloadHandlerAudioClip.GetContent(www);
-        callback(audioClip);
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(www.error);
+                callback(null);
+                yield break;
+            }
+
+            AudioClip audioClip = DownloadHandlerAudioClip.GetContent(www);
+            callback(audioClip);
+        }
     }
 
     // Funzione per convertire l�audio in formato WAV
