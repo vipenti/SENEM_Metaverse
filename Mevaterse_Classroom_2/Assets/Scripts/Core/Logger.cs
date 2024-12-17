@@ -58,7 +58,7 @@ public class Logger : Singleton<Logger>
 
     private void ClearLines()
     {
-        if (debugAreaText.text.Length >= 1000 || currentLines >= 12)
+        if (debugAreaText.text.Length >= 800 || currentLines >= 8)
         {
             debugAreaText.text = "";
             currentLines = 0;

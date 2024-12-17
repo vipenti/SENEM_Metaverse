@@ -44,7 +44,7 @@ public class SmartStudentController : MonoBehaviourPun
 
         questionTriggerProbability = CalculateQuestionProbability();
         overhead = transform.Find("PlayerOverhead").Find("PlayerName").gameObject.GetComponent<TMP_Text>();
-        overhead.text = $"{personality} Student, {questionTriggerProbability * 100}%";
+        overhead.text = $"{personality}, {interest} Student, {questionTriggerProbability * 100}%";
 
         // Display roll value
         rollDisplay = transform.Find("PlayerOverhead").Find("RollDisplay").GetComponent<TMP_Text>();
@@ -59,15 +59,15 @@ public class SmartStudentController : MonoBehaviourPun
     private float CalculateQuestionProbability()
     {
         float baseProbability = 0.1f;
-        baseProbability += (float)interest / 10f; // Aumenta in base all'interesse
-        baseProbability += (float)personality / 20f; // Aumenta in base alla personalit�
+        baseProbability += (float)interest / 40f; // Aumenta in base all'interesse
+        baseProbability += (float)personality / 40f; // Aumenta in base alla personalit�
         return Mathf.Clamp01(baseProbability); // Limita tra 0 e 1
     }
 
     public bool Roll()
     {
         float roll = UnityEngine.Random.value;
-        rollDisplay.text = $"Roll: {roll:F2}"; // Mostra il roll nell'overhead
+        rollDisplay.text = $"\nRoll: {roll:F2}"; // Mostra il roll nell'overhead
         return (roll <= questionTriggerProbability);
     }
 
@@ -162,7 +162,7 @@ public class SmartStudentController : MonoBehaviourPun
     [PunRPC]
     public void NotifyHandRaised()
     {
-        string msg = $"<color=\"yellow\">{personality} Student </color>: Professor!";
+        string msg = $"<color=\"yellow\">{personality}, {interest} Student </color>: Professor!";
         Logger.Instance.LogInfo(msg);
         LogManager.Instance.LogInfo(msg);
     }
@@ -170,7 +170,7 @@ public class SmartStudentController : MonoBehaviourPun
     [PunRPC]
     public void WriteQuestionInChat(string question)
     {
-        string msg = $"<color=\"yellow\">{personality} Student </color>: {question}";
+        string msg = $"<color=\"yellow\">{personality}, {interest} Student </color>: {question}";
         Logger.Instance.LogInfo(msg);
         LogManager.Instance.LogInfo(msg); ;
     } 
