@@ -12,8 +12,14 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
     private int studentNumber;
     private List<Student> studentList;
 
+    void Awake()
+    {
+        //DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
+        //DontDestroyOnLoad(gameObject);
         chairs = GameObject.Find("chairs");
         chairNumber = chairs.transform.childCount;
         assignedSeats = new bool[chairNumber];
@@ -59,8 +65,13 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
         {
             // Trova una sedia non occupata
             do
-            {
-                randomIndex = Random.Range(0, chairNumber);
+            {   if (Random.Range(0, 2) == 1)
+                {
+                    randomIndex = Random.Range(0, 30);
+                }
+                else { 
+                    randomIndex = Random.Range(76, 98); 
+                }
             } while (assignedSeats[randomIndex]);
 
             // Segna la sedia come occupata

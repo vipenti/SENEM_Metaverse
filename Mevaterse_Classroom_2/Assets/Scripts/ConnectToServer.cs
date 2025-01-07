@@ -53,12 +53,14 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     private SpawnStudents studentSpawner;
     void Start()
     {
-        PhotonNetwork.OfflineMode = true;
+        //PhotonNetwork.OfflineMode = true;
         questionDispatcher = GameObject.Find("QuestionDispatcher").GetComponent<QuestionDispatcher>();
         studentSpawner = GameObject.Find("StudentSpawner").GetComponent<SpawnStudents>();
 
-        //PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings();
         loggedGUI.SetActive(false);
+
+        Logger.Instance.LogInfo("Sono stato chiamato haha");
         //clientButton.enabled = false;
         //hostButton.enabled = false;
 
@@ -73,8 +75,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
             }
             else if(passwordInputField.text == "")
             {
-                Logger.Instance.LogError("You must enter a password!");
-                passwordInputField.placeholder.GetComponent<TMP_Text>().text = "You must enter a password!";
+                Logger.Instance.LogError("You must enter a topic!");
+                passwordInputField.placeholder.GetComponent<TMP_Text>().text = "You must enter a topic!";
                 return;
             }
 
@@ -120,8 +122,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
             }
             else if (passwordInputField.text == "")
             {
-                Logger.Instance.LogError("You must enter a password!");
-                passwordInputField.placeholder.GetComponent<TMP_Text>().text = "You must enter a password!";
+                Logger.Instance.LogError("You must enter a topic!");
+                passwordInputField.placeholder.GetComponent<TMP_Text>().text = "You must enter a topic!";
                 return;
             }
             else 
