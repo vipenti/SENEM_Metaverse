@@ -142,6 +142,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
         editButton.onClick.AddListener(() => {
             buttonClick.Play();
+            Destroy(gameObject);
             SceneManager.LoadScene("CharacterEditor");
         });
 
