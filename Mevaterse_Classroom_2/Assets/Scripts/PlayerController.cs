@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        PhotonNetwork.OfflineMode = true;
+        //PhotonNetwork.OfflineMode = true;
         if (PhotonNetwork.OfflineMode)
         {
             Debug.Log("Game is in offline mode.");
@@ -433,6 +433,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void InteractionInfoUpdate()
     {
+        if (interactionInfo == null){
+            interactionInfo = GameObject.Find("InteractionInfo").GetComponent<TMP_Text>();
+        }
+
         if (chair != null && !isSitting && !chair.GetComponent<ChairController>().IsBusy())
             interactionInfo.text = "Press C to sit";
 

@@ -2187,7 +2187,7 @@ MonoBehaviour:
   personality: 0
   intelligence: 0
   interest: 0
-  happyness: 0
+  happiness: 0
 --- !u!82 &-4635132013586665566
 AudioSource:
   m_ObjectHideFlags: 0

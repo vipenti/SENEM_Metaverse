@@ -6,13 +6,13 @@ using Photon.Pun;
 public class StudentHandler : MonoBehaviourPunCallbacks
 {
     private Queue<SmartStudentController> studentsQueue;
-    private Queue<SmartStudentController> textsQueue;// Coda per gestire gli studenti che hanno una domanda
+    //private Queue<SmartStudentController> textsQueue;// Coda per gestire gli studenti che hanno una domanda
     private GameObject[] students; // Array di tutti gli studenti nella stanza
 
     void Start()
     {
         studentsQueue = new Queue<SmartStudentController>();
-        textsQueue = new Queue<SmartStudentController>();
+        //textsQueue = new Queue<SmartStudentController>();
     }
 
     void Update()
@@ -49,10 +49,12 @@ public class StudentHandler : MonoBehaviourPunCallbacks
     public void AddTextToQueue(string text, SmartStudentController studentController)
     {
         studentController.EnqueueTextResponse(text);
-        if (!textsQueue.Contains(studentController))
-        {
-            textsQueue.Enqueue(studentController);
-        }
+        Debug.Log("Aggiunto testo alla coda");
+        
+        // if (!textsQueue.Contains(studentController))
+        // {
+        //     textsQueue.Enqueue(studentController);
+        // }
     }
 
     // Riproduce la domanda (audio) del primo studente nella coda
@@ -65,7 +67,7 @@ public class StudentHandler : MonoBehaviourPunCallbacks
         }
 
         SmartStudentController studentController = studentsQueue.Dequeue();
-        SmartStudentController textStudentController = textsQueue.Dequeue();
+        // SmartStudentController textStudentController = textsQueue.Dequeue();
         studentController.TriggerPlayNextAudio(); 
     }
 }

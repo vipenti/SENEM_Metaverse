@@ -15,11 +15,11 @@ public class SmartStudentController : MonoBehaviourPun
     private GameObject volumeIcon;
     private PhotonView textChatView;
 
-    // Tratti di personalità per ogni studente
+    // Tratti di personalitï¿½ per ogni studente
     public Personality personality;
     public Intelligence intelligence;
     public Interest interest;
-    public Happyness happyness;
+    public Happiness happiness;
 
     private float questionTriggerProbability;
     private QuestionDispatcher questionDispatcher;
@@ -44,7 +44,7 @@ public class SmartStudentController : MonoBehaviourPun
 
         questionTriggerProbability = CalculateQuestionProbability();
         overhead = transform.Find("PlayerOverhead").Find("PlayerName").gameObject.GetComponent<TMP_Text>();
-        overhead.text = $"{personality} Student, {questionTriggerProbability * 100}%";
+        overhead.text = $"{personality}, {interest} Student, {questionTriggerProbability * 100}%";
 
         // Display roll value
         rollDisplay = transform.Find("PlayerOverhead").Find("RollDisplay").GetComponent<TMP_Text>();
@@ -59,15 +59,15 @@ public class SmartStudentController : MonoBehaviourPun
     private float CalculateQuestionProbability()
     {
         float baseProbability = 0.1f;
-        baseProbability += (float)interest / 10f; // Aumenta in base all'interesse
-        baseProbability += (float)personality / 20f; // Aumenta in base alla personalità
+        baseProbability += (float)interest / 40f; // Aumenta in base all'interesse
+        baseProbability += (float)personality / 40f; // Aumenta in base alla personalitï¿½
         return Mathf.Clamp01(baseProbability); // Limita tra 0 e 1
     }
 
     public bool Roll()
     {
         float roll = UnityEngine.Random.value;
-        rollDisplay.text = $"Roll: {roll:F2}"; // Mostra il roll nell'overhead
+        rollDisplay.text = $"\nRoll: {roll:F2}"; // Mostra il roll nell'overhead
         return (roll <= questionTriggerProbability);
     }
 
@@ -75,7 +75,7 @@ public class SmartStudentController : MonoBehaviourPun
     {
         if (Roll())
         {
-            questionDispatcher.AddQuestionRequest(audioClip, this, personality, intelligence, interest, happyness);
+            questionDispatcher.AddQuestionRequest(audioClip, this, personality, intelligence, interest, happiness);
         }
     }
 
@@ -93,8 +93,10 @@ public class SmartStudentController : MonoBehaviourPun
     // Metodo modificato per riprodurre solo quando chiamato da StudentHandler
     public void TriggerPlayNextAudio()
     {
-        PlayNextAudio();
+        // This order is important to ensure the text will be sent first
+        // Because it checks if the audio is playing before sending the next question
         SendNextQuestion();
+        PlayNextAudio(); 
     }
 
     private void PlayNextAudio()
@@ -112,9 +114,12 @@ public class SmartStudentController : MonoBehaviourPun
 
     private void SendNextQuestion()
     {
+
         if (!question.isPlaying && stringQueue.Count > 0)
         {
+            Debug.Log("Sending next question");
             string questionText = stringQueue.Dequeue();
+            Debug.Log("Question: " + questionText);
             photonView.RPC("WriteQuestionInChat", RpcTarget.All, questionText);
         }
     }
@@ -157,7 +162,7 @@ public class SmartStudentController : MonoBehaviourPun
     [PunRPC]
     public void NotifyHandRaised()
     {
-        string msg = $"<color=\"yellow\">{personality} Student </color>: Professor!";
+        string msg = $"<color=\"yellow\">{personality}, {interest} Student </color>: Professor!";
         Logger.Instance.LogInfo(msg);
         LogManager.Instance.LogInfo(msg);
     }
@@ -165,7 +170,7 @@ public class SmartStudentController : MonoBehaviourPun
     [PunRPC]
     public void WriteQuestionInChat(string question)
     {
-        string msg = $"<color=\"yellow\">{personality} Student </color>: {question}";
+        string msg = $"<color=\"yellow\">{personality}, {interest} Student </color>: {question}";
         Logger.Instance.LogInfo(msg);
         LogManager.Instance.LogInfo(msg); ;
     } 
