@@ -65,13 +65,7 @@ public class SpawnStudents : MonoBehaviourPunCallbacks
         {
             // Trova una sedia non occupata
             do
-            {   if (Random.Range(0, 2) == 1)
-                {
-                    randomIndex = Random.Range(0, 30);
-                }
-                else { 
-                    randomIndex = Random.Range(76, 98); 
-                }
+            {   randomIndex = Random.Range(0, 42);
             } while (assignedSeats[randomIndex]);
 
             // Segna la sedia come occupata

@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleExecutable</key>
-    <string>Metaverse_Classroom</string>
+    <string>SENEM AI</string>
     <key>CFBundleGetInfoString</key>
     <string>Unity Player version 2021.3.22f1 (b6c551784ba3). (c) 2023 Unity Technologies ApS. All rights reserved.</string>
     <key>CFBundleIconFile</key>
@@ -15,11 +15,11 @@
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>Metaverse_Classroom</string>
+    <string>SENEM AI</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.1</string>
+    <string>1.1</string>
     <key>CFBundleSupportedPlatforms</key>
     <array>
       <string>MacOSX</string>

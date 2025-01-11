@@ -60,7 +60,6 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
         loggedGUI.SetActive(false);
 
-        Logger.Instance.LogInfo("Sono stato chiamato haha");
         //clientButton.enabled = false;
         //hostButton.enabled = false;
 
