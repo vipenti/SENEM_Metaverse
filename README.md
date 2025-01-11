@@ -1,70 +1,87 @@
-# SENEM: Smart Student Edition
-<h3 align = "center"> Welcome to the Metaverse Classroom! </h3>
+# SENEM-AI: Smart Student Edition
+<p align = "center"> <img src = "blobs/SENEM_logo.png?raw=true" width = "100px"> </p>
+<h3 align = "center"> Welcome to the SENEM-AI! </h3>
 <p align = "center"> An open-source project developed with Unity3D and Photon to create a collaborative 3D virtual environment for academic and educational purposes.</p>
 <p align="center"><i>Now powered by AI!</i></p>
 <p align = "center">
-  <img src = "blobs/presentation_pic.jpg?raw=true" width = "800" heigth = "600">
+  <img src = "blobs/senem-ai.png?raw=true" width = "100%">
 </p>
 
-
+---
 ## Platform Description
-The main goal of this project was to develop an AI infrastructure for the SENEM Metaverse, where Smart Students powered by AI interact with the class and enhance the educational experience of the Metaverse itself.
-- **Creation and connection to a room**. The platform offers real-time connection with other users, implemented through a _room system_, allowing users to choose whom to connect with. The first user intending to connect will create the room, providing it with a password, and then share this information with interested individuals. The user may decide to spawn in Smart Students that will interact with the class and if this interaction should be by text chat or via audio.
-- **Free three-dimensional exploration**. Freedom of movement and interaction characterize the virtual environment, allowing users to navigate any classroom area and engage with objects seamlessly through their avatar. Users can walk, sit, and interact freely with various objects in the scene. They can rotate their view and adjust the zoom level of their perspective as well.
-- **Avatar's customization**. The user has the option to customize their avatar in various ways. The prototype includes a dedicated interface where users can make different appearance choices for their avatar, including skin color, uniform type and color, eye shape and color, eyebrows and possible beard, hairstyle, and a selection of some additional cosmetics like glasses or eye patches.
-- **Realistic voice communication**. Users can engage in real-time communication with each other through voice chat. Using their microphones and voices, they can make their avatars speak and hear others as in genuine verbal communication. The voice chat is equipped with proximity and three-dimensionality features, allowing the tone of voice to vary based on the distance and position of the interlocutor. 
-- **Text communication**. It is also possible to communicate through text chat, which is readily available and visible in the platform's user interface. 
-- **Smart Students**. Users can interact with AI powered students, which are able to understand and communicate with them. More on that later.
-- **Non-verbal interaction**. Various animations are available for avatars, and users can perform actions such as waving, clapping, or raising their hands.
-- **Projection and presentation of multimedia content**. The virtual classroom is equipped with a projector to transmit multimedia content. Users can upload their slides or images and display them during the platform's runtime. The user can navigate the content on the projector with the _presenter_ role. Each user can use the projector to showcase or present their materials and alternate this role with others during the session.
-- **Interaction with the whiteboard**. The classroom also has a whiteboard where users can type and write using a keyboard. One user at a time can approach the whiteboard and start writing, and what they write will be visible to everyone, supporting interaction and communication.
+SENEM-AI is a learning virtual environment for lecturers and studeents. To learn more about the SENEM project, [check our paper](https://github.com/vipenti/SENEM_Metaverse/blob/main/SENEM_Paper.pdf).
+- **Room system**: Real-time connection with other users, by creating or joining rooms.
+- **3D exploration**: Navigate the classroom freely, interact with objects, walk, sit, rotate view, and adjust zoom.
+- **Avatar customization**: Personalize appearance, including skin, uniform, eyes, eyebrows, hair, beard, glasses, and other cosmetics.
+- **Voice chat**: Realistic communication with proximity and 3D audio effects.
+- **Text chat**: Integrated text communication available in the interface.
+- **Non-verbal actions**: Perform animations like waving, clapping, or raising hands.
+- **Multimedia projection**: Upload and display slides/images via a projector; control content with a presenter role.
+- **Whiteboard interaction**: Type and write on a shared whiteboard; visible to all participants, with one user at a time writing.
 
 <div align="center">
-  <img src="blobs/stripe2.JPG?raw=true" width="300" />
-  <img src="blobs/stripe3.png?raw=true" width="195" />
-  <img src="blobs/stripe4.png?raw=true" width="200" />
-  <img src="blobs/stripe5.png?raw=true" width="200" />
+  <img src="blobs/stripe2.JPG?raw=true" width="280" />
+  <img src="blobs/stripe3.png?raw=true" width="175" />
+  <img src="blobs/stripe4.png?raw=true" width="180" />
+  <img src="blobs/stripe5.png?raw=true" width="180" />
 </div>
 
+## _New:_ Smart Students are here!
+SENEM now features Smart Students, powered by LLMs! These AI-driven avatars simulate realistic student behaviors to help presenters and lecturers to train their presentation and question answering skills! 
+Choose a topic lesson and the number of students you want, and you will find thm in your virtual classroom.
+To make them work in SENEM, you will need to get the [Smart Student Server](https://github.com/vipenti/Smart_Student_Server).
+- **Different personalities, voices, and appearances**: Each Smart Student features unique appearances, personality parameters that shape their interaction style, and randomized voices to simulate a diverse classroom audience.  
+- **Vocal and textual interaction**: They communicate through a voice synthesizer and actively participate in the text chat by asking or answering questions.  
+- **Make and answer questions**: Smart Students can engage dynamically by responding to your questions or posing their own as the lesson unfolds.  
 
+<p align = "center"> <img src = "blobs/smart_students.png?raw=true" width = "100%"> </p>
+
+---
 ## Content of the Repository
 This repository contains:
 - _Metaverse_Classroom_2_: The complete Unity Project of the application.
 - _Windows Build_: The built application ready to use for Windows.
 - _MacOS Build.app_: The built application for MacOS.
 
+---
+
 ## How to Install
+You can either use a pre-built version of the application or access the entire project in Unity. In either case, if you want to try out the Smart Students functionality you will need the [corresponding server](https://github.com/vipenti/Smart_Student_Server) and follow the instructions there for installation.
 
 ### Application only
 **Windows:**
 1. Download the _Windows Build_ folder.
-2. Run the _Metaverse_Classroom_ executable.
+2. Run the _SENEM_AI_ executable.
 
 **MacOS:**
-1. Download the _MacOS Build.app_ and extract it intto a folder
-2. Follow these steps to allow your device to run the application:
-    - Open the terminal and navigate to the folder that contains the extracted files.
-    - Type the following command <code>chmod -R +x MacOS Build.app/Contents/MacOS</code> into the terminal.
-    - Type the following command <code>xattr -cr MacOS Build.app</code> into the terminal.
-    - Double-click on _MacOS Build.app_.
+1. **Download and Extract**  
+   - Download the file `_MacOS Build.app_` and extract it into a folder.
+
+2. **Allow Your Device to Run the Application**  
+   Follow these steps to grant the necessary permissions:  
+   - Open the Terminal and navigate to the folder containing the extracted files.  
+   - Run the following commands in the Terminal:  
+     ```bash
+     chmod -R +x "MacOS Build.app/Contents/MacOS"
+     xattr -cr "MacOS Build.app"
+     ```  
+   - Double-click on `_MacOS Build.app_` to launch the application.
 
 ### Unity Project
-
 **Requirements:**
 - Unity3D version: 2021.3.22f1
 - Unity Hub
-- <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server (optional, runs locally)</a>
+- <a href="https://github.com/vipenti/Smart_Student_Server">Smart Student Server (optional, runs locally)</a>
 
 **Steps:**
 1. Download _Metaverse_Classroom_2_.
-2. Open the Unity Hub, go in the _Projects_ tab and click on the _Open_ button.
+2. Open the Unity Hub, go in the _Projects_ tab and click on the _Add_ button.
 3. Choose the path where you downloaded the _Metaverse_Classroom_2_.
 4. The project should now appear in your projects list. Click on its name and Unity will install all the needed libraries to make it work.
+5. [Optional] Clone the Smart Students Server repository and follow [the instructions](https://github.com/vipenti/Smart_Student_Server/blob/main/README.md) to install it.
 
-**How do I make the students work?**
-The students run on the <a href="https://github.com/KronosPNG/Smart_Student_Server">Smart Student Server</a>, which runs locally (this will probably change in the future to allow direct access without modifying the code), by default the server runs on port 5000, to correct changes done on the server's location, reference the QuestionDispatcher.cs file.<br>
-The students run through a chain of interactions by commercially available AIs and their interaction can be either verbal or written, you can choose this during while creating a room.
-
+---
+Have fun with SENEM-AI!
 ## Authors
+* **Viviana Pentangelo** - [vipenti](https://github.com/vipenti)
 * **Luigi Turco** - [KronosPNG](https://github.com/KronosPNG)
-* **Viviana Pentangelo** - [vipenti](https://github.com/vipenti) (Original author)
